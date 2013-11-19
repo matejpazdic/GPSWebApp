@@ -2,12 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/D:/GPSWebApp/web/Login.jsp</file>
-        <file>file:/D:/GPSWebApp/src/java/Database/DBTrackCreator.java</file>
-        <file>file:/D:/GPSWebApp/src/java/File/Upload.java</file>
-        <file>file:/D:/GPSWebApp/web/Logged/UploadFile.html</file>
-        <file>file:/D:/GPSWebApp/web/WEB-INF/web.xml</file>
-        <file>file:/D:/GPSWebApp/web/Logged/DeleteTrack.jsp</file>
+        <file>file:/D:/GitHub/GPSWebApp/src/java/Filter/SessionCheck.java</file>
+        <file>file:/D:/GitHub/GPSWebApp/web/LoginPage.jsp</file>
+        <file>file:/D:/GitHub/GPSWebApp/web/Register.jsp</file>
     </open-files>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
