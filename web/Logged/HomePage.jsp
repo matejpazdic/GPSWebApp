@@ -164,7 +164,7 @@
 								Upload track from your new trip or travel. You can add a lot multimedia file formats.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="UploadFile.html">Add new track</a> 
+								<a class="btn btn-primary" href="UploadFile1.jsp">Add new track</a> 
 							</p>
 						</div>
 					</div>
@@ -193,7 +193,7 @@
 								<i class="fa fa-list"></i>  Explore your tracks...
 							</h3>
 							<p>
-								Explore our previously added trips and venues with relevant multimedia files.
+								Explore your previously added trips and venues with relevant multimedia files.
 							</p>
 							<p>
 								<a class="btn btn-primary" href="ShowTracks.jsp">Explore your tracks</a>
