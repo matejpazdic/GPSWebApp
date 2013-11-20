@@ -92,7 +92,7 @@
                         </div>
 
                     </nav>
-                    <div class="carousel slide" id="carousel-646485">
+                    <div class="carousel slide" id="carousel-646485" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li class="active" data-slide-to="0" data-target="#carousel-646485">
                             </li>
