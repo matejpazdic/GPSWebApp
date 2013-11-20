@@ -40,10 +40,10 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.html">Upload track only</a>
+                                            <a href="UploadFile.jsp">Upload track only</a>
                                         </li>
                                         <li>
-                                            <a href="UploadFile.html">Upload track with multimedia files</a>
+                                            <a href="UploadFile.jsp">Upload track with multimedia files</a>
                                         </li>
 
                                         <li class="divider">
@@ -164,7 +164,7 @@
 								Upload track from your new trip or travel. You can add a lot multimedia file formats.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="UploadFile1.jsp">Add new track</a> 
+								<a class="btn btn-primary" href="UploadFile.jsp">Add new track</a> 
 							</p>
 						</div>
 					</div>

@@ -43,10 +43,10 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.html">Upload track only</a>
+                                            <a href="UploadFile.jsp">Upload track only</a>
                                         </li>
                                         <li>
-                                            <a href="UploadFile.html">Upload track with multimedia files</a>
+                                            <a href="UploadFile.jsp">Upload track with multimedia files</a>
                                         </li>
 
                                         <li class="divider">
