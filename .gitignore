@@ -1,7 +1,7 @@
 #################
 ## NetBeans
 #################
-nbproject/*
+nbproject/**
 build.xml
 
 #################
