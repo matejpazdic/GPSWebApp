@@ -114,7 +114,7 @@
                                         <div class="col-md-4 column">
                                             <form action="Upload" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" required="required" class="form-control" id="exampleInputEmail1" />
+                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
                                                     
                                                 </div>
                                                 <div class="form-group">
@@ -130,7 +130,7 @@
                                                 </div>
                                                 
                                                 <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" required="required" id="exampleInputFile" />
+                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" required="required" id="exampleInputFile" />
                                                     <br>
                                                     <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
                                                     <br>
