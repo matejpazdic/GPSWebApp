@@ -118,7 +118,7 @@
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" rows="3" id="exampleInputEmail1"></textarea>
+                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
                                                     
                                                 </div>
                                                 <div class="form-group">

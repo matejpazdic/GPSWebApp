@@ -44,7 +44,18 @@
         </label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
-           <a href="RegisterPage.html" class="label">Not Yet registered?</a>
+           <a href="RegisterPage.jsp" class="label">Or register!</a>
+           <br>
+           <%
+            if (session.getAttribute("isCorrectLogin") != null && session.getAttribute("isCorrectLogin").equals("False")) {
+                    out.print("<script>alert(\"Incorrect Login or Password!\")</script>");
+                    session.removeAttribute("isCorrectLogin");
+                } else if (session.getAttribute("correctRegistration") != null && session.getAttribute("correctRegistration").toString().equals("True")) {
+                    out.print("<script>alert(\"Congrats you have been successfuly registered! You can now Sign in.\")</script>");
+                    session.removeAttribute("correctRegistration");
+                }
+            %>
+           
     </div>
     </div>
     <!-- /Full Page Image Header Area -->

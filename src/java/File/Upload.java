@@ -33,6 +33,8 @@ public class Upload extends HttpServlet {
     
     private String pathToFile;
     private String trackName;
+    private String trackDescr;
+    private String trackActivity;
     private String system = System.getProperty("os.name");
     
 @Override
@@ -48,9 +50,12 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 // Process regular form fields here the same way as request.getParameter().
                 // You can get parameter name by item.getFieldName();
                 // You can get parameter value by item.getString();
-                System.out.println(items.size());
+                //System.out.println(items.size());
                 trackName = items.get(0).getString();
-                System.out.println(items.get(0).getString());
+                trackDescr = items.get(1).getString();
+                trackActivity = items.get(2).getString();
+                
+                //System.out.println(items.get(0).getString());
             } else {
                 try {
                     // Process uploaded fields here.
@@ -71,7 +76,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     DBTrackCreator tCreator = new DBTrackCreator();
                     DBLoginFinder finder = new DBLoginFinder(); 
                     //Vymysliet ochranu proti -1 hodnote pri getUserId!!!
-                    tCreator.createNewTrack(trackName, pathToFile, finder.getUserId(session.getAttribute("username").toString()));
+                    tCreator.createNewTrack(trackName , trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()));
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                 }

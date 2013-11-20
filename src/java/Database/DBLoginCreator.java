@@ -59,6 +59,9 @@ public class DBLoginCreator {
     
     public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password){
         try {
+            if(age.isEmpty()){
+                age = "-1";
+            }
             statement =  connect.createStatement();
             //statement.executeQuery();
             statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "')");

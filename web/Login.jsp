@@ -14,8 +14,10 @@
         
         if(isGood){
             session.setAttribute("username", request.getParameter("Login"));
+            session.setAttribute("isCorrectLogin", "True");
             response.sendRedirect("Logged/HomePage.jsp");
         } else{
-            response.sendRedirect("BadLogin.html");
+            session.setAttribute("isCorrectLogin", "False");
+            response.sendRedirect("LoginPage.jsp");
         } %>
 </html>

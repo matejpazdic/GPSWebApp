@@ -30,15 +30,17 @@
                     if (finder.isExistingLogin(email) == false) {
                         DBLoginCreator creator = new DBLoginCreator();
                         creator.createNewLogin(email, firstName, lastName, age, activity, pass);
+                        session.setAttribute("correctRegistration", "True");
                         response.sendRedirect("LoginPage.jsp");
                     } else {
-                        response.sendRedirect("RegisterUser.html");
+                        session.setAttribute("incorrectValues", "email");
+                        response.sendRedirect("RegisterPage.jsp");
                     }
                 } else{
-                    response.sendRedirect("RegisterUser.html");
+                    response.sendRedirect("RegisterPage.jsp");
                     }
                 } else{
-                    response.sendRedirect("RegisterUser.html");
+                    response.sendRedirect("RegisterPage.jsp");
                 }
         %>
     </body>

@@ -32,15 +32,15 @@ public class DBTrackCreator {
         }
     }
     
-    public void createNewTrack(String trackName, String trackPath, int userID){
+    public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID){
         try {
             statement =  connect.createStatement();
             //statement.executeQuery();
-            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_FILE, TRACK_USER_ID) VALUES ('"+ trackName +"' , '"+ trackPath +"' ," + userID + ")";
+            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID) VALUES ('"+ trackName +"' , '"+ trackDescr + "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ")";
             if (system.startsWith("Windows")) {
                 stat = stat.replaceAll("\\\\", "/");
             }
-            System.out.println(stat);
+            //System.out.println(stat);
             statement.executeUpdate(stat);
             close();
         } catch (SQLException ex) {
