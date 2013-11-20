@@ -36,7 +36,7 @@
                                 <li>
                                     <a href="HomePage.jsp">Home</a>
                                 </li>
-                                <li class="active">
+                                <li>
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown active">
