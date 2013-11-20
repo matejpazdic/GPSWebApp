@@ -14,10 +14,14 @@ and open the template in the editor.
 
     <!-- Bootstrap core CSS -->
     <link href="HTMLStyle/LoginPageStyle/css/bootstrap.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/jquery.min.js"></script>
+    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/scripts.js"></script>
 
     <!-- Add custom CSS here -->
     <link href="HTMLStyle/LoginPageStyle/css/stylish-portfolio.css" rel="stylesheet" type="text/css">
-    <link href="HTMLStyle/LoginPageStyle/css/singin.css" rel="stylesheet" type="text/css">
+  
   </head>
 
   <body>  
@@ -25,7 +29,29 @@ and open the template in the editor.
     <div id="top" class="header1">
        
        <div class="container">
-        
+           
+           <div id="top1"> 
+                 <a id="modal-49447" href="#modal-container-49447" data-toggle="modal"></a>
+			
+                <div class="modal fade" id="modal-container-49447" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h3 class="modal-title" id="myModalLabel">
+                                            This email has been already used!!!
+					</h3>
+			</div>
+			<div class="modal-body">
+				Click on the button and write new email adress...
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+				</div>
+			</div>
+					
+		</div></div></div>
+       
            <form action="Register.jsp" name="form" class="form-signin" method="POST">
         <h2 class="form-signin-heading">Registration form</h2>
         <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required" autofocus>
@@ -63,8 +89,12 @@ and open the template in the editor.
         </script>
         <%
             if (session.getAttribute("incorrectValues") != null && session.getAttribute("incorrectValues").toString().equals("email")) {
-                out.print("<script>alert(\"This email has been already used!\")</script>");
+                                
+                out.print("<script>$(document).ready(function() {$('#top1').find('a').trigger('click');});</script>");
+                
                 session.removeAttribute("incorrectValues");
+                //out.print("<script>alert(\"This email has been already used!\")</script>");
+                
             }
         %>
         <button class="btn btn-lg btn-primary btn-block" type="submit" onClick="return check();">Register</button>

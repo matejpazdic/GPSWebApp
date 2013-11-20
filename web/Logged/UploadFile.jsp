@@ -126,6 +126,12 @@
                                                     <select name="Activity" class="form-control">
                                                     <option value="Hiking">Hiking</option>
                                                     <option value="Cycling">Cycling</option>
+                                                    <option value="Paragliding">Paragliding</option>
+                                                    <option value="Road tripping">Road tripping</option>
+                                                    <option value="Skiing">Skiing</option>
+                                                    <option value="Canoeing">Canoeing</option>
+                                                    <option value="Sailing">Sailing</option>
+                                                    <option value="Flying">Flying</option>
                                                     </select>                                                    
                                                 </div>
                                                 
