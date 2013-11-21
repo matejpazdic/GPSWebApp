@@ -2,15 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package File;
+package Parser;
 
+import File.TrackPointImpl;
+import Parser.Utilities.ElevationLoader;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -26,6 +27,7 @@ import org.w3c.dom.*;
 public class GPXParser {
     
     private String path;
+    private String os = System.getProperty("os.name");
     private File gpxFile;
     private File destFolder;
     private boolean isLoadedElevationsFromServer = false;
@@ -33,6 +35,7 @@ public class GPXParser {
     private static ArrayList<String> longitude = new ArrayList<String>();
     private static ArrayList<String> deviceElevation = new ArrayList<String>();
     private static ArrayList<String> serverElevation = null;
+    private ArrayList<File> files = new ArrayList<File>();
     private static ArrayList<Date> time = new ArrayList<Date>();
     private ArrayList<TrackPointImpl> track = new ArrayList<TrackPointImpl>();
     private DateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -104,7 +107,7 @@ public class GPXParser {
         }
     }
     
-    public void parseGpx() {
+    public void parseGpx(String trackType, String trackDescr) {
         if (gpxFile != null && destFolder != null) {
             if (destFolder.getAbsolutePath().toLowerCase().endsWith(".tlv")) {
                 path = destFolder.getAbsolutePath();
@@ -138,12 +141,12 @@ public class GPXParser {
                 org.w3c.dom.Element rootElement = document.createElement("TLV");
                 document.appendChild(rootElement);
                 org.w3c.dom.Element rootElement3 = document.createElement("SYSTEM");
-                //rootElement3.appendChild(document.createTextNode(os));
+                rootElement3.appendChild(document.createTextNode(os));
                 rootElement.appendChild(rootElement3);
                 org.w3c.dom.Element rootElement2 = document.createElement("FILES");
-                //if (files.isEmpty() == true) {
-                //    rootElement2.appendChild(document.createTextNode("null"));
-               // }
+                if (files.isEmpty() == true) {
+                   rootElement2.appendChild(document.createTextNode("null"));
+                }
                 rootElement.appendChild(rootElement2);
 
 //                for (int i = 0; i < files.size(); i++) {
@@ -182,20 +185,32 @@ public class GPXParser {
 //                    em.appendChild(emr2);
 //
 //                }
+                
+                ElevationLoader eleLoader = new ElevationLoader();
+                serverElevation = eleLoader.reclaimElevation(track);
+                if(serverElevation.size() == deviceElevation.size()){
+                    isLoadedElevationsFromServer = true;
+                }else{
+                    isLoadedElevationsFromServer = false;
+                }
 
                 org.w3c.dom.Element rootElement1 = document.createElement("COORDINATES");
                 rootElement.appendChild(rootElement1);
 
-//                org.w3c.dom.Element element2 = document.createElement("Track_Type");
-//                element2.appendChild(document.createTextNode(trackType));
-//                rootElement1.appendChild(element2);
+                org.w3c.dom.Element element2 = document.createElement("Track_Type");
+                element2.appendChild(document.createTextNode(trackType));
+                rootElement1.appendChild(element2);
+                
+                org.w3c.dom.Element element2_1 = document.createElement("Track_Description");
+                element2_1.appendChild(document.createTextNode(trackDescr));
+                rootElement1.appendChild(element2_1);
 
                 org.w3c.dom.Element element3 = document.createElement("Elevations_type");
-                //if (isLoadedElevationsFromServer == true) {
-                   // element3.appendChild(document.createTextNode("INTERNET"));
-                //} else {
+                if (isLoadedElevationsFromServer == true) {
+                    element3.appendChild(document.createTextNode("INTERNET"));
+                } else {
                     element3.appendChild(document.createTextNode("DEVICE"));
-               // }
+                }
                 rootElement1.appendChild(element3);
 
                 for (int i = 0; i < latitude.size(); i++) {

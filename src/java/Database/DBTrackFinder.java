@@ -115,13 +115,26 @@ public class DBTrackFinder {
         return trackFiles;
   }
   
-  public String getTrackFile(int trackID){
+  public String getTrackFilePath(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
             resultSet = statement.executeQuery();
             resultSet.next();
             str = resultSet.getString("TRACK_FILE");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+  
+  public String getTrackFileName(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_NAME");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
         }

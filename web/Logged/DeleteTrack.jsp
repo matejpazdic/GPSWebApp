@@ -20,7 +20,7 @@
             String system = System.getProperty("os.name");
             int trkID = Integer.parseInt(request.getParameter("trkID"));
             DBTrackFinder trackFinder = new DBTrackFinder();
-            String path = trackFinder.getTrackFile(trkID);
+            String path = trackFinder.getTrackFilePath(trkID);
             if (system.startsWith("Windows")) {
                    path = path.replaceAll("/", "\\\\"); // vymazat pri pouziti na serveri LINUX!!!
                 }

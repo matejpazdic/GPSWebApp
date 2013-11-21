@@ -5,6 +5,7 @@ package File;
  * and open the template in the editor.
  */
 
+import Parser.GPXParser;
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
 import java.io.File;
@@ -71,7 +72,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     item.write(file); // Write to destination file.
                     
                     GPXParser parser = new GPXParser(pathToFile, filename);
-                    parser.parseGpx();
+                    parser.parseGpx(trackActivity, trackDescr);
                     
                     DBTrackCreator tCreator = new DBTrackCreator();
                     DBLoginFinder finder = new DBLoginFinder(); 

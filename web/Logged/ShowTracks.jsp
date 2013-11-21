@@ -25,7 +25,7 @@
             ArrayList<String> trackFiles = trackFinder.getUserTracksFiles(userID);
             ArrayList<Integer> trackIDs = trackFinder.getTracksIDs(userID);
             for(int i = 0; i < tracks.size(); i++){
-                out.println(tracks.get(i) + "    >>>   " + trackFiles.get(i));
+                out.println("<a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) + ">"+tracks.get(i)+"</a>" + "    >>>   " + trackFiles.get(i));
                 out.println("    ");
                 out.println("<a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) + ">=Delete=</a>");
                 out.println("<br>-----------------------------------------------------------------------------<br>");
