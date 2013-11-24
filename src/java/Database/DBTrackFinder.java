@@ -46,7 +46,7 @@ public class DBTrackFinder {
 
   }
 
-  private void close() {
+  public void close() {
     try {
       if (resultSet != null) {
         resultSet.close();
@@ -111,7 +111,7 @@ public class DBTrackFinder {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
         }
         
-        close();
+        //close();
         return trackFiles;
   }
   
@@ -135,6 +135,32 @@ public class DBTrackFinder {
             resultSet = statement.executeQuery();
             resultSet.next();
             str = resultSet.getString("TRACK_NAME");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+  
+  public String getTrackDescription(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_DESCRIPTION");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+  
+  public String getTrackActivity(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_ACTIVITY");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
         }

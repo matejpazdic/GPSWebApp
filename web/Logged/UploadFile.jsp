@@ -54,11 +54,6 @@
                                         <li>
                                             <a href="#">Write new track</a>
                                         </li>
-                                        <li class="divider">
-                                        </li>
-                                        <li>
-                                            <a href="MapPage.jsp">Experimental button</a>
-                                        </li>
                                     </ul>
                                 </li>
                             </ul>
