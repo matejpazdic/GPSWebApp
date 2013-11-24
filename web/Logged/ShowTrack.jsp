@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,6 +12,7 @@
     DBTrackFinder trackFinder = new DBTrackFinder();
     String path = trackFinder.getTrackFilePath(trkID);
     String file = trackFinder.getTrackFileName(trkID);
+    
     if (system.startsWith("Windows")) {
         path = path.replaceAll("/", "\\\\"); // vymazat pri pouziti na serveri LINUX!!!
     }
@@ -49,8 +51,10 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
 
+
+                    var iconF = 'HTMLStyle/TrackPointIcon/pinBlue.png';
+
                     var map_options = {
-                    center: <% out.print("new google.maps.LatLng(" + loader.getTrackPoints().get(0).getLatitude() + ", " + loader.getTrackPoints().get(0).getLongitude() + "),"); %>
                     mapTypeId: google.maps.MapTypeId.HYBRID
                     };
                     
@@ -125,8 +129,35 @@
                             polylineOK.setMap(map);
                             
                             
+                            if (a == 50 || a== 150) {
+                                isEnd = true;
+                                var contentString = '<div style="width: 300px;">' +
+                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" width="300">' +
+                                                '</div>';
+                                var infowindow = new google.maps.InfoWindow({
+                                content: contentString
+                                
+                                });
+                                var marker = new google.maps.Marker({
+                                position: polylineCoordinatesList[a],
+                                map: map,
+                                icon: iconF,
+                                title: 'Kalvarka :)'
+                                });
+                                
+                                infowindow.open(map,marker);
+                                
+                                google.maps.event.addListener(infowindow,'closeclick', function() {
+                                   marker.setMap(null);
+                                    isEnd = false;
+                                    a++;
+                                    drawingMap();         
+                                });
+                            }
                             
-                            setTimeout(function() { a++; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 50);
+                            
+                            
+                            setTimeout(function() { a++; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
                     };
                     drawingMap();
             }
