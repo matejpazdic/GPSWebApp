@@ -9,6 +9,12 @@
 <%@page import="org.apache.commons.io.FileUtils"%>
 <%@page import="Database.DBTrackFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+%>
 <!DOCTYPE html>
 <html>
     <head>

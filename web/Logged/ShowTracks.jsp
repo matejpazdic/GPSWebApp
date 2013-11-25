@@ -4,7 +4,12 @@
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
 <%@page contentType="text/html" pageEncoding="Windows-1250"%>
-
+<%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -50,7 +55,7 @@
                                             <a href="UploadFile.jsp">Upload track only</a>
                                         </li>
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
                                         </li>
 
                                         <li class="divider">

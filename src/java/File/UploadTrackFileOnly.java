@@ -30,12 +30,9 @@ import org.apache.tomcat.jni.OS;
  *
  * @author matej_000
  */
-public class Upload extends HttpServlet {
+public class UploadTrackFileOnly extends HttpServlet {
     
     private String pathToFile;
-    private String trackName;
-    private String trackDescr;
-    private String trackActivity;
     private String system = System.getProperty("os.name");
     
 @Override
@@ -52,41 +49,32 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 // You can get parameter name by item.getFieldName();
                 // You can get parameter value by item.getString();
                 //System.out.println(items.size());
-                trackName = items.get(0).getString();
-                trackDescr = items.get(1).getString();
-                trackActivity = items.get(2).getString();
                 
                 //System.out.println(items.get(0).getString());
             } else {
                 try {
                     // Process uploaded fields here.
-                    String filename = trackName + ".gpx"; // Get filena
+                    String filename = item.getName(); // Get filena
+                    String foldername = item.getName().substring(0, item.getName().lastIndexOf(".gpx"));
                     HttpSession session = request.getSession();
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        pathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                        pathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
                     }else{
-                        pathToFile = "/home/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                        pathToFile = "/home/uploaded_from_server/" + session.getAttribute("username") + "/" + foldername + "/";
                     }
                     new File(pathToFile).mkdirs();                    
                     File file = new File(pathToFile, filename); // Write to destination file.
                     item.write(file); // Write to destination file.
-                    
-                    GPXParser parser = new GPXParser(pathToFile, filename);
-                    parser.parseGpx(trackActivity, trackDescr);
-                    
-                    DBTrackCreator tCreator = new DBTrackCreator();
-                    DBLoginFinder finder = new DBLoginFinder(); 
-                    //Vymysliet ochranu proti -1 hodnote pri getUserId!!!
-                    tCreator.createNewTrack(trackName , trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()));
+                    session.setAttribute("trackFilename", filename);
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                 }
             }
         }
         // Show result page.
-        request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+        request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
     }
 }
 

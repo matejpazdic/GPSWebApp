@@ -6,6 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+%>
+<%
             if(session.getAttribute("username") != null){
                 response.sendRedirect("Logged/HomePage.jsp");
             }

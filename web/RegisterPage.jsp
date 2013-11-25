@@ -2,6 +2,12 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
+<%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>

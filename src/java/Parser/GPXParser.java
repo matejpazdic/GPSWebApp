@@ -4,8 +4,11 @@
  */
 package Parser;
 
+import File.FileImpl;
 import File.TrackPointImpl;
 import Parser.Utilities.ElevationLoader;
+import Parser.Utilities.MultimediaSearcher;
+import Parser.Utilities.TimezoneLoader;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -35,7 +38,7 @@ public class GPXParser {
     private static ArrayList<String> longitude = new ArrayList<String>();
     private static ArrayList<String> deviceElevation = new ArrayList<String>();
     private static ArrayList<String> serverElevation = null;
-    private ArrayList<File> files = new ArrayList<File>();
+    private ArrayList<FileImpl> files = new ArrayList<FileImpl>();
     private static ArrayList<Date> time = new ArrayList<Date>();
     private ArrayList<TrackPointImpl> track = new ArrayList<TrackPointImpl>();
     private DateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -149,42 +152,42 @@ public class GPXParser {
                 }
                 rootElement.appendChild(rootElement2);
 
-//                for (int i = 0; i < files.size(); i++) {
-//                    org.w3c.dom.Element em = document.createElement("File_entity");
-//                    rootElement2.appendChild(em);
-//                    org.w3c.dom.Element em1 = document.createElement("path");
-//                    em1.appendChild(document.createTextNode(files.get(i).getPath().toString()));
-//                    em.appendChild(em1);
-//
-//                    org.w3c.dom.Element em2 = document.createElement("creation_date");
-//                    em2.appendChild(document.createTextNode(String.valueOf(files.get(i).getDate().getTime())));
-//                    em.appendChild(em2);
-//
-//                    org.w3c.dom.Element emr = document.createElement("gps_latitude");
-//                    if (files.get(i).getLatitude() != null) {
-//                        emr.appendChild(document.createTextNode(files.get(i).getLatitude()));
-//                    } else {
-//                        emr.appendChild(document.createTextNode("null"));
-//                    }
-//                    em.appendChild(emr);
-//
-//                    org.w3c.dom.Element emr1 = document.createElement("gps_longitude");
-//                    if (files.get(i).getLongitude() != null) {
-//                        emr1.appendChild(document.createTextNode(files.get(i).getLongitude()));
-//                    } else {
-//                        emr1.appendChild(document.createTextNode("null"));
-//                    }
-//                    em.appendChild(emr1);
-//
-//                    org.w3c.dom.Element emr2 = document.createElement("gps_elevation");
-//                    if (files.get(i).getElevation() != null) {
-//                        emr2.appendChild(document.createTextNode(files.get(i).getElevation()));
-//                    } else {
-//                        emr2.appendChild(document.createTextNode("null"));
-//                    }
-//                    em.appendChild(emr2);
-//
-//                }
+                for (int i = 0; i < files.size(); i++) {
+                    org.w3c.dom.Element em = document.createElement("File_entity");
+                    rootElement2.appendChild(em);
+                    org.w3c.dom.Element em1 = document.createElement("path");
+                    em1.appendChild(document.createTextNode(files.get(i).getPath().toString()));
+                    em.appendChild(em1);
+
+                    org.w3c.dom.Element em2 = document.createElement("creation_date");
+                    em2.appendChild(document.createTextNode(String.valueOf(files.get(i).getDate().getTime())));
+                    em.appendChild(em2);
+
+                    org.w3c.dom.Element emr = document.createElement("gps_latitude");
+                    if (files.get(i).getLatitude() != null) {
+                        emr.appendChild(document.createTextNode(files.get(i).getLatitude()));
+                    } else {
+                        emr.appendChild(document.createTextNode("null"));
+                    }
+                    em.appendChild(emr);
+
+                    org.w3c.dom.Element emr1 = document.createElement("gps_longitude");
+                    if (files.get(i).getLongitude() != null) {
+                        emr1.appendChild(document.createTextNode(files.get(i).getLongitude()));
+                    } else {
+                        emr1.appendChild(document.createTextNode("null"));
+                    }
+                    em.appendChild(emr1);
+
+                    org.w3c.dom.Element emr2 = document.createElement("gps_elevation");
+                    if (files.get(i).getElevation() != null) {
+                        emr2.appendChild(document.createTextNode(files.get(i).getElevation()));
+                    } else {
+                        emr2.appendChild(document.createTextNode("null"));
+                    }
+                    em.appendChild(emr2);
+
+                }
                 
                 ElevationLoader eleLoader = new ElevationLoader();
                 serverElevation = eleLoader.reclaimElevation(track);
@@ -253,6 +256,13 @@ public class GPXParser {
                 System.out.println("Error: Cannot create *.tlv file!!!");
             }
         }
+    }
+    
+    public void searchForMultimediaFiles(String searchFolder){
+        TimezoneLoader gmt = new TimezoneLoader(track);
+        gmt.correctTimeZone();
+        MultimediaSearcher searcher = new MultimediaSearcher(destFolder.getPath(), searchFolder, track);
+        files = searcher.startSearch();
     }
 
 }
