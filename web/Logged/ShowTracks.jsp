@@ -161,6 +161,7 @@
                         for(int i = 0; i < tracks.size(); i++){
                             
                             out.print("<div class=\"panel-group\" id=\"panel-297555\">");
+                                                        
                             out.print("<div class=\"panel panel-default\">");
                             out.print("<div class=\"panel-heading\">");
                             out.println("<a class=\"panel-title collapsed\" data-toggle=\"collapse\" data-parent=\"#panel-297555\" href=\"#panel-element-" + i + "\">" + tracks.get(i) + "</a>");
@@ -175,7 +176,6 @@
                             out.print("</div>");
                             out.print("</div>");
                             out.print("</div>");
-                            //out.print("</div>");
                             
                         }
                     %>   
