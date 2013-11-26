@@ -31,19 +31,29 @@
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
+        
+        <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        
+        <script src="http://vjs.zencdn.net/4.3/video.js"></script>
 
         <style>
+            
+            .vjs-default-skin { color: #ffffff; }
+            .vjs-default-skin .vjs-play-progress,
+            .vjs-default-skin .vjs-volume-level { background-color: #1ac700 }
+            .vjs-default-skin .vjs-control-bar,
+            .vjs-default-skin .vjs-big-play-button { background: rgba(0,0,0,0.7) }
+            .vjs-default-skin .vjs-slider { background: rgba(0,0,0,0.2333333333333333) }
 
             #map_canvas {
-
-                width: 800px;
-                height: 670px;
-                margin-left: auto ;
-                margin-right: auto ;
+                
+                display: block;
+                width: 100%;
+                height: 680px;
             }
 
         </style>
@@ -129,11 +139,50 @@
                             polylineOK.setMap(map);
                             
                             
-                            if (a == 50 || a== 150) {
+                            if (a == 50) {
                                 isEnd = true;
-                                var contentString = '<div style="width: 300px;">' +
-                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" width="300">' +
-                                                '</div>';
+
+                                
+                                var $infoWindowContent = $('<div>' +
+                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" height="250px">' +
+                                                '</div>');
+
+                                
+//                                var contentString = '<div id="my_div">' +
+//                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" height="230px"">' +
+//                                                '</div>';
+                                              
+                                var infowindow = new google.maps.InfoWindow({
+                                });
+                                
+                                infowindow.setContent($infoWindowContent[0]);
+                                
+                                var marker = new google.maps.Marker({
+                                position: polylineCoordinatesList[a],
+                                map: map,
+//                                icon: iconF,
+                                title: 'Kalvarka :)'
+                                });
+                                
+                                infowindow.open(map,marker);
+
+                                
+                                google.maps.event.addListener(infowindow,'closeclick', function() {
+                                   marker.setMap(null);
+                                    isEnd = false;
+                                    a++;
+                                    drawingMap();         
+                                });
+                            }
+                            
+                            if (a == 150) {
+                                isEnd = true;
+                                var contentString = '<div style="width: 400px;" "height: 300px;">' + 
+                                    '<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" height="300px" width="400px" poster="my_video_poster.png" data-setup="{}">' +
+                                    '<source src="http://download.wavetlan.com/SVV/Media/HTTP/H264/Talkinghead_Media/H264_test1_Talkinghead_mp4_480x360.mp4" type="video/mp4">' +
+                                    '</video>' +
+                                    '</div>';
+                            
                                 var infowindow = new google.maps.InfoWindow({
                                 content: contentString
                                 
@@ -141,7 +190,7 @@
                                 var marker = new google.maps.Marker({
                                 position: polylineCoordinatesList[a],
                                 map: map,
-                                icon: iconF,
+//                                icon: iconF,
                                 title: 'Kalvarka :)'
                                 });
                                 
