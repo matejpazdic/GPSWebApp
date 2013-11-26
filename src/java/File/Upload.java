@@ -65,9 +65,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        pathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                        pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     }else{
-                        pathToFile = "/home/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                        pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
                     }
                     new File(pathToFile).mkdirs();                    
                     File file = new File(pathToFile, filename); // Write to destination file.

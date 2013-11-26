@@ -68,8 +68,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("trackActivity", trackActivity);
 
                 if (system.startsWith("Windows")) {
-                    String oldPathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
-                    pathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     oldFile.renameTo(newFile);
@@ -81,8 +81,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     oldF.renameTo(newF);
 
                 } else {
-                    String oldPathToFile = "/uploaded_from_server/" + session.getAttribute("username") + "/" + foldername + "/";
-                    pathToFile = "/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                    String oldPathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + foldername + "/";
+                    pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     oldFile.renameTo(newFile);

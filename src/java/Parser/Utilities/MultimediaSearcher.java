@@ -212,11 +212,14 @@ public class MultimediaSearcher {
             for (int i = 0; i < tempFiles.length; i++) {
                 FileImpl fileimpl = new FileImpl();
                 String temp = null;
-                if (!this.searchFolder.endsWith("/")) {
+                //if (!this.searchFolder.endsWith("/")) {
                     temp = scanner.getBasedir() + "/" + tempFiles[i];
-                } else {
-                    temp = scanner.getBasedir() + tempFiles[i];
-                }
+               // } else {
+                //    temp = scanner.getBasedir() + tempFiles[i];
+                //}
+                
+                System.out.println("Searching file: " + temp + " " + tempFiles.length);
+                
                 Date first = new Date(track.get(0).getTime().getTime());
                 first.setSeconds(first.getSeconds() - 1);
                 Date last = new Date(track.get(track.size() - 1).getTime().getTime());
@@ -225,6 +228,7 @@ public class MultimediaSearcher {
                     File file = new File(temp);
                     if (temp.toLowerCase().endsWith(".jpg") || temp.toLowerCase().endsWith(".jpeg")) {
                         IImageMetadata metadata = null;
+                        System.out.println("SUBOR: " + file.getName());
                         try {
                             metadata = Sanselan.getMetadata(file);
                         } catch (ImageReadException e) {
@@ -263,43 +267,20 @@ public class MultimediaSearcher {
                             }
                         } else {
                             fileimpl.setDate(new Date(file.lastModified()));
+                            System.out.println("Pouzivam creation date.");
                         }
                     } else {
                         fileimpl.setDate(new Date(file.lastModified()));
+                        System.out.println("Pouzivam creation date.");
                     }
                     fileimpl.setPath(temp);
-
-                    ArrayList<FileImpl> goodFiles = new ArrayList<FileImpl>();
-                    for (int m = 0; m < files.size(); m++) {
-                        Date fileDate = files.get(m).getDate();
-                        for (int j = 1; j < track.size(); j++) {
-                            Date prevTrackPointDate = track.get(j - 1).getTime();
-                            prevTrackPointDate.setSeconds(track.get(j - 1).getTime().getSeconds() - 1);
-                            Date nextTrackPointDate = track.get(j).getTime();
-                            nextTrackPointDate.setSeconds(track.get(j).getTime().getSeconds() + 1);
-                            if (files.get(m).getLongitude() != null && files.get(m).getLatitude() != null) {
-                                if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate)) || (fileDate.equals(prevTrackPointDate) || (fileDate.equals(nextTrackPointDate)))) {
-                                    double deltaLat1 = Math.abs(Double.parseDouble(files.get(m).getLatitude()) - track.get(j - 1).getLatitude());
-                                    double deltaLon1 = Math.abs(Double.parseDouble(files.get(m).getLongitude()) - track.get(j - 1).getLongitude());
-                                    double deltaLat2 = Math.abs(Double.parseDouble(files.get(m).getLatitude()) - track.get(j).getLatitude());
-                                    double deltaLon2 = Math.abs(Double.parseDouble(files.get(m).getLongitude()) - track.get(j).getLongitude());
-
-                                    if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
-                                        System.out.println(m + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
-                                        goodFiles.add(files.get(m));
-                                        break;
-                                    }
-                                }
-                            } else {
-                                if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate))) {
-                                    goodFiles.add(files.get(m));
-                                    break;
-                                }
-                            }
+                    if (fileimpl.getDate().after(first) && fileimpl.getDate().before(last)) {
+                        if (temp.substring(0, 4).lastIndexOf("/") != temp.substring(0, 4).indexOf("/")) {
+                            temp = scanner.getBasedir() + tempFiles[i];
+                            fileimpl.setPath(temp);
                         }
+                            files.add(fileimpl);
                     }
-
-                    return goodFiles;
                 }
             }
         }

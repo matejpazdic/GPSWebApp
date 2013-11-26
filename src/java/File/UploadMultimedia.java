@@ -54,9 +54,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     HttpSession session = request.getSession();
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        path = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
+                        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
                     }else{
-                        path = "/home/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/" + "Multimedia" + "/";
+                        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/" + "Multimedia" + "/";
                     }
                     new File(path).mkdirs();
                     item.write(new File(path, item.getName()));

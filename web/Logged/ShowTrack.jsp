@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
@@ -76,9 +77,15 @@
                     var map;
                     var polylineOK = null;
                     var isEnd = false;
+                    var index = 0;
+                    var a = 0;
+                    var isActualMultimediaEnd = false;
                     var infowindow;
                     var contentString;
                     var marker;
+                    
+                    var polylineCoordinatesListFinal = [];
+                    var isPolylineAlreadyCreated = false;
                     
                     
             <%
@@ -100,6 +107,35 @@
                 }
                 out.print("\n];");
                 
+                out.print("\nvar filesPath = [\n");
+                for (int i = 0; i < loader.getMultimediaFiles().size(); i++) {
+                    String temp = null;
+                    if(System.getProperty("os.name").startsWith("Windows")){
+                        File f = new File(loader.getMultimediaFiles().get(i).getPath());
+                        temp = f.toURI().toString().substring(37);
+                    }else{
+                        String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
+                        temp = temp1.replaceAll(" ", "%20");
+                    }
+                    //System.out.print("ORIGINAL: " + temp);
+                    //String temp1 = temp.replaceAll("\\\\", "\\\\\\\\");
+                    //String temp2 = temp1.replaceAll("/", "\\\\\\\\");
+                    //System.out.print("NEW: " + temp1);
+                    out.print("\"" + temp + "\"");
+                    if (i != loader.getMultimediaFiles().size() - 1) {
+                        out.println(",");
+                   }
+                }
+                out.print("\n];");
+                
+                out.print("\nvar filesPoints = [\n");
+                for (int i = 0; i < loader.getMultimediaFiles().size(); i++) {
+                    out.print(loader.getMultimediaFiles().get(i).getTrackPointIndex());
+                    if (i != loader.getMultimediaFiles().size() - 1) {
+                        out.println(",");
+                    }
+                }
+                out.print("\n];");
             %>
                 
                 
@@ -133,12 +169,11 @@
                 
             function draw() {
 
-                    isEnd = false;
+                    if(isPolylineAlreadyCreated == false){
                     polylineOK.setPath([]);
                     polylineOK.setMap(null);
                     
-                    var a = 0;
-                    var polylineCoordinatesListFinal = [];
+                    a = 0;
                     i = 0;
                     
                     polylineOK = new google.maps.Polyline({
@@ -149,7 +184,9 @@
                          strokeWeight: 2,
                          editable: false
                          });
-                         
+                     isEnd = false;    
+                     }
+                    isPolylineAlreadyCreated = true;
                     function drawingMap() {
                                             
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
@@ -159,18 +196,24 @@
                             
                             if (isFiles[a] == true) {
                                 isEnd = true;
-
-                                
-                                var $infoWindowContent = $('<div>' +
-                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" height="250px">' +
+                                presentMultimedia();
+                            }     
+                            setTimeout(function() { a++; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
+                    };
+                    drawingMap();
+            }
+            
+            
+            
+            
+            
+            function presentMultimedia(){
+                                    if(a == filesPoints[index]){
+                                        isActualMultimediaEnd = false;
+                                        var $infoWindowContent = $('<div>' +
+                                            '<img src='+ filesPath[index] +' height="250px">' +
                                                 '</div>');
-
-                                
-//                                var contentString = '<div id="my_div">' +
-//                                            '<img src="http://schoenstatt.sk/wp-content/uploads/2012/03/Kalvaria-Presov.jpg" height="230px"">' +
-//                                                '</div>';
-                                              
-                                var infowindow = new google.maps.InfoWindow({
+                                        var infowindow = new google.maps.InfoWindow({
                                    maxWidth: 500,
                                 });
                                 
@@ -188,50 +231,41 @@
                                 
                                 google.maps.event.addListener(infowindow,'closeclick', function() {
                                    marker.setMap(null);
-                                    isEnd = false;
-                                    a++;
-                                    drawingMap();         
+                                   if(filesPoints.length != index){
+                                       index++;
+                                       presentMultimedia();
+                                   } else{
+                                        //isEnd = false;
+                                        a++;
+                                        index = 0;
+                                        isEnd = false;
+                                        draw();
+                                   }
+                                   
                                 });
-                            }
-                            
-                            if (a == 150) {
-                                isEnd = true;
-                                var contentString = '<div style="width: 400px;" "height: 300px;">' + 
-                                    '<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" height="300px" width="400px" poster="my_video_poster.png" data-setup="{}">' +
-                                    '<source src="http://download.wavetlan.com/SVV/Media/HTTP/H264/Talkinghead_Media/H264_test1_Talkinghead_mp4_480x360.mp4" type="video/mp4">' +
-                                    '</video>' +
-                                    '</div>';
-                            
-                                var infowindow = new google.maps.InfoWindow({
-                                content: contentString
-                                
-                                });
-                                var marker = new google.maps.Marker({
-                                position: polylineCoordinatesList[a],
-                                map: map,
-//                                icon: iconF,
-                                title: 'Kalvarka :)'
-                                });
-                                
-                                infowindow.open(map,marker);
-                                
-                                google.maps.event.addListener(infowindow,'closeclick', function() {
-                                   marker.setMap(null);
-                                    isEnd = false;
-                                    a++;
-                                    drawingMap();         
-                                });
-                            }
-                            
-                            
-                            
-                            setTimeout(function() { a++; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
-                    };
-                    drawingMap();
+                                    }else{
+                                       if(filesPoints.length != index){
+                                            index++;
+                                            presentMultimedia();
+                                       } else{
+                                            //isEnd = false;
+                                            a++;
+                                            index = 0;
+                                            isEnd = false;
+                                            draw();
+                                   }
+                                    }
             }
-
+            
+            
+            
+            
             function clearmap() {
-            isEnd = true;    
+            isEnd = true;
+            polylineCoordinatesListFinal = [];
+            a = 0;
+            index = 0;
+            isPolylineAlreadyCreated = false;
             initialize();
                 
             }
@@ -320,7 +354,6 @@
 					<div class="tab-pane active" id="panel-740839">
 						                                            
                                         <h3> <% out.print(file); %></h3>
-
                                         <br>
 
                                         <div id="map_canvas"></div>

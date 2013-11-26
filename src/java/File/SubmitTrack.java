@@ -60,16 +60,24 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             trackActivity = session.getAttribute("trackActivity").toString();
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                pathToFile = "C:\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
+                File fTemp = new File(pathToMultimediaFiles);
+                if(!fTemp.exists()){
+                    fTemp.mkdirs();
+                }
             } else {
-                pathToFile = "/home/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
-                pathToMultimediaFiles = pathToFile + "/" + "Multimedia" + "/";
-                
+                pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                pathToMultimediaFiles = pathToFile + "Multimedia" + "/";
+                File fTemp = new File(pathToMultimediaFiles);
+                if(!fTemp.exists()){
+                    fTemp.mkdirs();
+                }
             }
 
             GPXParser parser = new GPXParser(pathToFile, filename);
             parser.searchForMultimediaFiles(pathToMultimediaFiles);
+            System.out.println(pathToFile + " , " + pathToMultimediaFiles);
             parser.parseGpx(trackActivity, trackDescr);
 
             DBTrackCreator tCreator = new DBTrackCreator();
