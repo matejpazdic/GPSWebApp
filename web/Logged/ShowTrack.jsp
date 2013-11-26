@@ -80,6 +80,7 @@
                     var contentString;
                     var marker;
                     
+                    
             <%
                 out.print("var polylineCoordinatesList = [\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
@@ -98,7 +99,10 @@
                     }
                 }
                 out.print("\n];");
+                
             %>
+                
+                
 
             function initialize() {
 
@@ -153,7 +157,7 @@
                             polylineOK.setMap(map);
                             
                             
-                            if (a == 50) {
+                            if (isFiles[a] == true) {
                                 isEnd = true;
 
                                 
@@ -167,6 +171,7 @@
 //                                                '</div>';
                                               
                                 var infowindow = new google.maps.InfoWindow({
+                                   maxWidth: 500,
                                 });
                                 
                                 infowindow.setContent($infoWindowContent[0]);
