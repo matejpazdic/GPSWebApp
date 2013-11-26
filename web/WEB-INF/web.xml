@@ -4,9 +4,41 @@
         <servlet-name>Upload</servlet-name>
         <servlet-class>File.Upload</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadMultimedia</servlet-name>
+        <servlet-class>File.UploadMultimedia</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadTrackFileOnly</servlet-name>
+        <servlet-class>File.UploadTrackFileOnly</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveTrackInfo</servlet-name>
+        <servlet-class>File.SaveTrackInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmitTrack</servlet-name>
+        <servlet-class>File.SubmitTrack</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/Logged/Upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadMultimedia</servlet-name>
+        <url-pattern>/Logged/UploadMultimedia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadTrackFileOnly</servlet-name>
+        <url-pattern>/Logged/UploadTrackFileOnly</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveTrackInfo</servlet-name>
+        <url-pattern>/Logged/SaveTrackInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitTrack</servlet-name>
+        <url-pattern>/Logged/SubmitTrack</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

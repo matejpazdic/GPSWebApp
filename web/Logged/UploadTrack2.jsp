@@ -1,10 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,8 +18,7 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
 
-        
-        
+
     </head>
 
     <body>
@@ -113,9 +106,9 @@
                                     <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            <form action="Upload" method="post" enctype="multipart/form-data">
+                                            <form action="SaveTrackInfo" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
+                                                    <label for="TrackName">Track name</label><input type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" name="name" required="required" class="form-control" id="exampleInputEmail1" />
                                                     
                                                 </div>
                                                 <div class="form-group">
@@ -135,13 +128,8 @@
                                                     <option value="Flying">Flying</option>
                                                     </select>                                                    
                                                 </div>
-                                                
-                                                <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" required="required" id="exampleInputFile" />
                                                     <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Submit</button></p>
+                                                    <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Final step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>

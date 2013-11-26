@@ -2,7 +2,12 @@
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+%>
 <!DOCTYPE html>
 
 <%
@@ -79,6 +84,15 @@
                 out.print("var polylineCoordinatesList = [\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
                     out.print("new google.maps.LatLng(" + loader.getTrackPoints().get(i).getLatitude() + ", " + loader.getTrackPoints().get(i).getLongitude() + ")");
+                    if (i != loader.getTrackPoints().size() - 1) {
+                        out.println(",");
+                    }
+                }
+                out.print("\n];");
+                
+                out.print("var isFiles = [\n");
+                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                    out.print(loader.getIsFiles()[i]);
                     if (i != loader.getTrackPoints().size() - 1) {
                         out.println(",");
                     }
@@ -244,7 +258,7 @@
                                             <a href="UploadFile.jsp">Upload track only</a>
                                         </li>
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
                                         </li>
 
                                         <li class="divider">

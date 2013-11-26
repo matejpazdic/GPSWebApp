@@ -1,10 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -19,6 +13,10 @@
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
+        
+        <link href="HTMLStyle/MultimediaUploaderStyle/css/dropzone.css" type="text/css" rel="stylesheet" />
+
+        <script src="HTMLStyle/MultimediaUploaderStyle/dropzone.min.js"></script>
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
@@ -105,46 +103,34 @@
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload your track
+                                    Upload your multimedia files
                                 </h3>
                                 <br>
 
                                 <div class="container">
                                     <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
+                                        <div class="col-md-4 column"></div>
+                                        <div class="col-md-4 column"></div>
+                                    </div>
+                                </div>
+                                    <form action="UploadMultimedia" class="dropzone" enctype="multipart/form-data">
+                                                <div class="fallback">
+                                                <input name="file" type="file" multiple />
+                                                </div>
+                                            </form>
+                                <div class="container">    
+                                    <div class="row clearfix">
+                                        <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            <form action="Upload" method="post" enctype="multipart/form-data">
-                                                <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackActivity">Activity</label> 
-                                                    <select name="Activity" class="form-control">
-                                                    <option value="Hiking">Hiking</option>
-                                                    <option value="Cycling">Cycling</option>
-                                                    <option value="Paragliding">Paragliding</option>
-                                                    <option value="Road tripping">Road tripping</option>
-                                                    <option value="Skiing">Skiing</option>
-                                                    <option value="Canoeing">Canoeing</option>
-                                                    <option value="Sailing">Sailing</option>
-                                                    <option value="Flying">Flying</option>
-                                                    </select>                                                    
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" required="required" id="exampleInputFile" />
-                                                    <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Submit</button></p>
+                                            
+                                            <br>
+                                            <form action="SubmitTrack" method="post" enctype="multipart/form-data">
+                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Finish</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -154,8 +140,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+         
     </body>
 </html>
 
