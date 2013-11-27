@@ -39,12 +39,18 @@
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
         
         <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
+        
+        <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
         
         <script src="http://vjs.zencdn.net/4.3/video.js"></script>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    	<script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
 
         <style>
             
@@ -54,7 +60,9 @@
             .vjs-default-skin .vjs-control-bar,
             .vjs-default-skin .vjs-big-play-button { background: rgba(0,0,0,0.7) }
             .vjs-default-skin .vjs-slider { background: rgba(0,0,0,0.2333333333333333) }
-
+            
+            .galleria{ height: 600px; width: auto; }
+            
             #map_canvas {
                 
                 display: block;
@@ -112,16 +120,18 @@
                     String temp = null;
                     if(System.getProperty("os.name").startsWith("Windows")){
                         File f = new File(loader.getMultimediaFiles().get(i).getPath());
-                        temp = f.toURI().toString().substring(37);
+                        temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
                     }else{
                         String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
                         temp = temp1.replaceAll(" ", "%20");
                     }
+                    String extension = temp.substring(temp.lastIndexOf("."), temp.length());
+                    String newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension;
                     //System.out.print("ORIGINAL: " + temp);
                     //String temp1 = temp.replaceAll("\\\\", "\\\\\\\\");
                     //String temp2 = temp1.replaceAll("/", "\\\\\\\\");
                     //System.out.print("NEW: " + temp1);
-                    out.print("\"" + temp + "\"");
+                    out.print("\"" + newPath + "\"");
                     if (i != loader.getMultimediaFiles().size() - 1) {
                         out.println(",");
                    }
@@ -370,7 +380,7 @@
 
                                         <br>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
 
                                         <label for="TrackDesc">Track description</label>
                                         <h5> <% out.println(loader.getTrackDescription()); %> </h5>
@@ -379,9 +389,34 @@
                                         <h5> <% out.println(loader.getTrackType());%> </h5>
                                         </div>
 
-                                        <div class="col-md-8">
-
-                                        
+                                        <div class="col-md-9">
+                                            
+                                            <div class="galleria">
+                                                <%
+                                                    String temp;
+                                                    for(int i = 0; i < loader.getMultimediaFiles().size(); i++){
+                                                    if(System.getProperty("os.name").startsWith("Windows")){
+                                                        File f = new File(loader.getMultimediaFiles().get(i).getPath());
+                                                        temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
+                                                    }else{
+                                                        String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
+                                                        temp = temp1.replaceAll(" ", "%20");
+                                                    }
+                                                        String extension = temp.substring(temp.lastIndexOf("."), temp.length());
+                                                        String newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension;
+                                                        out.println("<img src=\"" + newPath + "\" " + "data-title=\"" + temp.substring(temp.lastIndexOf("/") + 1, temp.length()) + "\">");
+                                                    }
+                                                %>
+                                            </div>
+                                        <script>
+                                            Galleria.loadTheme('HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js');
+                                            Galleria.configure({
+                                                transition: 'fade',
+                                                imageCrop: true,
+                                            });
+                                            Galleria.run('.galleria');
+                                        </script>
+                                            
 					</div>
 				</div>
 			</div>

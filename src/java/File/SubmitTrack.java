@@ -79,6 +79,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             parser.searchForMultimediaFiles(pathToMultimediaFiles);
             System.out.println(pathToFile + " , " + pathToMultimediaFiles);
             parser.parseGpx(trackActivity, trackDescr);
+            
+            
 
             DBTrackCreator tCreator = new DBTrackCreator();
             DBLoginFinder finder = new DBLoginFinder();

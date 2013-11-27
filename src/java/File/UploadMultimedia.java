@@ -7,6 +7,7 @@ package File;
  */
 
 
+import File.Image.ImageResizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +61,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     }
                     new File(path).mkdirs();
                     item.write(new File(path, item.getName()));
+                    
+                    ImageResizer resizer = new ImageResizer(1024, 720);
+                    //System.out.println("Resized> " + path + item.getName());
+                    resizer.resizeImageWithTempThubnails(path + item.getName());
                 } catch (Exception ex) {
                     System.out.println("Error: Cannot save multimedia files!");
                 }

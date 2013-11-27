@@ -5,6 +5,8 @@
 package Parser;
 
 import File.FileImpl;
+import File.Image.ImageResizer;
+import File.Image.ThumbnailException;
 import File.TrackPointImpl;
 import Parser.Utilities.ElevationLoader;
 import Parser.Utilities.MultimediaSearcher;
@@ -15,6 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
