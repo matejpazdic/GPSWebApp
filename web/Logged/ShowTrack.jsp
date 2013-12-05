@@ -61,7 +61,7 @@
             .vjs-default-skin .vjs-big-play-button { background: rgba(0,0,0,0.7) }
             .vjs-default-skin .vjs-slider { background: rgba(0,0,0,0.2333333333333333) }
             
-            .galleria{ height: 600px; width: auto; }
+           // .galleria{ height: 600px; width: auto; }
             
             #map_canvas {
                 
@@ -74,9 +74,6 @@
 
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
-
-
-                    var iconF = 'HTMLStyle/TrackPointIcon/pinBlue.png';
 
                     var map_options = {
                     mapTypeId: google.maps.MapTypeId.HYBRID
@@ -91,6 +88,8 @@
                     var infowindow;
                     var contentString;
                     var marker;
+                    var newWidth = 50;
+
                     
                     var polylineCoordinatesListFinal = [];
                     var isPolylineAlreadyCreated = false;
@@ -208,7 +207,7 @@
                                 isEnd = true;
                                 presentMultimedia();
                             }     
-                            setTimeout(function() { a++; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
+                            setTimeout(function() { if (isEnd != true) {a++}; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
                     };
                     drawingMap();
             }
@@ -218,53 +217,63 @@
             
             
             function presentMultimedia(){
+                
                                     if(a == filesPoints[index]){
-                                        isActualMultimediaEnd = false;
-                                        var $infoWindowContent = $('<div>' +
-                                            '<img src='+ filesPath[index] +' height="250px">' +
+                                        var width, height;
+                                        var i = new Image(); 
+                                        i.src = filesPath[index] ; 
+                            
+                                        i.onload = function(){
+                                            width = i.width;
+                                            height = i.height;
+                                            newWidth = Math.round(width * (270 / height));
+                                            
+                                            var $infoWindowContent = $('<div style="' + newWidth + 'px; height: 270px">' +
+                                            '<img src='+ filesPath[index] +'  width= "' + newWidth + 'px" height="270px">' +
                                                 '</div>');
-                                        var infowindow = new google.maps.InfoWindow({
-                                   maxWidth: 500,
-                                });
                                 
-                                infowindow.setContent($infoWindowContent[0]);
+                                            var marker = new google.maps.Marker({
+                                                position: polylineCoordinatesList[a],
+                                                map: map,
+//                                              icon: iconF,
+                                                title: 'Kalvarka :)'
+                                             });
                                 
-                                var marker = new google.maps.Marker({
-                                position: polylineCoordinatesList[a],
-                                map: map,
-//                                icon: iconF,
-                                title: 'Kalvarka :)'
-                                });
+                                            var infowindow = new google.maps.InfoWindow({
+                                            maxWidth: 500
+                                            });
                                 
-                                infowindow.open(map,marker);
+                                            infowindow.setContent($infoWindowContent[0]);
 
+                                            infowindow.open(map,marker);
                                 
-                                google.maps.event.addListener(infowindow,'closeclick', function() {
-                                   marker.setMap(null);
-                                   if(filesPoints.length != index){
-                                       index++;
-                                       presentMultimedia();
-                                   } else{
-                                        //isEnd = false;
-                                        a++;
-                                        index = 0;
-                                        isEnd = false;
-                                        draw();
-                                   }
+                                            google.maps.event.addListener(infowindow,'closeclick', function() {
+                                                marker.setMap(null);
+                                                
+                                                if(filesPoints.length != index){
+                                                    index++;
+                                                    presentMultimedia();
+                                                } else{
+                                                     //isEnd = false;
+                                                     a++;
+                                                     isEnd = false;                                               
+                                                     draw();
+                                                }
                                    
-                                });
-                                    }else{
-                                       if(filesPoints.length != index){
-                                            index++;
-                                            presentMultimedia();
-                                       } else{
-                                            //isEnd = false;
-                                            a++;
-                                            index = 0;
-                                            isEnd = false;
-                                            draw();
-                                   }
+                                            }); };
+                                        }
+                                        else {
+                                                if(filesPoints.length != index){
+                                                    index++;
+                                                    presentMultimedia();
+                                                } else{
+                                                isEnd = false;
+                                                a++;
+                                                index = 0;
+                                                draw();
+                                                }
                                     }
+
             }
             
             
@@ -409,12 +418,19 @@
                                                 %>
                                             </div>
                                         <script>
-                                            Galleria.loadTheme('HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js');
-                                            Galleria.configure({
-                                                transition: 'fade',
-                                                imageCrop: true,
+                                            
+                                            $( document ) .ready(function() {
+                                                Galleria.loadTheme('HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js');
+                                                Galleria.configure({
+                                                    transition: 'fade',
+                                                    imageCrop: true,
+                                                    wait: '20 000'
+                                                });
+                                                Galleria.run('.galleria', {
+                                                    height: 600,
+                                                    width: 'auto'
+                                                });
                                             });
-                                            Galleria.run('.galleria');
                                         </script>
                                             
 					</div>

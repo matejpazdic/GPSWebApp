@@ -68,8 +68,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("trackActivity", trackActivity);
 
                 if (system.startsWith("Windows")) {
-                    String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
-                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
+                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     oldFile.renameTo(newFile);
