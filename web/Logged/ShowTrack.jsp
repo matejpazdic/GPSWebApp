@@ -202,7 +202,6 @@
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
                             
-                            
                             if (isFiles[a] == true) {
                                 isEnd = true;
                                 presentMultimedia();
