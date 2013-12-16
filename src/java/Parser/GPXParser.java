@@ -73,30 +73,34 @@ public class GPXParser {
             Node gpxStartNode = DOC.getElementsByTagName("gpx").item(0);
             Element gpxStartElem = (Element) gpxStartNode;
 
-            Node gpxStartNode1 = gpxStartElem.getElementsByTagName("trk").item(0);
-            Element gpxStartElem1 = (Element) gpxStartNode1;
-
-            Node gpxStartNode2 = gpxStartElem1.getElementsByTagName("trkseg").item(0);
-            Element gpxStartElem2 = (Element) gpxStartNode2;
-
-            NodeList gpxStartNode3 = gpxStartElem1.getElementsByTagName("trkpt");
-
-            for (int i = 0; i < gpxStartNode3.getLength(); i++) {
-                Element trackPointElement = (Element) gpxStartNode3.item(i);
-
-                latitude.add(trackPointElement.getAttribute("lat"));
-                longitude.add(trackPointElement.getAttribute("lon"));
-
-                Node trackPointNode2 = trackPointElement.getElementsByTagName("ele").item(0);
-                Element trackPointElement2 = (Element) trackPointNode2;
-                deviceElevation.add(trackPointElement2.getTextContent());
-
-                Node trackPointNode3 = trackPointElement.getElementsByTagName("time").item(0);
-                Element trackPointElement3 = (Element) trackPointNode3;
-                String temp = trackPointElement3.getTextContent().replace('T', ' ').substring(0, trackPointElement3.getTextContent().length() - 1);
-                if (trackPointElement3.getTextContent().toUpperCase().endsWith("Z")) {
-                    Date tempDate = (Date) form.parse(temp);
-                    time.add(tempDate);
+            NodeList gpxStartNode1 = gpxStartElem.getElementsByTagName("trk");
+            
+            for (int a = 0; a < gpxStartNode1.getLength(); a++) {
+                
+                Element gpxStartElem1 = (Element) gpxStartNode1.item(a);
+                
+                Node gpxStartNode2 = gpxStartElem1.getElementsByTagName("trkseg").item(0);
+                Element gpxStartElem2 = (Element) gpxStartNode2;
+                
+                NodeList gpxStartNode3 = gpxStartElem1.getElementsByTagName("trkpt");
+                
+                for (int i = 0; i < gpxStartNode3.getLength(); i++) {
+                    Element trackPointElement = (Element) gpxStartNode3.item(i);
+                    
+                    latitude.add(trackPointElement.getAttribute("lat"));
+                    longitude.add(trackPointElement.getAttribute("lon"));
+                    
+                    Node trackPointNode2 = trackPointElement.getElementsByTagName("ele").item(0);
+                    Element trackPointElement2 = (Element) trackPointNode2;
+                    deviceElevation.add(trackPointElement2.getTextContent());
+                    
+                    Node trackPointNode3 = trackPointElement.getElementsByTagName("time").item(0);
+                    Element trackPointElement3 = (Element) trackPointNode3;
+                    String temp = trackPointElement3.getTextContent().replace('T', ' ').substring(0, trackPointElement3.getTextContent().length() - 1);
+                    if (trackPointElement3.getTextContent().toUpperCase().endsWith("Z")) {
+                        Date tempDate = (Date) form.parse(temp);
+                        time.add(tempDate);
+                    }
                 }
             }
 

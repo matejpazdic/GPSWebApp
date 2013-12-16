@@ -252,7 +252,7 @@
                     </div>
 
                     <p>
-                        This website is developing as a practical part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support and a special thank you we would like to dedicate doc. Zdenek Havlice. We salute you...<small>   -->> No makame dalej tak trimce palce... Ani Poruban nas nezastavi. Btw nasa posila: <a href="http://www.saris.sk">www.saris.sk</a></small>
+                        This website is developing as a practical part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support.
                     </p>
                 </div>
             </div>
