@@ -61,10 +61,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     }
                     new File(path).mkdirs();
                     item.write(new File(path, item.getName()));
-                    
-                    ImageResizer resizer = new ImageResizer(1024, 720);
-                    //System.out.println("Resized> " + path + item.getName());
-                    resizer.resizeImageWithTempThubnails(path + item.getName());
+                    if(item.getName().toLowerCase().endsWith(".jpg") || item.getName().toLowerCase().endsWith(".jpeg")){
+                        ImageResizer resizer = new ImageResizer(1024, 720);
+                        //System.out.println("Resized> " + path + item.getName());
+                        resizer.resizeImageWithTempThubnails(path + item.getName());
+                    }
                 } catch (Exception ex) {
                     System.out.println("Error: Cannot save multimedia files!");
                 }

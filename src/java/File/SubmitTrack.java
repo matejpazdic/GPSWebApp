@@ -60,7 +60,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             trackActivity = session.getAttribute("trackActivity").toString();
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 File fTemp = new File(pathToMultimediaFiles);
                 if(!fTemp.exists()){
@@ -75,7 +75,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 }
             }
 
-            GPXParser parser = new GPXParser(pathToFile, filename);
+            GPXParser parser = new GPXParser(pathToFile, filename, session.getAttribute("username").toString(), trackName);
             parser.searchForMultimediaFiles(pathToMultimediaFiles);
             System.out.println(pathToFile + " , " + pathToMultimediaFiles);
             parser.parseGpx(trackActivity, trackDescr);

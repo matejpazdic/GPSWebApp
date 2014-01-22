@@ -6,6 +6,7 @@ package Parser.Utilities;
 
 import File.FileImpl;
 import File.TrackPointImpl;
+import File.Video.VideoCreationDateResolver;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -178,6 +179,14 @@ public class MultimediaSearcher {
                         } else {
                             fileimpl.setDate(new Date(file.lastModified()));
                         }
+                    } else if (temp.toLowerCase().endsWith(".avi") || temp.toLowerCase().endsWith(".mov") || temp.toLowerCase().endsWith(".mp4") || temp.toLowerCase().endsWith(".3gp")) {
+                        VideoCreationDateResolver resolver = new VideoCreationDateResolver();
+                        Date videoCreationDate = resolver.resolveCreationDate(temp, track.get(0).getLatitude(), track.get(0).getLongitude());
+                        if(videoCreationDate != null){
+                            fileimpl.setDate(videoCreationDate);
+                        }else{
+                            fileimpl.setDate(new Date());
+                        }
                     } else {
                         fileimpl.setDate(new Date(file.lastModified()));
                     }
@@ -269,11 +278,17 @@ public class MultimediaSearcher {
                             fileimpl.setDate(new Date(file.lastModified()));
                             System.out.println("Pouzivam creation date.");
                         }
-                    } else {
-                        fileimpl.setDate(new Date(file.lastModified()));
-                        System.out.println("Pouzivam creation date.");
-                    }
-                    fileimpl.setPath(temp);
+                    } else if (temp.toLowerCase().endsWith(".avi") || temp.toLowerCase().endsWith(".mov") || temp.toLowerCase().endsWith(".mp4") || temp.toLowerCase().endsWith(".3gp")) {
+                        VideoCreationDateResolver resolver = new VideoCreationDateResolver();
+                        Date videoCreationDate = resolver.resolveCreationDate(temp, track.get(0).getLatitude(), track.get(0).getLongitude());
+                        if (videoCreationDate != null) {
+                            fileimpl.setDate(videoCreationDate);
+                        } 
+                    }else {
+                            fileimpl.setDate(new Date(file.lastModified()));
+                            System.out.println("Pouzivam creation date.");
+                        }
+                        fileimpl.setPath(temp);
                     if (fileimpl.getDate().after(first) && fileimpl.getDate().before(last)) {
                         if (temp.substring(0, 4).lastIndexOf("/") != temp.substring(0, 4).indexOf("/")) {
                             temp = scanner.getBasedir() + tempFiles[i];
