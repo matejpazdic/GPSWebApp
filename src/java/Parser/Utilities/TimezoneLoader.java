@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -31,6 +32,10 @@ public class TimezoneLoader {
     
     public TimezoneLoader(ArrayList<TrackPointImpl> track){
         this.track = track;
+    }
+    
+    public TimezoneLoader(){
+        
     }
     
     public ArrayList<TrackPointImpl> correctTimeZone(){
@@ -62,5 +67,35 @@ public class TimezoneLoader {
             Logger.getLogger(TimezoneLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return track;
+    }
+    
+    public Date correctTimeZone(Date date, double lat, double lon){
+        try {
+            String tempStr = String.valueOf(date.getTime()).substring(0, String.valueOf(date.getTime()).length() - 3);
+
+            String UrlString = baseURL + lat + "," + lon + "&timestamp=" + tempStr + endURL;
+
+            URL url = new URL(UrlString);
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(url.openStream());
+
+            String dstOffsetStr = doc.getElementsByTagName("dst_offset").item(0).getTextContent();
+            String gmtOffsetStr = doc.getElementsByTagName("raw_offset").item(0).getTextContent();
+
+            double dstOffset = Double.parseDouble(dstOffsetStr) / 60 / 60;
+            double gmtOffset = Double.parseDouble(gmtOffsetStr) / 60 / 60;
+
+            int offset = (int) (dstOffset + gmtOffset);
+            
+            Date newDate = date;
+            newDate.setHours(date.getHours() + offset);
+            
+            return newDate;
+
+        } catch (Exception ex) {
+            Logger.getLogger(TimezoneLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

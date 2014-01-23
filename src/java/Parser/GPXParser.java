@@ -8,6 +8,7 @@ import File.FileImpl;
 import File.Image.ImageResizer;
 import File.Image.ThumbnailException;
 import File.TrackPointImpl;
+import File.Video.YouTubeAgent;
 import Parser.Utilities.ElevationLoader;
 import Parser.Utilities.MultimediaSearcher;
 import Parser.Utilities.TimezoneLoader;
@@ -48,7 +49,14 @@ public class GPXParser {
     private DateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat formEU = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     
-    public GPXParser(String pathToFiles, String sourceFile){
+    private String trackDBName;
+    private String trackDBUser;
+    private YouTubeAgent youTubeAgent = new YouTubeAgent("skuska.api3@gmail.com", "skuskaapi3");
+    
+    public GPXParser(String pathToFiles, String sourceFile, String trackUser, String trackName){
+        trackDBUser = trackUser;
+        trackDBName = trackName;
+        
         gpxFile = new File(pathToFiles + sourceFile);
         
         String destFile = sourceFile.substring(0, sourceFile.indexOf(".gpx"));
@@ -161,6 +169,14 @@ public class GPXParser {
                 rootElement.appendChild(rootElement2);
 
                 for (int i = 0; i < files.size(); i++) {
+                    
+                    if(files.get(i).getPath().toLowerCase().endsWith(".avi") || files.get(i).getPath().toLowerCase().endsWith(".mov") || files.get(i).getPath().toLowerCase().endsWith(".mp4") || files.get(i).getPath().toLowerCase().endsWith(".3gp")){
+                        //System.out.println("Mam Video: " + files.get(i).getPath());
+                        String videoID = youTubeAgent.uploadVideo(files.get(i), trackDBUser, trackDBName, String.valueOf(i));
+                        files.get(i).setPath("YTB " + videoID);
+                        //System.out.println("Mam Video: " + videoID);
+                    }
+                    
                     org.w3c.dom.Element em = document.createElement("File_entity");
                     rootElement2.appendChild(em);
                     org.w3c.dom.Element em1 = document.createElement("path");

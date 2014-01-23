@@ -137,7 +137,7 @@
                                                 </div>
                                                 
                                                 <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" required="required" id="exampleInputFile" />
+                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" accept=".gpx, .GPX" required="required" id="exampleInputFile" />
                                                     <br>
                                                     <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
                                                     <br>

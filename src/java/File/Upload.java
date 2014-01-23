@@ -73,7 +73,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     File file = new File(pathToFile, filename); // Write to destination file.
                     item.write(file); // Write to destination file.
                     
-                    GPXParser parser = new GPXParser(pathToFile, filename);
+                    GPXParser parser = new GPXParser(pathToFile, filename, null, null);
                     parser.parseGpx(trackActivity, trackDescr);
                     
                     DBTrackCreator tCreator = new DBTrackCreator();
