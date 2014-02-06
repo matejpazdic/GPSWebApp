@@ -17,6 +17,7 @@ import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.YouTubeMediaGroup;
 import com.google.gdata.data.youtube.YouTubeNamespace;
 import com.google.gdata.util.AuthenticationException;
+import com.google.gdata.util.XmlBlob;
 import java.io.File;
 import java.net.URL;
 
@@ -56,8 +57,14 @@ public class YouTubeAgent {
             MediaFileSource ms = new MediaFileSource(new File(file.getPath()), "video/quicktime");
             newEntry.setMediaSource(ms);
             String uploadUrl = "http://uploads.gdata.youtube.com/feeds/api/users/default/uploads";
+      //      
+            XmlBlob xmlBlob = new XmlBlob(); 
+            xmlBlob.setBlob("<yt:accessControl action='list' permission='denied'/>"); 
+            newEntry.setXmlBlob(xmlBlob); 
+      //      
             VideoEntry createdEntry = service.insert(new URL(uploadUrl), newEntry);
             System.out.println("Video has been uploaded to YouTube: " + createdEntry.getMediaGroup().getPlayer().getUrl());
+            
             
             return createdEntry.getMediaGroup().getVideoId();
         } catch (Exception ex) {

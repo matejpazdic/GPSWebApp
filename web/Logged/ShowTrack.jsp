@@ -146,7 +146,9 @@
                     } else { 
                         
                         if (System.getProperty("os.name").startsWith("Windows")) {
-                        newPath = temp.substring(temp.length()-17); }
+                        newPath = temp.substring(temp.length()-17);
+                        newPath = newPath.replaceAll("%20"," ");
+                        }
                         else {
                         newPath = loader.getMultimediaFiles().get(i).getPath();
                     }
@@ -544,7 +546,7 @@
                                                         
                                                         else {
                                                             if (System.getProperty("os.name").startsWith("Windows")) {
-                                                                newPath = temp.substring(temp.length()-11); }
+                                                                newPath = temp.substring(temp.length() -11); }
                                                             else {
                                                                 newPath = loader.getMultimediaFiles().get(i).getPath().substring(4);
                                                                 
