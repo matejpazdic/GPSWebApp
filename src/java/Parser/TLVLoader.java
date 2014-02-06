@@ -115,6 +115,7 @@ public class TLVLoader {
                     Element fileElement = (Element) fileNode;
                     NodeList pathNode = fileElement.getElementsByTagName("path");
                     tempFile.setPath(pathNode.item(0).getTextContent());
+                   
                     NodeList dateNode = fileElement.getElementsByTagName("creation_date");
                     Date tempDate = new Date(Long.parseLong(dateNode.item(0).getTextContent()));
                     tempFile.setDate(tempDate);

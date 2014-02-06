@@ -1,15 +1,15 @@
+<%-- 
+    Document   : DrawTrack
+    Created on : 29.1.2014, 13:38:37
+    Author     : eLeMeNt
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
-        <title>Upload track</title>
+        <title>Example track</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -19,13 +19,84 @@
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
+        
+        <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
+        
+        <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        
+        <script src="http://vjs.zencdn.net/4.3/video.js"></script>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    	<script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
 
-        
-        
+        <style>
+                      
+            #map_canvas {
+                
+                display: block;
+                width: 100%;
+                height: 750px;
+            }
+
+        </style>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
+        <script>
+
+            var isPolyCr = false;
+            var polylineOK = null;
+            var list = [];
+
+            function initialize() {
+                var mapOptions = {
+                    zoom: 17,
+                    center: new google.maps.LatLng(48.730861,21.244630),
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                    };
+                    
+                var map = new google.maps.Map(document.getElementById('map_canvas'),mapOptions);
+
+
+                google.maps.event.addListener(map, 'click', function(e) {
+
+                if (isPolyCr == false) {
+                    polylineOK = new google.maps.Polyline({
+                         path: list,
+                         strokeColor: '#FF0000',
+                         geodesic: true,
+                         strokeOpacity: 1.0,
+                         strokeWeight: 2,
+                         editable: true
+                         });
+                }
+                placeMarker(e.latLng, map);
+                });
+            }
+
+           function placeMarker(position, map) {
+//                var marker = new google.maps.Marker({
+//                position: position,
+//                map: map
+//                });
+                list = polylineOK.getPath();
+                map.panTo(position);
+                list.push(position);
+                polylineOK.setPath(list);
+                polylineOK.setMap(map);
+                
+            }
+
+       google.maps.event.addDomListener(window, 'load', initialize);
+      </script>
+      
+      
     </head>
 
     <body>
@@ -59,7 +130,7 @@
                                         </li>
                                         <li>
                                             <a href="DrawTrack.jsp">Write new track</a>
-                                        </li>
+                                        </li>                                      
                                     </ul>
                                 </li>
                             </ul>
@@ -95,68 +166,14 @@
                         </div>
 
                     </nav>
-                    <div class="tabbable" id="tabs-883724">
-                        <ul class="nav nav-tabs">
-                            <li class="active">
-                                <a href="#panel-234896" data-toggle="tab">Track upload</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="panel-234896">
+                                        					                                            
+                                        <h3> Draw your track </h3>
+                                        <br>
 
-                                <h3>
-                                    Upload your track
-                                </h3>
-                                <br>
-
-                                <div class="container">
-                                    <div class="row clearfix">
-                                        <div class="col-md-4 column"></div>
-                                        <div class="col-md-4 column">
-                                            <form action="Upload" method="post" enctype="multipart/form-data">
-                                                <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackActivity">Activity</label> 
-                                                    <select name="Activity" class="form-control">
-                                                    <option value="Hiking">Hiking</option>
-                                                    <option value="Cycling">Cycling</option>
-                                                    <option value="Paragliding">Paragliding</option>
-                                                    <option value="Road tripping">Road tripping</option>
-                                                    <option value="Skiing">Skiing</option>
-                                                    <option value="Canoeing">Canoeing</option>
-                                                    <option value="Sailing">Sailing</option>
-                                                    <option value="Flying">Flying</option>
-                                                    </select>                                                    
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" accept=".gpx, .GPX" required="required" id="exampleInputFile" />
-                                                    <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Submit</button></p>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-4 column"></div>
-                                    </div>
-                                </div>
-                            </div>
-                           
-
-                            </div>
-                        </div>
+                                        <div id="map_canvas"></div>
+   
+			</div>
                     </div>
                 </div>
-            </div>
-        </div>
     </body>
 </html>
-
-

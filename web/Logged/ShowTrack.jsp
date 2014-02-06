@@ -51,6 +51,8 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     	<script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
 
         <style>
             
@@ -71,7 +73,9 @@
             }
 
         </style>
-
+        
+        
+        
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
 
@@ -89,10 +93,15 @@
                     var contentString;
                     var marker;
                     var newWidth = 50;
+                    var chart;
 
                     
                     var polylineCoordinatesListFinal = [];
                     var isPolylineAlreadyCreated = false;
+                    
+                    var graphDataFinal = [];
+                    var graphEx = [];
+                    var options;
                     
                     
             <%
@@ -117,15 +126,32 @@
                 out.print("\nvar filesPath = [\n");
                 for (int i = 0; i < loader.getMultimediaFiles().size(); i++) {
                     String temp = null;
+                    
                     if(System.getProperty("os.name").startsWith("Windows")){
                         File f = new File(loader.getMultimediaFiles().get(i).getPath());
                         temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
                     }else{
+                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
                         String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
-                        temp = temp1.replaceAll(" ", "%20");
+                        temp = temp1.replaceAll(" ", "%20");}
                     }
-                    String extension = temp.substring(temp.lastIndexOf("."), temp.length());
-                    String newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension;
+                    
+                    String newPath = null;
+                    
+                    if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                    
+                        String extension = temp.substring(temp.lastIndexOf("."), temp.length());
+                        newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension; 
+                      
+                    } else { 
+                        
+                        if (System.getProperty("os.name").startsWith("Windows")) {
+                        newPath = temp.substring(temp.length()-17); }
+                        else {
+                        newPath = loader.getMultimediaFiles().get(i).getPath();
+                    }
+                        
+                    }
                     //System.out.print("ORIGINAL: " + temp);
                     //String temp1 = temp.replaceAll("\\\\", "\\\\\\\\");
                     //String temp2 = temp1.replaceAll("/", "\\\\\\\\");
@@ -145,6 +171,29 @@
                     }
                 }
                 out.print("\n];");
+                
+                
+                int maxy = -500;
+                int miny = 10000; 
+                
+                out.print("\nvar gData = [\n ['', 'Device elevation', 'Real elevation'],\n");
+                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                   
+                    if (i==loader.getTrackPoints().size()-1){
+                        
+                                out.print("['', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
+                                        }
+                    else {
+                       
+                                out.print("['', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
+                    
+                         }   
+                     
+            }
+      
+                out.print("\nvar minElevation = " + miny + "\n");
+                out.print("\nvar maxElevation = " + maxy + "\n");
+                
             %>
                 
                 
@@ -172,11 +221,12 @@
                     
                     polylineOK.setMap(map);
                     map.fitBounds(bounds);               
-  
+                    drawChart();
             }
 
-                
             function draw() {
+
+                    graphDataFinal = google.visualization.arrayToDataTable(gData);
 
                     if(isPolylineAlreadyCreated == false){
                     polylineOK.setPath([]);
@@ -202,6 +252,11 @@
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
                             
+                            //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
+                                
+                                chart.setSelection([{row:a, column:null}]);
+                            
+                            
                             if (isFiles[a] == true) {
                                 isEnd = true;
                                 presentMultimedia();
@@ -219,6 +274,42 @@
                 
                                     if(a == filesPoints[index]){
                                         var width, height;
+                                        
+                                        if (filesPath[index].toString().indexOf("YTB") === 0) {
+                                             var $infoWindowContent = $('<div style="420"; height: "270px">' + '<iframe id="ytplayer" type="text/html" width="420" height="270"' +
+                                                     'src="https://www.youtube.com/embed/' + filesPath[index].toString().substr(4) + '?autoplay=1&enablejsapi=1&modestbranding=1&rel=0&showinfo=0&autohide=1&iv_load_policy=3&theme=light"frameborder="0" allowfullscreen>');
+                                
+                                            var marker = new google.maps.Marker({
+                                                position: polylineCoordinatesList[a],
+                                                map: map,
+//                                              icon: iconF,
+                                                title: 'Kalvarka :)'
+                                             });
+                                
+                                            var infowindow = new google.maps.InfoWindow({
+                                            maxWidth: 500
+                                            });
+                                
+                                            infowindow.setContent($infoWindowContent[0]);
+
+                                            infowindow.open(map,marker);
+                                
+                                            google.maps.event.addListener(infowindow,'closeclick', function() {
+                                                marker.setMap(null);
+                                                
+                                                if(filesPoints.length != index){
+                                                    index++;
+                                                    presentMultimedia();
+                                                } else{
+                                                     //isEnd = false;
+                                                     a++;
+                                                     isEnd = false;                                               
+                                                     draw();
+                                                }
+                                   
+                                            });
+                                        }
+                                        
                                         var i = new Image(); 
                                         i.src = filesPath[index] ; 
                             
@@ -288,7 +379,33 @@
                 
             }
 
-            google.maps.event.addDomListener(window, 'load', initialize);        </script>
+            google.maps.event.addDomListener(window, 'load', initialize); 
+        
+            google.load("visualization", "1", {packages:["corechart"]});
+            
+            function drawChart() {
+                              
+                var graphData = google.visualization.arrayToDataTable(gData);
+
+               
+                options = {
+                    chartArea:{left:50,top:35, height: "70%", width:"100%"},
+                    hAxis: {title: '',  titleTextStyle: {color: '#666'}},
+                    vAxis: {gridlines: {count: 8}},
+                    legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                    colors: ['green','blue']
+                    };
+                    
+                    chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                    chart.draw(graphData, options);
+                }
+        
+        </script>
+        
+        
+
+    
+    
     </head>
 
     <body>
@@ -321,7 +438,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#">Write new track</a>
+                                            <a href="DrawTrack.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>
@@ -376,8 +493,10 @@
 
                                         <div id="map_canvas"></div>
 
-                                        <br>
-                                        <br>
+                                        
+                                        
+                                        <div id="chart_div" style="width: 100%; height: 200px;"></div>
+                                        
 
                                         <p style="line-height: 20px; text-align: center;"><button type="button" class="btn btn-sm btn-sucess" onclick="draw();">Play</button>    <button type="button" class="btn btn-sm btn-danger" onclick="clearmap();">Clear</button></p>
 
@@ -401,19 +520,40 @@
                                             
                                             <div class="galleria">
                                                 <%
-                                                    String temp;
+                                                    String temp = null;
                                                     for(int i = 0; i < loader.getMultimediaFiles().size(); i++){
                                                     if(System.getProperty("os.name").startsWith("Windows")){
                                                         File f = new File(loader.getMultimediaFiles().get(i).getPath());
                                                         temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
                                                     }else{
+                                                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
                                                         String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
-                                                        temp = temp1.replaceAll(" ", "%20");
+                                                        temp = temp1.replaceAll(" ", "%20");}
                                                     }
-                                                        String extension = temp.substring(temp.lastIndexOf("."), temp.length());
-                                                        String newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension;
-                                                        out.println("<img src=\"" + newPath + "\" " + "data-title=\"" + temp.substring(temp.lastIndexOf("/") + 1, temp.length()) + "\">");
-                                                    }
+                                                    
+                                                        String newPath = null;
+                                                        
+                                                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                                                        
+                                                            String extension = temp.substring(temp.lastIndexOf("."), temp.length());
+                                                        
+                                                            newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension; 
+                                                        
+                                                            out.println("<img src=\"" + newPath + "\" " + "data-title=\"" + temp.substring(temp.lastIndexOf("/") + 1, temp.length()) + "\">");
+                                                        }
+                                                        
+                                                        else {
+                                                            if (System.getProperty("os.name").startsWith("Windows")) {
+                                                                newPath = temp.substring(temp.length()-11); }
+                                                            else {
+                                                                newPath = loader.getMultimediaFiles().get(i).getPath().substring(4);
+                                                                
+                                                                } 
+                                                            out.println("<a href=\"http://www.youtube.com/watch?v=" + newPath + "\"><span class=\"video\">Watch this on Vimeo!</span></a>");
+                                                            }
+                                                            
+                                                         }
+                                                    
                                                 %>
                                             </div>
                                         <script>

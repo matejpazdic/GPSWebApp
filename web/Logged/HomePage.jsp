@@ -56,7 +56,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#">Write new track</a>
+                                            <a href="DrawTrack.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>
@@ -182,7 +182,7 @@
 								Draw track of your unrecorded trip on our map and at next you can also add multimedia files.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="#">Write your track</a> 
+								<a class="btn btn-primary" href="DrawTrack.jsp">Write your track</a> 
 							</p>
 						</div>
 					</div>

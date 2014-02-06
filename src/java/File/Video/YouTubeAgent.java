@@ -8,7 +8,6 @@ package File.Video;
 
 import File.FileImpl;
 import com.google.gdata.client.youtube.YouTubeService;
-import com.google.gdata.data.DateTime;
 import com.google.gdata.data.media.MediaFileSource;
 import com.google.gdata.data.media.mediarss.MediaCategory;
 import com.google.gdata.data.media.mediarss.MediaDescription;
@@ -50,7 +49,7 @@ public class YouTubeAgent {
                 mg.getKeywords().addKeyword("GPSWebApp");
                 mg.setDescription(new MediaDescription());
                 mg.getDescription().setPlainTextContent("This video has been uploaded from GPSWebApp server, and it is property of GPSWebApp server.");
-                mg.setPrivate(true);
+                //mg.setPrivate(true);
                 //mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME, "mydevtag"));
                 //mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME, "anotherdevtag"));
             

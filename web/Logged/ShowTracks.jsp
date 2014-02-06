@@ -61,7 +61,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#">Write new track</a>
+                                            <a href="DrawTrack.jsp">Write new track</a>
                                         </li>                                     
                                     </ul>
                                 </li>
