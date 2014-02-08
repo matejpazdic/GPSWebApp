@@ -37,10 +37,12 @@ public class Upload extends HttpServlet {
     private String trackDescr;
     private String trackActivity;
     private String system = System.getProperty("os.name");
+    private String access = "skuska";
     
 @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<FileItem> items = null;
+        
+     List<FileItem> items = null;
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
         } catch (FileUploadException e) {
@@ -55,6 +57,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 trackName = items.get(0).getString();
                 trackDescr = items.get(1).getString();
                 trackActivity = items.get(2).getString();
+            
                 
                 //System.out.println(items.get(0).getString());
             } else {
@@ -79,7 +82,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     DBTrackCreator tCreator = new DBTrackCreator();
                     DBLoginFinder finder = new DBLoginFinder(); 
                     //Vymysliet ochranu proti -1 hodnote pri getUserId!!!
-                    tCreator.createNewTrack(trackName , trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()));
+                    tCreator.createNewTrack(trackName , trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()),
+                                                               parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access);
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                 }

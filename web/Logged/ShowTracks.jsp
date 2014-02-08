@@ -1,3 +1,6 @@
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="Database.DBLoginFinder"%>
@@ -9,6 +12,7 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,13 +53,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -152,6 +153,7 @@
                     <br>
                     
                      <%
+    
                         DBTrackFinder trackFinder = new DBTrackFinder();
                         DBLoginFinder loginFinder = new DBLoginFinder();
                         int userID = loginFinder.getUserId(session.getAttribute("username").toString());
@@ -165,6 +167,17 @@
                         
                         for(int i = 0; i < tracks.size(); i++){
                             
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date modifiedDate = df.parse(trackFinder.getUploadedDate(trackIDs.get(i)).substring(0,19));
+                            modifiedDate.toGMTString(); 
+                            
+                            Date uploadedDate = df.parse(trackFinder.getUploadedDate(trackIDs.get(i)).substring(0,19));
+                            uploadedDate.toGMTString();                            
+                            
+                            
+                            //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
+     
+                            
                             out.print("<div class=\"panel-group\" id=\"panel-297555\">");
                                                         
                             out.print("<div class=\"panel panel-default\">");
@@ -174,10 +187,17 @@
                             out.print("<div id=\"panel-element-" + i + "\" class=\"panel-collapse collapse\">");
                             out.print("<div class=\"panel-body\">\n");
                             
-                            out.print("<label for=\"TrackDesc\">Track description</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity</label> "
-                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> </div> <a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-success btn-sm pull-right\">Show</a>"
-                                    + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>");
-                           
+                 
+                            out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
+                            
+                            out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
+                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + uploadedDate + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
+                                    trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + 
+                                    " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> </div></div> <a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
+                                    + " <a href=\"#\"  class=\"btn btn-warning btn-sm pull-right\">Edit</a>"
+                                    + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
+
+                            
                             out.print("</div>");
                             out.print("</div>");
                             out.print("</div>");

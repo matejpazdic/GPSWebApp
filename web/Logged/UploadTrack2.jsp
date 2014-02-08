@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="Windows-1250">
-        <title>Upload track</title>
+        <meta charset="UTF-8">
+        <title>Fill info about track</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -39,13 +39,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown active">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -98,7 +95,7 @@
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload your track
+                                    Fill track info (Step 2)
                                 </h3>
                                 <br>
 
@@ -126,6 +123,15 @@
                                                     <option value="Canoeing">Canoeing</option>
                                                     <option value="Sailing">Sailing</option>
                                                     <option value="Flying">Flying</option>
+                                                    </select>                                                    
+                                                </div>
+                                                    
+                                                <div class="form-group">
+                                                    <label for="TrackAccess">Access</label> 
+                                                    <select name="Activity" class="form-control">
+                                                    <option value="Private">Private</option>
+                                                    <option value="Public">Public</option>
+                                                   
                                                     </select>                                                    
                                                 </div>
                                                     <br>

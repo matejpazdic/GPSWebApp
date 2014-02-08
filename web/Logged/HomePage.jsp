@@ -4,11 +4,12 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="Windows-1250">
+        <meta charset="UTF-8">
         <title>Home page</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
@@ -44,13 +45,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -166,7 +164,7 @@
 								Upload track from your new trip or travel. You can add a lot multimedia file formats.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="UploadFile.jsp">Add new track</a> 
+								<a class="btn btn-primary" href="UploadTrack1.jsp">Add new track</a> 
 							</p>
 						</div>
 					</div>

@@ -32,6 +32,7 @@ public class SessionCheck implements Filter {
     public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) arg0;
         HttpServletResponse response = (HttpServletResponse) arg1;
+        
         if(request.getSession().getAttribute("username") == null)
         {
             response.sendRedirect("../LoginPage.jsp");

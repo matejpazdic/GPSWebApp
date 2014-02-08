@@ -38,11 +38,13 @@ public class SaveTrackInfo extends HttpServlet {
     private String trackName;
     private String trackDescr;
     private String trackActivity;
+    private String access;
     private String system = System.getProperty("os.name");
     
 @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<FileItem> items = null;
+        
+    List<FileItem> items = null;
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
         } catch (FileUploadException e) {
@@ -55,9 +57,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 // You can get parameter value by item.getString();
                 //System.out.println(items.size());
                 trackName = items.get(0).getString();
+
                 trackDescr = items.get(1).getString();
                 trackActivity = items.get(2).getString();
-
+                access = items.get(3).getString();
+               
                 String filename;
                 HttpSession session = request.getSession();
                 filename = session.getAttribute("trackFilename").toString();
@@ -66,6 +70,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("trackName", trackName);
                 session.setAttribute("trackDescr", trackDescr);
                 session.setAttribute("trackActivity", trackActivity);
+                session.setAttribute("access", access);
+
 
                 if (system.startsWith("Windows")) {
                     String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";

@@ -8,6 +8,8 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
+    
 %>
 <!DOCTYPE html>
 
@@ -86,6 +88,7 @@
                     var map;
                     var polylineOK = null;
                     var isEnd = false;
+                    var isPresented = false;
                     var index = 0;
                     var a = 0;
                     var isActualMultimediaEnd = false;
@@ -103,6 +106,8 @@
                     var graphEx = [];
                     var options;
                     
+                    var isAlreadyMark = false;
+                    var mark;
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
@@ -178,16 +183,17 @@
                 int maxy = -500;
                 int miny = 10000; 
                 
-                out.print("\nvar gData = [\n ['', 'Device elevation', 'Real elevation'],\n");
+                out.print("\nvar gData = [\n ['', 'Device elevation', 'Elevation on the map'],\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
                    
                     if (i==loader.getTrackPoints().size()-1){
-                        
-                                out.print("['', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
+                                
+                                
+                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
                                         }
                     else {
                        
-                                out.print("['', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
+                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
                     
                          }   
                      
@@ -197,11 +203,11 @@
                 out.print("\nvar maxElevation = " + maxy + "\n");
                 
             %>
-                
-                
 
             function initialize() {
-
+            
+            isAlreadyMark = false;
+            isPresented = false;
             var bounds = new google.maps.LatLngBounds();
             
             for (var i = 0; i < polylineCoordinatesList.length; i++) {
@@ -227,10 +233,15 @@
             }
 
             function draw() {
-
+                
+                    isPresented = true;
                     graphDataFinal = google.visualization.arrayToDataTable(gData);
 
                     if(isPolylineAlreadyCreated == false){
+                        
+                        if (isAlreadyMark == true) {
+                        mark.setMap(null); }    
+                        
                     polylineOK.setPath([]);
                     polylineOK.setMap(null);
                     
@@ -249,7 +260,7 @@
                      }
                     isPolylineAlreadyCreated = true;
                     function drawingMap() {
-                                            
+              
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
@@ -263,7 +274,7 @@
                                 isEnd = true;
                                 presentMultimedia();
                             }     
-                            setTimeout(function() { if (isEnd != true) {a++}; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } }, 40);
+                            setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, 40);
                     };
                     drawingMap();
             }
@@ -273,7 +284,7 @@
             
             
             function presentMultimedia(){
-                
+                            
                                     if(a == filesPoints[index]){
                                         var width, height;
                                         
@@ -392,16 +403,45 @@
                
                 options = {
                     chartArea:{left:50,top:35, height: "70%", width:"100%"},
-                    hAxis: {title: '',  titleTextStyle: {color: '#666'}},
-                    vAxis: {gridlines: {count: 8}},
+                    hAxis:  {textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                    vAxis: { gridlines: {count: 8}},
                     legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
                     colors: ['green','blue']
                     };
                     
                     chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                    
+                    function selectHandler() {
+                       
+                        var selectedItem = chart.getSelection()[0];
+                        if (selectedItem && isPresented == false) {
+                            var value = graphData.getValue(selectedItem.row,0);
+
+                            if (isAlreadyMark == true) {
+                                   mark.setMap(null);
+                            }
+                            mark = new google.maps.Marker({
+                                                position: polylineCoordinatesList[value],
+                                                map: map,
+//                                              icon: iconF,
+                                                animation: google.maps.Animation.DROP,
+                                                title: 'Kalvarka :)'
+                                             });
+                                             
+                                             mark.setMap(map);
+                                             
+                                             isAlreadyMark=true;
+                             
+                        }
+                     
+                                
+                    }
+
+                    google.visualization.events.addListener(chart, 'select', selectHandler);
                     chart.draw(graphData, options);
+                    
                 }
-        
+       
         </script>
         
         
@@ -428,13 +468,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">

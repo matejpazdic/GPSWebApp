@@ -34,7 +34,8 @@ public class UploadMultimedia extends HttpServlet {
     private String path;
     
 @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
+       
         List<FileItem> items = null;
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);

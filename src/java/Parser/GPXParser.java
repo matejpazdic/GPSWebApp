@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -288,5 +290,11 @@ public class GPXParser {
         MultimediaSearcher searcher = new MultimediaSearcher(destFolder.getPath(), searchFolder, track);
         files = searcher.startSearch();
     }
-
+    
+    public List getStartAndEndDate() {
+        ArrayList<Date> times = new ArrayList<Date>();
+        times.add(time.get(0));
+        times.add(time.get(time.size()-1));
+        return times;
+    }
 }

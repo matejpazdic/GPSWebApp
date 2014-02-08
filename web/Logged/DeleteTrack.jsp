@@ -18,6 +18,7 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
 %>
 <!DOCTYPE html>
 <html>

@@ -38,11 +38,13 @@ public class SubmitTrack extends HttpServlet {
     private String pathToMultimediaFiles;
     private String trackName;
     private String trackDescr;
+    private String access;
     private String trackActivity;
     private String system = System.getProperty("os.name");
     
 @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+          
         List<FileItem> items = null;
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
@@ -58,6 +60,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             trackName = session.getAttribute("trackName").toString();
             trackDescr = session.getAttribute("trackDescr").toString();
             trackActivity = session.getAttribute("trackActivity").toString();
+            access = session.getAttribute("access").toString();
+
+            
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
                 pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
@@ -80,16 +85,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             System.out.println(pathToFile + " , " + pathToMultimediaFiles);
             parser.parseGpx(trackActivity, trackDescr);
             
+
+            
             
 
             DBTrackCreator tCreator = new DBTrackCreator();
             DBLoginFinder finder = new DBLoginFinder();
             //Vymysliet ochranu proti -1 hodnote pri getUserId!!!
-            tCreator.createNewTrack(trackName, trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()));
+            
+
+            
+            tCreator.createNewTrack(trackName, trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()), 
+                                                    parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access);
         } catch (Exception ex) {
             System.out.println("Error: Unable screate .tlv file!");
         }
         // Show result page.
-        request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+        request.getRequestDispatcher("ShowTracks.jsp").forward(request, response);
     }
 }

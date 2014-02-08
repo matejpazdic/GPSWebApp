@@ -4,12 +4,14 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
+  
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="Windows-1250">
-        <title>Upload track</title>
+        <meta charset="UTF-8">
+        <title>Upload tracklog file</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -24,6 +26,24 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
 
+        <script>
+            function checkFileExtension(ele){
+                var filename = $(ele).val();
+                var extension = filename.split('.').pop();
+
+                console.log(extension);
+
+                if(extension != 'gpx'){
+                    document.getElementById('inp').style.visibility='hidden';
+                    alert('Unsupported file!!! Please upload only .gpx files!');
+                }
+                
+                else {
+                    document.getElementById('inp').style.visibility='visible';
+                }
+                        
+            }
+        </script>
         
         
     </head>
@@ -46,13 +66,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown active">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -105,7 +122,7 @@
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload your track
+                                    Upload tracklog file (Step 1)
                                 </h3>
                                 <br>
 
@@ -115,11 +132,11 @@
                                         <div class="col-md-4 column">
                                             <form action="UploadTrackFileOnly" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" accept=".gpx, .GPX" name="file" required="required" id="exampleInputFile" />
+                                                    <label for="InputFileGps">Input track file</label><input onchange="checkFileExtension(this);" type="file" accept=".gpx, .GPX" name="file" required="required" id="exampleInputFile" />
                                                     <br>
                                                     <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
                                                     <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Second step</button></p>
+                                                    </div> <p style="line-height: 20px; text-align: center;"> <button id="inp" type="submit" class="btn btn-default btn-success ">Second step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>
