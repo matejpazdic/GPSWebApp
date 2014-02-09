@@ -64,6 +64,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                
                 String filename;
                 HttpSession session = request.getSession();
+                session.setAttribute("trackNameExist", "False");
                 filename = session.getAttribute("trackFilename").toString();
                 String foldername =filename.substring(0, filename.lastIndexOf(".gpx"));
                 //session.removeAttribute("trackFilename");
@@ -74,30 +75,54 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
                 if (system.startsWith("Windows")) {
-                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    
+                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
-                    oldFile.renameTo(newFile);
                     
-                    String old = pathToFile + filename;
-                    String newS = pathToFile + trackName + ".gpx";
-                    File oldF = new File(old);
-                    File newF = new File(newS);
-                    oldF.renameTo(newF);
+                    if(oldFile.exists() && newFile.exists()){
+                        System.out.println("Mam Rovnaku trasu!!!");
+                        session.setAttribute("trackNameExist", "True");
+                        request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
+                        //response.sendRedirect("UploadTrack2.jsp");
+                        continue;
+                    }else{
+
+                        oldFile.renameTo(newFile);
+
+                        String old = pathToFile + "Temp.gpx"; // Pou+y=ivaj filename premennu!
+                        String newS = pathToFile + trackName + ".gpx";
+                        File oldF = new File(old);
+                        File newF = new File(newS);
+                        oldF.renameTo(newF);
+                    }
+
 
                 } else {
-                    String oldPathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + foldername + "/";
+                    String oldPathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
                     pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
-                    oldFile.renameTo(newFile);
                     
-                    String old = pathToFile + filename;
-                    String newS = pathToFile + trackName + ".gpx";
-                    File oldF = new File(old);
-                    File newF = new File(newS);
-                    oldF.renameTo(newF);
+                    if(oldFile.exists() && newFile.exists()){
+                        System.out.println("Mam Rovnaku trasu!!!");
+                        session.setAttribute("trackNameExist", "True");
+                        request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
+                        //response.sendRedirect("UploadTrack2.jsp");
+                        continue;
+                    }else{
+
+                        oldFile.renameTo(newFile);
+
+                        String old = pathToFile + filename;
+                        String newS = pathToFile + trackName + ".gpx";
+                        File oldF = new File(old);
+                        File newF = new File(newS);
+                        oldF.renameTo(newF);
+                    }
                 }
 
                 //System.out.println(items.get(0).getString());

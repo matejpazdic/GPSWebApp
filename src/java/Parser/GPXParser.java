@@ -10,6 +10,7 @@ import File.Image.ThumbnailException;
 import File.TrackPointImpl;
 import File.Video.YouTubeAgent;
 import Parser.Utilities.ElevationLoader;
+import Parser.Utilities.LocationResolver;
 import Parser.Utilities.MultimediaSearcher;
 import Parser.Utilities.TimezoneLoader;
 import java.io.File;
@@ -54,6 +55,9 @@ public class GPXParser {
     private String trackDBName;
     private String trackDBUser;
     private YouTubeAgent youTubeAgent = new YouTubeAgent("skuska.api3@gmail.com", "skuskaapi3");
+    
+    private String startAddress = "NONE";
+    private String endAddress = "NONE";
     
     public GPXParser(String pathToFiles, String sourceFile, String trackUser, String trackName){
         trackDBUser = trackUser;
@@ -233,6 +237,29 @@ public class GPXParser {
                 org.w3c.dom.Element element2_1 = document.createElement("Track_Description");
                 element2_1.appendChild(document.createTextNode(trackDescr));
                 rootElement1.appendChild(element2_1);
+                
+                //
+                LocationResolver resolver = new LocationResolver();
+                ArrayList<String> addresses =  resolver.getStartEndAddressFromTrack(track);
+                //
+                
+                org.w3c.dom.Element element2_2 = document.createElement("Track_Start_Address");
+                if(addresses.size() <= 0){
+                    
+                }else{
+                    startAddress = addresses.get(0);
+                }
+                element2_2.appendChild(document.createTextNode(startAddress));
+                rootElement1.appendChild(element2_2);
+                
+                org.w3c.dom.Element element2_3 = document.createElement("Track_End_Address");
+                if(addresses.size() <= 0){
+                    
+                }else{
+                    endAddress = addresses.get(1);
+                }
+                element2_3.appendChild(document.createTextNode(endAddress));
+                rootElement1.appendChild(element2_3);
 
                 org.w3c.dom.Element element3 = document.createElement("Elevations_type");
                 if (isLoadedElevationsFromServer == true) {
@@ -296,5 +323,19 @@ public class GPXParser {
         times.add(time.get(0));
         times.add(time.get(time.size()-1));
         return times;
+    }
+
+    /**
+     * @return the startAddress
+     */
+    public String getStartAddress() {
+        return startAddress;
+    }
+
+    /**
+     * @return the endAddress
+     */
+    public String getEndAddress() {
+        return endAddress;
     }
 }

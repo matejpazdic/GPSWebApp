@@ -25,8 +25,8 @@ import org.xml.sax.SAXException;
  */
 public class ElevationLoader extends Thread {
 
-    private final String baseUrlString = "http://maps.googleapis.com/maps/api/elevation/xml?locations=";
-    private final String endUrlString = "&sensor=false";
+    private final String baseUrlString = "https://maps.googleapis.com/maps/api/elevation/xml?locations=";
+    private final String endUrlString = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
 
 
     public ElevationLoader() {

@@ -199,7 +199,7 @@ public class DBTrackFinder {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
             resultSet = statement.executeQuery();
             resultSet.next();
-            str = resultSet.getString("DATE_CREATED");
+            str = resultSet.getString("TRACK_DATE_CREATED");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
         }
@@ -212,7 +212,46 @@ public class DBTrackFinder {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
             resultSet = statement.executeQuery();
             resultSet.next();
-            str = resultSet.getString("DATE_UPDATED");
+            str = resultSet.getString("TRACK_DATE_UPDATED");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+    
+    public String getStartAddress(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_START_ADDRESS");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+    
+    public String getEndAddress(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_END_ADDRESS");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+        }
+        return str;
+  }
+    
+    public String getAccess(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_ACCESS");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
         }

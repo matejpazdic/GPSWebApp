@@ -68,7 +68,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                        pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                        //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     }else{
                         pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
                     }
@@ -83,7 +84,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     DBLoginFinder finder = new DBLoginFinder(); 
                     //Vymysliet ochranu proti -1 hodnote pri getUserId!!!
                     tCreator.createNewTrack(trackName , trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()),
-                                                               parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access);
+                                                               parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress());
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                 }

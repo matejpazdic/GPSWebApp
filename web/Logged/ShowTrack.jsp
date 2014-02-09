@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Database.DBTrackFinder"%>
@@ -548,11 +551,42 @@
 
                                         <div class="col-md-3">
 
+                                        <% 
+                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date modifiedDate = df.parse(trackFinder.getUploadedDate(trkID).substring(0,19));
+                                        modifiedDate.toGMTString(); 
+                            
+                                        Date uploadedDate = df.parse(trackFinder.getUploadedDate(trkID).substring(0,19));
+                                        uploadedDate.toGMTString();
+                                        %>    
+                                            
                                         <label for="TrackDesc">Track description</label>
                                         <h5> <% out.println(loader.getTrackDescription()); %> </h5>
 
                                         <label for="TrackActivity">Track activity</label>
                                         <h5> <% out.println(loader.getTrackType());%> </h5>
+                                        
+                                        <label for="StartPlace">Start place</label>
+                                        <h5> <% out.println(loader.getStartAddress());%> </h5>
+                                        
+                                        <label for="EndPlace">End place</label>
+                                        <h5> <% out.println(loader.getEndAddress());%> </h5>
+                                        
+                                        <label for="StartDate">Start</label>
+                                        <h5> <% out.println(trackFinder.getTrackStartDate(trkID));%> </h5>
+                                        
+                                        <label for="EndDate">End</label>
+                                        <h5> <% out.println(trackFinder.getTrackEndDate(trkID));%> </h5>
+                                        
+                                        <label for="Privacy">Privacy</label>
+                                        <h5> <% out.println(trackFinder.getAccess(trkID));%> </h5>
+                                        
+                                        <label for="Uploaded">Uploaded</label>
+                                        <h5> <% out.println(uploadedDate);%> </h5>
+                                        
+                                        <label for="Modified">Modified</label>
+                                        <h5> <% out.println(modifiedDate);%> </h5>
+                                        
                                         </div>
 
                                         <div class="col-md-9">

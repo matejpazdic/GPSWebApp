@@ -28,7 +28,7 @@ public class TimezoneLoader {
     
     ArrayList<TrackPointImpl> track;
     String baseURL = "https://maps.googleapis.com/maps/api/timezone/xml?location=";
-    String endURL = "&sensor=false";
+    String endURL = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
     
     public TimezoneLoader(ArrayList<TrackPointImpl> track){
         this.track = track;

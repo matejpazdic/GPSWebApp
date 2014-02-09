@@ -55,20 +55,31 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             } else {
                 try {
                     // Process uploaded fields here.
+                    HttpSession session = request.getSession();
+                    session.setAttribute("trackNameExist", "False");
+                    String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                    File tempFile = new File(tempPath);
+                    if(tempFile.exists()){
+                        System.out.println("Mam temp a vymazujem!");
+                        tempFile.delete();
+                    }
+                    
                     String filename = item.getName(); // Get filena
                     String foldername = item.getName().substring(0, item.getName().lastIndexOf(".gpx"));
-                    HttpSession session = request.getSession();
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
+                        pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + foldername + "\\";
                     }else{
-                        pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + foldername + "/";
+                        pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
                     }
+                    
                     new File(pathToFile).mkdirs();                    
-                    File file = new File(pathToFile, filename); // Write to destination file.
+                    File file = new File(pathToFile, "Temp.gpx"); // Write to destination file. Pouyivaj filename!
                     item.write(file); // Write to destination file.
-                    session.setAttribute("trackFilename", filename);
+                    String replacedFilename = filename.replaceAll("[^a-z|0-9|A-Z|_| |+|\\-|(|)|.]", "");
+                    session.setAttribute("trackFilename", replacedFilename);
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                 }

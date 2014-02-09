@@ -81,7 +81,7 @@ public class YouTubeAgent {
             videoEntry.delete();
         } catch (Exception ex) {
             System.out.println("ERROR: Cannot delete video from YouTube server!!!");
-            throw new YouTubeAgentException();
+            //throw new YouTubeAgentException();
         }
     }
     

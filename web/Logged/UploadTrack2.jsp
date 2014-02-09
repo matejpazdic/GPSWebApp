@@ -17,7 +17,7 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
-
+        
 
     </head>
 
@@ -105,23 +105,32 @@
                                         <div class="col-md-4 column">
                                             <form action="SaveTrackInfo" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" name="name" required="required" class="form-control" id="exampleInputEmail1" />
+                                                    <label for="TrackName">Track name</label><input id="trackName" type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" name="name" required="required" class="form-control" id="exampleInputEmail1" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"/>
                                                     
                                                 </div>
+                                                    <% if(session.getAttribute("trackNameExist").toString().equals("True")){
+                                                        out.print("<script> alert(\"This trackname has already been used!\"); </script>");
+                                                    }
+                                                    %> 
+                                                    
                                                 <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
+                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"></textarea>
                                                     
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="TrackActivity">Activity</label> 
                                                     <select name="Activity" class="form-control">
                                                     <option value="Hiking">Hiking</option>
-                                                    <option value="Cycling">Cycling</option>
-                                                    <option value="Paragliding">Paragliding</option>
+                                                    <option value="Climbing">Climbing</option>
+                                                    <option value="Moto cycling">Moto cycling</option>
                                                     <option value="Road tripping">Road tripping</option>
-                                                    <option value="Skiing">Skiing</option>
-                                                    <option value="Canoeing">Canoeing</option>
+                                                    <option value="Road cycling">Road cycling</option>
+                                                    <option value="Mountain biking">Mountain biking</option>
                                                     <option value="Sailing">Sailing</option>
+                                                    <option value="Canoeing">Canoeing</option>
+                                                    <option value="Windsurfing">Windsurfing</option>
+                                                    <option value="Kiteboarding">Kiteboarding</option>
+                                                    <option value="Paragliding">Paragliding</option>
                                                     <option value="Flying">Flying</option>
                                                     </select>                                                    
                                                 </div>

@@ -33,6 +33,8 @@ public class TLVLoader {
     private String trackType;
     private String elevationsType;
     private String trackDescr;
+    private String startAddress;
+    private String endAddress;
     
     
     public void readTLVFile(String path, String file){
@@ -63,6 +65,15 @@ public class TLVLoader {
                 NodeList trackDescriptionList = coordinatesElement.getElementsByTagName("Track_Description");
                 Node trackDescriptionNode = trackDescriptionList.item(0);
                 trackDescr = trackDescriptionNode.getTextContent();
+                
+                
+                NodeList trackStartAddressList = coordinatesElement.getElementsByTagName("Track_Start_Address");
+                Node trackStartAddressNode = trackStartAddressList.item(0);
+                startAddress = trackStartAddressNode.getTextContent();
+                
+                NodeList trackEndAddressList = coordinatesElement.getElementsByTagName("Track_End_Address");
+                Node trackEndAddressNode = trackEndAddressList.item(0);
+                endAddress = trackEndAddressNode.getTextContent();
 
                 NodeList elevationsTypeList = coordinatesElement.getElementsByTagName("Elevations_type");
                 Node elevationsTypeNode = elevationsTypeList.item(0);
@@ -223,5 +234,19 @@ public class TLVLoader {
      */
     public String getTrackDescription() {
         return trackDescr;
+    }
+
+    /**
+     * @return the startAddress
+     */
+    public String getStartAddress() {
+        return startAddress;
+    }
+
+    /**
+     * @return the endAddress
+     */
+    public String getEndAddress() {
+        return endAddress;
     }
 }

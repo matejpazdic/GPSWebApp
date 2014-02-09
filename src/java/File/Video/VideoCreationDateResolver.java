@@ -58,8 +58,8 @@ public class VideoCreationDateResolver {
                 }
             }
         } catch (Exception ex) {
-            return null;
+            return new Date();
         }
-         return null;
+         return new Date();
     }
 }
