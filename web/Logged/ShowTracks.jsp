@@ -168,11 +168,9 @@
                         for(int i = 0; i < tracks.size(); i++){
                             
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Date modifiedDate = df.parse(trackFinder.getUploadedDate(trackIDs.get(i)).substring(0,19));
+                            Date modifiedDate = df.parse(trackFinder.getChangeDate(trackIDs.get(i)).substring(0,19));
                             modifiedDate.toGMTString(); 
-                            
-                            Date uploadedDate = df.parse(trackFinder.getUploadedDate(trackIDs.get(i)).substring(0,19));
-                            uploadedDate.toGMTString();                            
+                                                       
                             
                             
                             //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
@@ -191,7 +189,7 @@
                             out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
                             
                             out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
-                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + uploadedDate + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
+                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
                                     trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + 
                                     " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
                                     + " <a href=\"#\"  class=\"btn btn-warning btn-sm pull-right\">Edit</a>"

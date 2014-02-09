@@ -553,11 +553,9 @@
 
                                         <% 
                                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                        Date modifiedDate = df.parse(trackFinder.getUploadedDate(trkID).substring(0,19));
+                                        Date modifiedDate = df.parse(trackFinder.getChangeDate(trkID).substring(0,19));
                                         modifiedDate.toGMTString(); 
                             
-                                        Date uploadedDate = df.parse(trackFinder.getUploadedDate(trkID).substring(0,19));
-                                        uploadedDate.toGMTString();
                                         %>    
                                             
                                         <label for="TrackDesc">Track description</label>
@@ -582,7 +580,7 @@
                                         <h5> <% out.println(trackFinder.getAccess(trkID));%> </h5>
                                         
                                         <label for="Uploaded">Uploaded</label>
-                                        <h5> <% out.println(uploadedDate);%> </h5>
+                                        <h5> <% out.println(trackFinder.getUploadedDate(trkID));%> </h5>
                                         
                                         <label for="Modified">Modified</label>
                                         <h5> <% out.println(modifiedDate);%> </h5>

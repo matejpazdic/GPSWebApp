@@ -9,6 +9,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  *
@@ -37,12 +42,23 @@ public class DBTrackCreator {
             statement =  connect.createStatement();
             //statement.executeQuery();
             
-            System.out.println("asdasdasddaadasada" + access);
+            //System.out.println("asdasdasddaadasada" + access);
             
-            System.out.println(trackActivity);
+            //System.out.println(trackActivity);
+            Locale localeObject=new Locale("en"); 
+            Date date = new Date();
+            DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",localeObject);
+
+            //TimeZone cet = TimeZone.getTimeZone("CET");
+            //df.setTimeZone(cet);
             
-            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS) VALUES ('"+ trackName +"' , '"+ trackDescr + 
-                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"')";
+            
+            String modifiedDate = df.format(date);
+            
+            System.out.println("PRIDAVAM : " + modifiedDate);
+            
+            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_DATE_CREATED) VALUES ('"+ trackName +"' , '"+ trackDescr + 
+                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+ df.format(date) +"')";
             if (system.startsWith("Windows")) {
                 stat = stat.replaceAll("\\\\", "/");
             }

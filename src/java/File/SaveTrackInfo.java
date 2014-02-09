@@ -117,7 +117,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
                         oldFile.renameTo(newFile);
 
-                        String old = pathToFile + filename;
+                        String old = pathToFile + "Temp.gpx"; // Pou+y=ivaj filename premennu!
                         String newS = pathToFile + trackName + ".gpx";
                         File oldF = new File(old);
                         File newF = new File(newS);
