@@ -1,8 +1,10 @@
+<%@page import="org.apache.tomcat.util.codec.binary.StringUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="Windows-1250">
         <title>Fill info about track</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
@@ -17,7 +19,23 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        <script type="text/javascript" src="HTMLStyle/civem-0.0.7.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/civem-0.0.7.js"></script>
         
+        
+
+        <script language="javascript" type="text/javascript">
+
+    
+        $(document).ready(function() {
+            if(document.getElementById('trackName').validity.patternMismatch)
+            {
+                message = document.getElementById('trackName').dataset.patternError;
+            }
+            });
+        
+        </script>
+    
 
     </head>
 
@@ -101,12 +119,14 @@
 
                                 <div class="container">
                                     <div class="row clearfix">
-                                        <div class="col-md-4 column"></div>
+                                        <div class="col-md-3 column"></div>
                                         <div class="col-md-4 column">
                                             <form action="SaveTrackInfo" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input id="trackName" type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" name="name" required="required" class="form-control" id="exampleInputEmail1" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"/>
                                                     
+                                                    <label for="TrackName">Track name</label><input id="trackName" name="trkName" type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, 
+                                                            session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" required="required" class="form-control" pattern="[A-Za-z0-9_\-+() ]*" data-errormessage-pattern-mismatch="Only alphanumeric characters, whitespace and _ ( ) - + symbols is supported!!!)" />
+                                                 
                                                 </div>
                                                     <% if(session.getAttribute("trackNameExist").toString().equals("True")){
                                                         out.print("<script> alert(\"This trackname has already been used!\"); </script>");
@@ -114,7 +134,7 @@
                                                     %> 
                                                     
                                                 <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"></textarea>
+                                                    <label for="TrackDesc">Track description</label><textarea id="desc" class="form-control" name="descr" rows="3" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"></textarea>
                                                     
                                                 </div>
                                                 <div class="form-group">

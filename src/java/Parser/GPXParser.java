@@ -329,7 +329,7 @@ public class GPXParser {
      * @return the startAddress
      */
     public String getStartAddress() {
-        return startAddress;
+                return startAddress;
     }
 
     /**

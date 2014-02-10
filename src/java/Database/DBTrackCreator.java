@@ -31,7 +31,7 @@ public class DBTrackCreator {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
       connect = DriverManager
-          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp","root","Www4dm1n#");
+          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp?useUnicode=true&characterEncoding=UTF-8","root","Www4dm1n#");
         } catch (Exception e) {
             throw e;
         }
@@ -48,15 +48,9 @@ public class DBTrackCreator {
             Locale localeObject=new Locale("en"); 
             Date date = new Date();
             DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",localeObject);
-
-            //TimeZone cet = TimeZone.getTimeZone("CET");
-            //df.setTimeZone(cet);
-            
-            
+      
             String modifiedDate = df.format(date);
-            
-            System.out.println("PRIDAVAM : " + modifiedDate);
-            
+  
             String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_DATE_CREATED) VALUES ('"+ trackName +"' , '"+ trackDescr + 
                                                                 "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+ df.format(date) +"')";
             if (system.startsWith("Windows")) {

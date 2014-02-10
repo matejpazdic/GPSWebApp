@@ -43,7 +43,7 @@ public class SaveTrackInfo extends HttpServlet {
     
 @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+    
     List<FileItem> items = null;
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
@@ -75,11 +75,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
                 if (system.startsWith("Windows")) {
-                    String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     
-                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     
@@ -88,7 +88,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                         session.setAttribute("trackNameExist", "True");
                         request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
                         //response.sendRedirect("UploadTrack2.jsp");
-                        continue;
+                        return;
                     }else{
 
                         oldFile.renameTo(newFile);
@@ -112,7 +112,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                         session.setAttribute("trackNameExist", "True");
                         request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
                         //response.sendRedirect("UploadTrack2.jsp");
-                        continue;
+                        return;
                     }else{
 
                         oldFile.renameTo(newFile);
@@ -122,6 +122,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                         File oldF = new File(old);
                         File newF = new File(newS);
                         oldF.renameTo(newF);
+                        //
                     }
                 }
 
@@ -136,6 +137,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         }
         // Show result page.
         request.getRequestDispatcher("UploadTrack3.jsp").forward(request, response);
+        return;
     }
 }
 

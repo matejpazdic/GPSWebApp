@@ -6,7 +6,7 @@
 <%@page import="Database.DBLoginFinder"%>
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
-<%@page contentType="text/html" pageEncoding="Windows-1250"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
     session.removeAttribute("trackName");

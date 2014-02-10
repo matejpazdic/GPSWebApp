@@ -29,7 +29,7 @@ public class DBTrackFinder {
 
       Class.forName("com.mysql.jdbc.Driver").newInstance();
       connect = DriverManager
-          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp","root","Www4dm1n#");
+          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp?useUnicode=true&characterEncoding=UTF-8","root","Www4dm1n#");
       
 //      while (resultSet.next()) {
 //        String user = resultSet.getString("user_email");
@@ -69,7 +69,7 @@ public class DBTrackFinder {
             resultSet = statement.executeQuery();
             while(resultSet.next()){
                 String str = resultSet.getString("TRACK_NAME");
-                System.out.println("TRACKFINDER: "+str);
+                //System.out.println("TRACKFINDER: "+str);
                 tracks.add(str);
             }
         } catch (SQLException ex) {
@@ -100,7 +100,7 @@ public class DBTrackFinder {
   public ArrayList getTracksIDs(int userID){
       ArrayList<Integer> trackFiles = new ArrayList<Integer>();
         try {
-            System.out.println(userID);
+            //System.out.println(userID);
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_USER_ID = " + userID);
             resultSet = statement.executeQuery();
             while(resultSet.next()){

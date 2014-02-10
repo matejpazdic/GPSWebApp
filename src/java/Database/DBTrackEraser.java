@@ -25,7 +25,7 @@ public class DBTrackEraser {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
       connect = DriverManager
-          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp","root","Www4dm1n#");
+          .getConnection("jdbc:mysql://localhost:3306/GPSWebApp?useUnicode=true&characterEncoding=UTF-8","root","Www4dm1n#");
         } catch (Exception e) {
             throw e;
         }
