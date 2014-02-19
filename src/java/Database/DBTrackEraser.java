@@ -4,6 +4,7 @@
  */
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -37,9 +38,11 @@ public class DBTrackEraser {
             //statement.executeQuery();
             String stat = "DELETE FROM TRACKS where TRACK_ID=" + trackID;
             statement.executeUpdate(stat);
+            FileLogger.getInstance().createNewLog("Track with trackID " + trackID + " was successfuly deleted from DB.");
             close();
         } catch (SQLException ex) {
             System.out.println("Nevymazal som z DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot delete track with trackID " + trackID + " from DB!!!");
             close();
         }
     }

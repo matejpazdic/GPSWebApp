@@ -35,6 +35,11 @@ public class TLVLoader {
     private String trackDescr;
     private String startAddress;
     private String endAddress;
+    private String length;
+    private String minElevation;
+    private String maxElevation;
+    private String heightDiff;
+    private String duration;
     
     
     public void readTLVFile(String path, String file){
@@ -74,6 +79,26 @@ public class TLVLoader {
                 NodeList trackEndAddressList = coordinatesElement.getElementsByTagName("Track_End_Address");
                 Node trackEndAddressNode = trackEndAddressList.item(0);
                 endAddress = trackEndAddressNode.getTextContent();
+                
+                NodeList trackLengthList = coordinatesElement.getElementsByTagName("Track_Length_Km");
+                Node trackLengthNode = trackLengthList.item(0);
+                length = trackLengthNode.getTextContent();
+                
+                NodeList trackMinElevationList = coordinatesElement.getElementsByTagName("Track_Min_Elevation");
+                Node trackMinElevationNode = trackMinElevationList.item(0);
+                minElevation = trackMinElevationNode.getTextContent();
+                
+                NodeList trackMaxElevationList = coordinatesElement.getElementsByTagName("Track_Max_Elevation");
+                Node trackMaxElevationNode = trackMaxElevationList.item(0);
+                maxElevation = trackMaxElevationNode.getTextContent();
+                
+                NodeList trackHeightDiffList = coordinatesElement.getElementsByTagName("Track_Height_Difference");
+                Node trackHeightDiffNode = trackHeightDiffList.item(0);
+                heightDiff = trackHeightDiffNode.getTextContent();
+                
+                NodeList trackDurationList = coordinatesElement.getElementsByTagName("Track_Duration");
+                Node trackDurationNode = trackDurationList.item(0);
+                duration = trackDurationNode.getTextContent();
 
                 NodeList elevationsTypeList = coordinatesElement.getElementsByTagName("Elevations_type");
                 Node elevationsTypeNode = elevationsTypeList.item(0);
@@ -91,6 +116,7 @@ public class TLVLoader {
                         internetElevation = trackPointElement.getElementsByTagName("Internet_Elevation");
                     }
                     NodeList time = trackPointElement.getElementsByTagName("Time");
+                    NodeList speed = trackPointElement.getElementsByTagName("Speed");
 
                     TrackPointImpl tempTP = new TrackPointImpl();
                     tempTP.setLatitude(Double.parseDouble(latitude.item(0).getTextContent()));
@@ -98,6 +124,7 @@ public class TLVLoader {
                     double tempD = Double.parseDouble(deviceElevation.item(0).getTextContent());
                     int tempInt = (int) tempD;
                     tempTP.setDeviceElevation(tempInt);
+                    tempTP.setSpeed(speed.item(0).getTextContent());
 
                     if(elevationsType.equals("INTERNET")){
                         double tempIE = Double.parseDouble(internetElevation.item(0).getTextContent());
@@ -248,5 +275,40 @@ public class TLVLoader {
      */
     public String getEndAddress() {
         return endAddress;
+    }
+
+    /**
+     * @return the length
+     */
+    public String getLength() {
+        return length;
+    }
+
+    /**
+     * @return the minElevation
+     */
+    public String getMinElevation() {
+        return minElevation;
+    }
+
+    /**
+     * @return the maxElevation
+     */
+    public String getMaxElevation() {
+        return maxElevation;
+    }
+
+    /**
+     * @return the heightDiff
+     */
+    public String getHeightDiff() {
+        return heightDiff;
+    }
+
+    /**
+     * @return the duration
+     */
+    public String getDuration() {
+        return duration;
     }
 }

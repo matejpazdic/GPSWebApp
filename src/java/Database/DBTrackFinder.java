@@ -4,6 +4,7 @@
  */
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -74,6 +75,7 @@ public class DBTrackFinder {
             }
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD1!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getUserTracks.");
         }
         
         //close();
@@ -91,6 +93,7 @@ public class DBTrackFinder {
             }
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getUserTracksFiles.");
         }
         
         //close();
@@ -109,6 +112,7 @@ public class DBTrackFinder {
             }
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTracksIDs.");
         }
         
         //close();
@@ -124,6 +128,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_FILE");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackFilePath.");
         }
         return str;
   }
@@ -136,7 +141,8 @@ public class DBTrackFinder {
             resultSet.next();
             str = resultSet.getString("TRACK_NAME");
         } catch (SQLException ex) {
-            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            System.out.println("ERROR: Cannot read table TRACKS from DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackFileName.");
         }
         return str;
   }
@@ -150,6 +156,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_DESCRIPTION");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackDescription.");
         }
         return str;
   }
@@ -163,6 +170,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_ACTIVITY");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackActivity.");
         }
         return str;
   }
@@ -176,6 +184,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_STARTDATE");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackStartDate.");
         }
         return str;
   }
@@ -189,6 +198,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_ENDDATE");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackEndDate.");
         }
         return str;
   }
@@ -202,6 +212,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_DATE_CREATED");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getUploadedDate.");
         }
         return str;
   }
@@ -215,6 +226,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_DATE_UPDATED");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getChangeDate.");
         }
         return str;
   }
@@ -228,6 +240,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_START_ADDRESS");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getStartAddress.");
         }
         return str;
   }
@@ -241,6 +254,7 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_END_ADDRESS");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getEndAddress.");
         }
         return str;
   }
@@ -254,6 +268,77 @@ public class DBTrackFinder {
             str = resultSet.getString("TRACK_ACCESS");
         } catch (SQLException ex) {
             System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getAccess.");
+        }
+        return str;
+  }
+    
+    public String getTrackLengthKm(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_LENGTH_KM");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackLengthKm.");
+        }
+        return str;
+  }
+    
+    public String getMinElevation(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_MIN_ELEVATION");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getMinElevation.");
+        }
+        return str;
+  }
+    
+    public String getMaxElevation(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_MAX_ELEVATION");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getMaxElevation.");
+        }
+        return str;
+  }
+    
+    public String getHeightDifference(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_HEIGHT_DIFF");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getHeightDifference.");
+        }
+        return str;
+  }
+    
+    public String getTrackDuration(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_DURATION");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackDuration.");
         }
         return str;
   }

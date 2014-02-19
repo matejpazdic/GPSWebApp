@@ -7,6 +7,7 @@
 package File.Video;
 
 import File.FileImpl;
+import Logger.FileLogger;
 import com.google.gdata.client.youtube.YouTubeService;
 import com.google.gdata.data.media.MediaFileSource;
 import com.google.gdata.data.media.mediarss.MediaCategory;
@@ -64,12 +65,14 @@ public class YouTubeAgent {
       //      
             VideoEntry createdEntry = service.insert(new URL(uploadUrl), newEntry);
             System.out.println("Video has been uploaded to YouTube: " + createdEntry.getMediaGroup().getPlayer().getUrl());
+            FileLogger.getInstance().createNewLog("Successfully uploaded video to YouTube with URL " + createdEntry.getMediaGroup().getPlayer().getUrl() + " .");
             
             
             return createdEntry.getMediaGroup().getVideoId();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("ERROR: Cannot upload video to YouTube server!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot upload video to YouTube with ID !!!");
             throw new YouTubeAgentException();
         }
     }
@@ -79,8 +82,10 @@ public class YouTubeAgent {
             String videoEntryUrl = "http://gdata.youtube.com/feeds/api/users/default/uploads/" + videoID;
             VideoEntry videoEntry = service.getEntry(new URL(videoEntryUrl), VideoEntry.class);
             videoEntry.delete();
+            FileLogger.getInstance().createNewLog("Successfully deleted video from youtube with ID " + videoID + " .");
         } catch (Exception ex) {
             System.out.println("ERROR: Cannot delete video from YouTube server!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot delete video from YouTube with ID " + videoID + " !!!");
             //throw new YouTubeAgentException();
         }
     }

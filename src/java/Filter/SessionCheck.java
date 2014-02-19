@@ -1,6 +1,7 @@
 package Filter;
 
 
+import Logger.FileLogger;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -35,6 +36,7 @@ public class SessionCheck implements Filter {
         
         if(request.getSession().getAttribute("username") == null)
         {
+            FileLogger.getInstance().createNewLog("Warning: Somebody unregistered were attempting to go to MainPage !!!");
             response.sendRedirect("../LoginPage.jsp");
             return;
         }

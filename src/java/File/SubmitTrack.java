@@ -8,6 +8,7 @@ package File;
 import Parser.GPXParser;
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
+import Logger.FileLogger;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,8 +66,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 File fTemp = new File(pathToMultimediaFiles);
                 if(!fTemp.exists()){
@@ -82,10 +83,12 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             }
 
             GPXParser parser = new GPXParser(pathToFile, filename, session.getAttribute("username").toString(), trackName);
+            FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created GPXParser in STEP 3 for track " + trackName + " .");
             parser.searchForMultimediaFiles(pathToMultimediaFiles);
-            System.out.println(pathToFile + " , " + pathToMultimediaFiles);
+            FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly founded multimedia files in STEP 3 for track " + trackName + " .");
+            //System.out.println(pathToFile + " , " + pathToMultimediaFiles);
             parser.parseGpx(trackActivity, trackDescr);
-            
+            FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly parsed GPX file in STEP 3 for track " + trackName + " .");
 
             
             
@@ -97,9 +100,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
             
             tCreator.createNewTrack(trackName, trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()), 
-                                                    parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress());
+                                                    parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress(), parser.getTrackLengthKm(), parser.getTrackMinElevation(), parser.getTrackMaxElevation(), parser.getTrackHeightDiff(), parser.getTrackDuration());
+            
+            FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
         } catch (Exception ex) {
-            System.out.println("Error: Unable screate .tlv file!");
+            System.out.println("Error: Unable to create .tlv file!");
+            FileLogger.getInstance().createNewLog("ERROR: Unable to create user's " + request.getSession().getAttribute("username") + " track " + trackName + " in STEP 3 !!!");
+            //vloyit oznacenie chyby parsera!!!
         }
         // Show result page.
         request.getRequestDispatcher("ShowTracks.jsp").forward(request, response);

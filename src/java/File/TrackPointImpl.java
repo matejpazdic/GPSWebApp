@@ -16,6 +16,7 @@ public class TrackPointImpl {
     private int deviceElevation;
     private int internetElevation;
     private Date time;
+    private String speed;
     
     /**
      * Základný konštruktor triedy TrackPointImpl
@@ -89,6 +90,25 @@ public class TrackPointImpl {
         this.internetElevation = internetElevation;
         this.time = time;
     }
+    
+    /**
+     * Preťažený konštruktor triedy TrackPointImpl
+     * @param latitude - Zemepisná šírka
+     * @param longitude - Zemepisná dĺžka
+     * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
+     * @param internetElevation - Nadmorská výška získaná z mapového servera
+     * @param time - Dátum a čas vytvorenia daného trackpointu
+     * @param speed - Hodnota priemernej rýchlosti v danom bode
+     * 
+     */
+    public TrackPointImpl(double latitude, double longitude, int deviceElevation, int internetElevation, Date time, String speed){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.deviceElevation = deviceElevation;
+        this.internetElevation = internetElevation;
+        this.time = time;
+        this.speed = speed;
+    }
 
     /**
      * @return Vracia zemepisnú šírku daného trackpointu
@@ -158,6 +178,20 @@ public class TrackPointImpl {
      */
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    /**
+     * @return Vracia primernú rýchlosť zaznamenanú v danom bode
+     */
+    public String getSpeed() {
+        return speed;
+    }
+
+    /**
+     * @param speed - Priemrná rýchlosť v danom bode
+     */
+    public void setSpeed(String speed) {
+        this.speed = speed;
     }
     
 }

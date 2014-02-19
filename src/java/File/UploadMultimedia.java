@@ -8,6 +8,7 @@ package File;
 
 
 import File.Image.ImageResizer;
+import Logger.FileLogger;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -56,13 +57,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     HttpSession session = request.getSession();
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        //path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
-                        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
+                        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
+                        //path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
                     }else{
                         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/" + "Multimedia" + "/";
                     }
                     new File(path).mkdirs();
                     item.write(new File(path, item.getName()));
+                    FileLogger.getInstance().createNewLog("Successfuly uploaded multimedia file " + item.getName() + " in user's " + session.getAttribute("username") + " track " + trackName + " .");
                     if(item.getName().toLowerCase().endsWith(".jpg") || item.getName().toLowerCase().endsWith(".jpeg")){
                         ImageResizer resizer = new ImageResizer(1024, 720);
                         //System.out.println("Resized> " + path + item.getName());
@@ -70,6 +72,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     }
                 } catch (Exception ex) {
                     System.out.println("Error: Cannot save multimedia files!");
+                    FileLogger.getInstance().createNewLog("ERROR: Cannot upload multimedia files for user " + request.getSession().getAttribute("username") + " !!!");
                 }
             }
         }

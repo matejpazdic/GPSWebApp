@@ -5,6 +5,7 @@
 
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,6 +35,7 @@ public class DBLoginFinder {
 //        System.out.println("ID: " + number);
 //      }
     } catch (Exception e) {
+        FileLogger.getInstance().createNewLog("ERROR: Cannot load users from DB in DBLoginFinder!!!");
       throw e;
     } 
 //    finally {
@@ -69,6 +71,7 @@ public class DBLoginFinder {
         
   }
       close();
+      FileLogger.getInstance().createNewLog("ERROR: Cannot log user " + username + " !!!");
       return false;
   }
   
@@ -82,6 +85,7 @@ public class DBLoginFinder {
 
         }
         close();
+        FileLogger.getInstance().createNewLog("ERROR: User " + username + " is non existing user!!!");
         return false;
     }
 
@@ -96,6 +100,7 @@ public class DBLoginFinder {
 
         }
         close();
+        FileLogger.getInstance().createNewLog("ERROR: Cannot find userID of user " + username + " !!!");
         return -1;
     }
 

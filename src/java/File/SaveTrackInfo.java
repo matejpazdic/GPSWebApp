@@ -8,6 +8,7 @@ package File;
 import Parser.GPXParser;
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
+import Logger.FileLogger;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,16 +76,17 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
                 if (system.startsWith("Windows")) {
-                    //String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     
-                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     
                     if(oldFile.exists() && newFile.exists()){
                         System.out.println("Mam Rovnaku trasu!!!");
+                        FileLogger.getInstance().createNewLog("Warning: User " + session.getAttribute("username") + " attempted to create duplicate of track with track name " + foldername + " !!!");
                         session.setAttribute("trackNameExist", "True");
                         request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
                         //response.sendRedirect("UploadTrack2.jsp");
@@ -109,6 +111,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     
                     if(oldFile.exists() && newFile.exists()){
                         System.out.println("Mam Rovnaku trasu!!!");
+                        FileLogger.getInstance().createNewLog("Warning: User " + session.getAttribute("username") + " attempted to create duplicate of track with track name " + foldername + " !!!");
                         session.setAttribute("trackNameExist", "True");
                         request.getRequestDispatcher("UploadTrack2.jsp").forward(request, response);
                         //response.sendRedirect("UploadTrack2.jsp");
@@ -132,6 +135,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     // Process uploaded fields here.
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
+                   FileLogger.getInstance().createNewLog("ERROR: For user " + request.getSession().getAttribute("username") + " cannot create gpx file in STEP 2!!!");
                 }
             }
         }

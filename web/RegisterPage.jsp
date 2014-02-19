@@ -60,7 +60,7 @@ and open the template in the editor.
        
            <form action="Register.jsp" name="form" class="form-signin" method="POST">
         <h2 class="form-signin-heading">Registration form</h2>
-        <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required" autofocus>
+        <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required">
         <br>
         <input type="text" name="FirstName" class="form-control" placeholder="Your firstname">
         <br>

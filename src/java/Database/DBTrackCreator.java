@@ -4,6 +4,7 @@
  */
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -33,11 +34,12 @@ public class DBTrackCreator {
       connect = DriverManager
           .getConnection("jdbc:mysql://localhost:3306/GPSWebApp?useUnicode=true&characterEncoding=UTF-8","root","Www4dm1n#");
         } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot connect to database in DBTrackCreator!!!");
             throw e;
         }
     }
     
-    public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID, String startDate, String endDate, String access, String startAddress, String endAddress){
+    public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID, String startDate, String endDate, String access, String startAddress, String endAddress, String length, String minElevation, String maxElevation, String heightDiff, String duration){
         try {
             statement =  connect.createStatement();
             //statement.executeQuery();
@@ -51,16 +53,18 @@ public class DBTrackCreator {
       
             String modifiedDate = df.format(date);
   
-            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_DATE_CREATED) VALUES ('"+ trackName +"' , '"+ trackDescr + 
-                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+ df.format(date) +"')";
+            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_LENGTH_KM, TRACK_MIN_ELEVATION, TRACK_MAX_ELEVATION, TRACK_HEIGHT_DIFF, TRACK_DURATION, TRACK_DATE_CREATED) VALUES ('"+ trackName +"' , '"+ trackDescr + 
+                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+length+"', '"+minElevation+"', '"+maxElevation+"', '"+heightDiff+"', '"+duration+"', '"+ df.format(date) +"')";
             if (system.startsWith("Windows")) {
                 stat = stat.replaceAll("\\\\", "/");
             }
-            //System.out.println(stat);
+            System.out.println(stat);
             statement.executeUpdate(stat);
+            FileLogger.getInstance().createNewLog("Track " + trackName + " was successfuly created in DB. The userID is " + userID + " .");
             close();
         } catch (SQLException ex) {
             System.out.println("Nezapisal som do DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot create track " + trackName + " !!! The user ID is " + userID + " !!!");
             close();
         }
     }

@@ -81,7 +81,7 @@
 					</h3>
 			</div>
 			<div class="modal-body">
-				You can continue with Signin up...
+				You can continue with Signin in...
 			</div>
 			<div class="modal-footer">
 			<button type="button" class="btn btn-primary" data-dismiss="modal">Sign in</button>

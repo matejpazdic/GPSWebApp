@@ -4,6 +4,7 @@
  */
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,6 +38,7 @@ public class DBLoginCreator {
 //        System.out.println("ID: " + number);
 //      }
         } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot connect to Database in DBLoginCreator!!!");
             throw e;
         }
 //    finally {
@@ -50,9 +52,13 @@ public class DBLoginCreator {
             statement =  connect.createStatement();
             //statement.executeQuery();
             statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_PASS) VALUES ('"+ email +"' ,'" + password + "')");
+            
+            FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
+            
             close();
         } catch (SQLException ex) {
             System.out.println("Nezapisal som do DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: User " + email + " was NOT successfuly created!");
             close();
         }
     }
@@ -65,9 +71,13 @@ public class DBLoginCreator {
             statement =  connect.createStatement();
             //statement.executeQuery();
             statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "')");
+            
+            FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
+            
             close();
         } catch (SQLException ex) {
             System.out.println("Nezapisal som do DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: User " + email + " was NOT successfuly created!");
             close();
         }
     }

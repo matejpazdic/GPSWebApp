@@ -13,6 +13,7 @@ import Parser.Utilities.ElevationLoader;
 import Parser.Utilities.LocationResolver;
 import Parser.Utilities.MultimediaSearcher;
 import Parser.Utilities.TimezoneLoader;
+import Parser.Utilities.TrackDetailResolver;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -51,6 +52,7 @@ public class GPXParser {
     private ArrayList<TrackPointImpl> track = new ArrayList<TrackPointImpl>();
     private DateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat formEU = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private ArrayList<Double> trackSpeed = null;
     
     private String trackDBName;
     private String trackDBUser;
@@ -58,6 +60,12 @@ public class GPXParser {
     
     private String startAddress = "NONE";
     private String endAddress = "NONE";
+    
+    private String trackDuration = "NONE";
+    private String trackMaxElevation = "NONE";
+    private String trackMinElevation = "NONE";
+    private String trackHeightDiff = "NONE";
+    private String trackLengthKm = "NONE";
     
     public GPXParser(String pathToFiles, String sourceFile, String trackUser, String trackName){
         trackDBUser = trackUser;
@@ -260,6 +268,37 @@ public class GPXParser {
                 }
                 element2_3.appendChild(document.createTextNode(endAddress));
                 rootElement1.appendChild(element2_3);
+                
+                // Pridane 19.2.2014 Detaily o trase
+                TrackDetailResolver trackDetail = new TrackDetailResolver(track, trackType, serverElevation);
+                trackSpeed = trackDetail.resolveTrackSpeed();
+                
+                org.w3c.dom.Element element2_4 = document.createElement("Track_Length_Km");
+                String tempLength = String.valueOf(trackDetail.resolveTrackLength());
+                trackLengthKm = tempLength.substring(0, tempLength.lastIndexOf(".") + 4);
+                element2_4.appendChild(document.createTextNode(trackLengthKm));
+                rootElement1.appendChild(element2_4);
+                
+                org.w3c.dom.Element element2_5 = document.createElement("Track_Max_Elevation");
+                trackMaxElevation = String.valueOf(trackDetail.resolveMaxElevation());
+                element2_5.appendChild(document.createTextNode(trackMaxElevation));
+                rootElement1.appendChild(element2_5);
+                
+                org.w3c.dom.Element element2_6 = document.createElement("Track_Min_Elevation");
+                trackMinElevation = String.valueOf(trackDetail.resolveMinElevation());
+                element2_6.appendChild(document.createTextNode(trackMinElevation));
+                rootElement1.appendChild(element2_6);
+                
+                org.w3c.dom.Element element2_6_1 = document.createElement("Track_Height_Difference");
+                trackHeightDiff = String.valueOf(trackDetail.resolveTrackHeightDiff());
+                element2_6_1.appendChild(document.createTextNode(getTrackHeightDiff()));
+                rootElement1.appendChild(element2_6_1);
+                
+                org.w3c.dom.Element element2_7 = document.createElement("Track_Duration");
+                trackDuration = trackDetail.resolveTrackDuration();
+                element2_7.appendChild(document.createTextNode(trackDuration));
+                rootElement1.appendChild(element2_7);
+                //
 
                 org.w3c.dom.Element element3 = document.createElement("Elevations_type");
                 if (isLoadedElevationsFromServer == true) {
@@ -296,6 +335,14 @@ public class GPXParser {
                     String tempStr = str.toString();
                     em4.appendChild(document.createTextNode(tempStr));
                     em.appendChild(em4);
+                    
+                    //Pridane 19.2.2014 Detaily o trase
+                    org.w3c.dom.Element em5 = document.createElement("Speed");
+                    String tempSpeed = String.valueOf(trackSpeed.get(i));
+                    tempSpeed = tempSpeed.substring(0, tempSpeed.lastIndexOf(".") + 2);
+                    em5.appendChild(document.createTextNode(tempSpeed));
+                    em.appendChild(em5);
+                    //
                 }
                 TransformerFactory TF = TransformerFactory.newInstance();
                 Transformer T = TF.newTransformer();
@@ -337,5 +384,40 @@ public class GPXParser {
      */
     public String getEndAddress() {
         return endAddress;
+    }
+
+    /**
+     * @return the trackDuration
+     */
+    public String getTrackDuration() {
+        return trackDuration;
+    }
+
+    /**
+     * @return the trackMaxElevation
+     */
+    public String getTrackMaxElevation() {
+        return trackMaxElevation;
+    }
+
+    /**
+     * @return the trackMinElevation
+     */
+    public String getTrackMinElevation() {
+        return trackMinElevation;
+    }
+
+    /**
+     * @return the trackLengthKm
+     */
+    public String getTrackLengthKm() {
+        return trackLengthKm;
+    }
+
+    /**
+     * @return the trackHeightDiff
+     */
+    public String getTrackHeightDiff() {
+        return trackHeightDiff;
     }
 }
