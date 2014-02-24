@@ -5,16 +5,11 @@ package File;
  * and open the template in the editor.
  */
 
-import Parser.GPXParser;
-import Database.DBLoginFinder;
-import Database.DBTrackCreator;
 import Logger.FileLogger;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +19,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.tomcat.jni.OS;
+import org.json.JSONObject;
 
 /**
  *
@@ -62,8 +56,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     HttpSession session = request.getSession();
                     session.setAttribute("trackNameExist", "False");
                     if (system.startsWith("Windows")) {
-                        //String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-                        String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        //String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                         File tempFile = new File(tempPath);
                         if (tempFile.exists()) {
                             System.out.println("Mam temp a vymazujem!");
@@ -71,8 +65,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                             FileLogger.getInstance().createNewLog("Warning: Found old temp folder which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
                         }
                     }else{
-                        //String tempPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
-                        String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        String tempPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
+                        //String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                         File tempFile = new File(tempPath);
                         if (tempFile.exists()) {
                             System.out.println("Mam temp a vymazujem!");
@@ -88,8 +82,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-                        pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                     }else{
                         pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
                     }
@@ -98,6 +92,16 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     File file = new File(pathToFile, "Temp.gpx"); // Write to destination file. Pouyivaj filename!
                     item.write(file); // Write to destination file.
                     
+                    //JSONObject json = new JSONObject(request.getParameter("vari"));
+                    
+//                    Iterator it = json.keys();
+//                    
+//                    while(it.hasNext()){
+//                        String key = it.next().toString();
+//                        
+//                        System.out.println("Skuska: " + key + " >>> " + json.get(key));
+//                    }
+                    
                     FileLogger.getInstance().createNewLog("Successfully uploaded user's " + session.getAttribute("username") + " GPX file " + foldername + " in STEP 1.");
                     
                     //String replacedFilename = filename.replaceAll("[^a-z|0-9|A-Z|_| |+|\\-|(|)|.]", "");
@@ -105,6 +109,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 } catch (Exception ex) {
                    System.out.println("Cannot create a file!!!");
                    FileLogger.getInstance().createNewLog("ERROR: Cannot upload user's " + request.getSession().getAttribute("username") + " GPX file " + item.getName() + " in STEP 1!!!");
+                   //ex.printStackTrace();
                 }
             }
         }

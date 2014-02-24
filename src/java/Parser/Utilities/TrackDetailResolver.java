@@ -72,7 +72,7 @@ public class TrackDetailResolver {
         int maxElevation = -1000;
         
         if (track.size() > 0) {
-            if (trackType.startsWith("Land") || trackType.startsWith("Water")) {
+            if (!trackType.startsWith("Land") || !trackType.startsWith("Water")) {
                 for (int i = 0; i < track.size(); i++) {
                     if (maxElevation < track.get(i).getDeviceElevation()) {
                         maxElevation = track.get(i).getDeviceElevation();
@@ -97,7 +97,7 @@ public class TrackDetailResolver {
         int minElevation = 1000000;
 
         if (track.size() > 0) {
-            if (trackType.startsWith("Land") || trackType.startsWith("Water")) {
+            if (!trackType.startsWith("Land") || !trackType.startsWith("Water")) {
                 for (int i = 0; i < track.size(); i++) {
                     if (minElevation > track.get(i).getDeviceElevation()) {
                         minElevation = track.get(i).getDeviceElevation();

@@ -119,7 +119,7 @@
 
                                 <div class="container">
                                     <div class="row clearfix">
-                                        <div class="col-md-3 column"></div>
+                                        <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
                                             <form action="SaveTrackInfo" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">

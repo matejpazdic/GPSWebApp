@@ -13,7 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,15 +60,40 @@ public class FileLogger {
     }
     
     public void createNewLog(String message){
+        this.checkLogFileIsCreated();
         this.checkNewDay();
         FileWriter writer = null;
         try {
-            this.checkLogFileIsCreated();
             writer = new FileWriter(logFile, true);
             
             BufferedWriter buf = new BufferedWriter(writer);
             
-            writer.append(new Date().toString() + " >>> " + message + "\n");
+            writer.append("\n" + new Date().toString() + " >>> " + message);
+            
+            buf.close();
+        } catch (IOException ex) {
+            System.out.println(system);
+            System.out.println("ERROR: Cannot write into a log file!!!");
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException ex) {
+               System.out.println("ERROR: Cannot write into a log file!!!");
+            }
+        }
+        
+    }
+    
+    private void createNewLogForCheck(String message){
+        this.checkLogFileIsCreated();
+        //this.checkNewDay();
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(logFile, true);
+            
+            BufferedWriter buf = new BufferedWriter(writer);
+            
+            writer.append("\n" + new Date().toString() + " >>> " + message);
             
             buf.close();
         } catch (IOException ex) {
@@ -82,7 +110,7 @@ public class FileLogger {
     }
     
     private void checkNewDay() {
-
+        System.out.println("LALALALALL");
         BufferedReader br = null;
 
         String currentLine = null;
@@ -95,13 +123,18 @@ public class FileLogger {
                 lastLine = currentLine;
             }
             
-            String stringDate = lastLine.substring(0, lastLine.lastIndexOf(" >>> ") - 5);
+            String stringDate = lastLine.substring(0, lastLine.lastIndexOf(" >>> "));
             
-            Date lastDate = new Date(stringDate);
+            System.out.println(stringDate);
+            
+            DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+            Date lastDate = df.parse(stringDate);
             Date currentDate = new Date();
             
+            
             if(currentDate.getDay() > lastDate.getDay()){
-                this.createNewLog("New Date\n");
+                System.out.println("MAM NOVY RIADOK!!! " + currentDate + " " + lastDate);
+                this.createNewLogForCheck("New Date\n");
             }
             
             

@@ -27,6 +27,7 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
 
         <script>
+            
             function checkFileExtension(ele){
                 var filename = $(ele).val();
                 var extension = filename.split('.').pop();
@@ -44,7 +45,7 @@
                         
             }
         </script>
-        
+        <%  %>
         
     </head>
 

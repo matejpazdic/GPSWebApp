@@ -45,7 +45,7 @@
         
         <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
         
-        <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria1.classic.css">
+        <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
@@ -57,7 +57,7 @@
         
         <script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
 
-        <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.edit.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     
 
@@ -382,6 +382,8 @@
             function next() {
                
                 clearTimeout(photoTimeout);
+                
+                document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
                     
                 marker.setMap(null);
                                                 
