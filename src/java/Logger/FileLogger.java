@@ -86,7 +86,7 @@ public class FileLogger {
     
     private void createNewLogForCheck(String message){
         this.checkLogFileIsCreated();
-        //this.checkNewDay();
+   
         FileWriter writer = null;
         try {
             writer = new FileWriter(logFile, true);
@@ -110,7 +110,7 @@ public class FileLogger {
     }
     
     private void checkNewDay() {
-        System.out.println("LALALALALL");
+    
         BufferedReader br = null;
 
         String currentLine = null;

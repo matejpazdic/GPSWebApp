@@ -63,15 +63,7 @@
 
         <style>
             
-            .vjs-default-skin { color: #ffffff; }
-            .vjs-default-skin .vjs-play-progress,
-            .vjs-default-skin .vjs-volume-level { background-color: #1ac700 }
-            .vjs-default-skin .vjs-control-bar,
-            .vjs-default-skin .vjs-big-play-button { background: rgba(0,0,0,0.7) }
-            .vjs-default-skin .vjs-slider { background: rgba(0,0,0,0.2333333333333333) }
-            
-           // .galleria{ height: 600px; width: auto; }
-            
+                       
             #map_canvas {
                 
                 display: block;
@@ -210,6 +202,42 @@
                 
             %>
 
+                var tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+               var player;
+                            function onYouTubeIframeAPIReady() {
+                                player = new YT.Player('ytplayer', {
+                                  playerVars: {
+                                    autohide: "1",
+                                    modestbranding: "1",
+                                    rel: "0",
+                                    showinfo: "0",
+                                    iv_load_policy: "3",
+                                    theme: "light"
+                                  },
+                                  height: '275',
+                                  width: '100%',
+                           
+                                  events: {
+                                    'onReady': onPlayerReady,
+                                    'onStateChange': onPlayerStateChange
+                                  }
+                                });
+                              }
+                            
+                            function onPlayerReady(event) {
+                                event.target.playVideo();
+                            }
+                            
+                            function onPlayerStateChange(event) {
+                                    if (event.data == YT.PlayerState.ENDED) {
+                                      next();
+                                    }
+                            }
+
             function initialize() {
             
             isAlreadyMark = false;
@@ -297,8 +325,8 @@
                                         
                                         if (filesPath[index].toString().indexOf("YTB") === 0) {
                                             
-                                            document.getElementById('ytplayer').innerHTML = "<iframe id=\"ytplayer\" type=\"text/html\" width=\"100%\" height=\"275\"" +
-                                                     "src=\"https://www.youtube.com/embed/" + filesPath[index].toString().substr(4) + "?autoplay=1&enablejsapi=1&modestbranding=1&rel=0&showinfo=0&autohide=1&iv_load_policy=3&theme=light\"frameborder=\"0\" allowfullscreen></iframe>"
+//                                            document.getElementById('ytplayer').innerHTML = "<iframe id=\"ytplayer\" type=\"text/html\" width=\"100%\" height=\"275\"" +
+//                                                     "src=\"https://www.youtube.com/embed/" + filesPath[index].toString().substr(4) + "?autoplay=1&enablejsapi=1&modestbranding=1&rel=0&showinfo=0&autohide=1&iv_load_policy=3&theme=light\"frameborder=\"0\" allowfullscreen></iframe>"
                                             
 
                                             marker = new google.maps.Marker({
@@ -310,6 +338,12 @@
                                 
                                               marker.setMap(map);
                                             
+                                            document.getElementById('ytplayer').style.display="inline";
+                                            document.getElementById('img').style.display="none";
+                                            
+                                            
+                                            player.loadVideoById(filesPath[index].toString().substr(4), 0, "default");
+                                           
       
                                             
                                         } else {
@@ -384,6 +418,13 @@
                 clearTimeout(photoTimeout);
                 
                 document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
+                document.getElementById('ytplayer').style.display="none";
+                document.getElementById('img').style.display="inline";
+                
+                if(player) {
+                    player.stopVideo();
+                }
+                
                     
                 marker.setMap(null);
                                                 
@@ -408,7 +449,13 @@
             index = 0;
             isPolylineAlreadyCreated = false;
             document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
-            document.getElementById('ytplayer').innerHTML = "<img name=\"img\" src=\"HTMLStyle/VP.PNG\" alt=\"...\" class=\"img-thumbnail\">";
+            document.getElementById('ytplayer').style.display="none";
+            document.getElementById('img').style.display="inline";
+            
+            if(player) {
+                    player.stopVideo();
+                }
+            
             
             initialize();             
             }
@@ -566,12 +613,14 @@
 <!--                                                <img name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">-->
                                                 </div>
                                             
-                                            <div id="ytplayer">
-                                                <img name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">
+                                            <div id="ytplayer" style="display:none">
+<!--                                                <img name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">-->
                                                 
 <!--                                            <iframe id="ytplayer" type="text/html" width=100% height="275" 
                                                     src="https://www.youtube.com/embed/M7lc1UVf-VE" frameborder="0" allowfullscreen></iframe>-->
                                             </div>
+                                            <img id="img" name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">
+                                            
                                             
 					</div></div>
                                         
