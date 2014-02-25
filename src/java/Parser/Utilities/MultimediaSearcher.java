@@ -315,7 +315,7 @@ public class MultimediaSearcher {
                         double deltaLat2 = Math.abs(Double.parseDouble(files.get(i).getLatitude()) - track.get(j).getLatitude());
                         double deltaLon2 = Math.abs(Double.parseDouble(files.get(i).getLongitude()) - track.get(j).getLongitude());
 
-                        if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
+                        if ((deltaLat1 <= 0.005 && deltaLon1 <= 0.005) || (deltaLat2 <= 0.005 && deltaLon2 <= 0.005)) {
                             goodFiles.add(files.get(i));
                             break;
                         }
@@ -328,7 +328,7 @@ public class MultimediaSearcher {
                 }
             }
         }
-        
+        System.out.println("kolko je multimedii" + goodFiles.size());
         return goodFiles;
     }
 

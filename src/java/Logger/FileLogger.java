@@ -125,7 +125,7 @@ public class FileLogger {
             
             String stringDate = lastLine.substring(0, lastLine.lastIndexOf(" >>> "));
             
-            System.out.println(stringDate);
+            //System.out.println(stringDate);
             
             DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
             Date lastDate = df.parse(stringDate);
