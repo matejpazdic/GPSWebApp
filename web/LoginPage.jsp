@@ -4,6 +4,7 @@
     Author     : matej_000
 --%>
 
+<%@page import="Database.DBLoginFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
@@ -12,8 +13,15 @@
     session.removeAttribute("trackActivity");
 %>
 <%
+            DBLoginFinder finder = new DBLoginFinder();
             if(session.getAttribute("username") != null){
-                response.sendRedirect("Logged/HomePage.jsp");
+                if(finder.isExistingLoginNonLog(session.getAttribute("username").toString())){
+                    if(finder.isUserStatus(session.getAttribute("username").toString())){
+                        response.sendRedirect("Logged/HomePage.jsp");
+                    }else{
+                        response.sendRedirect("Logged/ShowTracks.jsp");
+                    }
+                }
             }
             %>
 

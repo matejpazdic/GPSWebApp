@@ -19,9 +19,16 @@
         boolean isGood = finder.isCorrectLogin(request.getParameter("Login"), request.getParameter("Pass"));
         
         if(isGood){
+            DBLoginFinder finder1 = new DBLoginFinder();
+            boolean isUserStatus = finder1.isUserStatus(request.getParameter("Login"));
             session.setAttribute("username", request.getParameter("Login"));
             session.setAttribute("isCorrectLogin", "True");
-            response.sendRedirect("Logged/HomePage.jsp");
+            if(isUserStatus){
+                response.sendRedirect("Logged/HomePage.jsp");
+            }
+            else{
+                response.sendRedirect("Logged/ShowTracks.jsp");
+            }
         } else{
             session.setAttribute("isCorrectLogin", "False");
             response.sendRedirect("LoginPage.jsp");
