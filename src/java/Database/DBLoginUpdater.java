@@ -84,4 +84,25 @@ public class DBLoginUpdater {
         }
     }
     
+    public boolean acceptUser(String email, String token){
+        try {
+            DBLoginFinder finder = new DBLoginFinder();
+            String userToken = finder.getUserToken(email);
+            boolean isUserAccepted = finder.isUserAccepted(email);
+            
+            if(isUserAccepted != true && userToken.equals(token)){
+                Statement statement = connect.createStatement();
+                statement.executeUpdate("UPDATE USERS set USER_ACCEPTED ='" + 1 + "' WHERE USER_EMAIL='" + email + "'");
+                FileLogger.getInstance().createNewLog("Successfuly ACCEPTED user " + email + ".");
+                return true;
+            } else{
+                FileLogger.getInstance().createNewLog("ERROR: Cannot ACCEPT user " + email + " with userToken " + token + ".");
+                return false;
+            }
+        } catch (Exception ex) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot ACCEPT user " + email + " with userToken " + token + ".");
+            return false;
+        }
+    }
+    
 }

@@ -78,7 +78,7 @@
                                             <a href="#">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>

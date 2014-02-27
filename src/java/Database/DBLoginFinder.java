@@ -173,4 +173,50 @@ public class DBLoginFinder {
         }
     }
     
+    public String getUserToken(String username){
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection connect1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/GPSWebApp", "root", "Www4dm1n#");
+            PreparedStatement statement1 = connect1.prepareStatement("SELECT * from USERS where USER_EMAIL='" + username + "'");
+            ResultSet resultSet1 = statement1.executeQuery();
+            resultSet1.next();
+            
+            String token = resultSet1.getString("USER_TOKEN");
+            
+            connect1.close();
+            statement1.close();
+            resultSet1.close();
+            
+            return token;
+        } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot load user TOKEN from DB in getUserToken!!!");
+            return null;
+        }
+    }
+    
+    public boolean isUserAccepted(String username){
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection connect1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/GPSWebApp", "root", "Www4dm1n#");
+            PreparedStatement statement1 = connect1.prepareStatement("SELECT * from USERS where USER_EMAIL='" + username + "'");
+            ResultSet resultSet1 = statement1.executeQuery();
+            resultSet1.next();
+            
+            int isAccepted = Integer.parseInt(resultSet1.getString("USER_ACCEPTED"));
+            
+            connect1.close();
+            statement1.close();
+            resultSet1.close();
+            
+            if(isAccepted == 0){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot load user TOKEN from DB in getUserToken!!!");
+            return false;
+        }
+    }
+    
 } 

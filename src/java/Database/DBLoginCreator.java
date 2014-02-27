@@ -47,11 +47,11 @@ public class DBLoginCreator {
 
     }
     
-    public void createNewLogin(String email, String password){
+    public void createNewLogin(String email, String password, String userToken){
         try {
             statement =  connect.createStatement();
             //statement.executeQuery();
-            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_PASS) VALUES ('"+ email +"' ,'" + password + "')");
+            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_PASS, USER_TOKEN) VALUES ('"+ email +"' ,'" + password + "' ,'" + userToken + "')");
             
             FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
             
@@ -63,14 +63,14 @@ public class DBLoginCreator {
         }
     }
     
-    public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password){
+    public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password, String userToken){
         try {
             if(age.isEmpty()){
                 age = "-1";
             }
             statement =  connect.createStatement();
             //statement.executeQuery();
-            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "')");
+            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS, USER_TOKEN) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "' ,'" + userToken + "')");
             
             FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
             
