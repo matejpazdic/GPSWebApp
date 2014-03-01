@@ -4,6 +4,7 @@
     Author     : matej_000
 --%>
 
+<%@page import="Security.EmailSender"%>
 <%@page import="Database.DBLoginCreator"%>
 <%@page import="javax.naming.spi.DirStateFactory.Result"%>
 <%@page import="Database.DBLoginFinder"%>
@@ -29,14 +30,18 @@
             String lastName = request.getParameter("LastName");
             String age = request.getParameter("Age");
             String activity = request.getParameter("Activity");
+            
+            EmailSender sender = new EmailSender("smtp.gmail.com", "skuska.api.3", "skuskaapi3");
+            String token = sender.getNewUserToken();
                 
                 if(!pass.equals("")){
                 if (pass.equals(reenteredPass)) {
                     DBLoginFinder finder = new DBLoginFinder();
                     if (finder.isExistingLogin(email) == false) {
                         DBLoginCreator creator = new DBLoginCreator();
-                        creator.createNewLogin(email, firstName, lastName, age, activity, pass);
+                        creator.createNewLogin(email, firstName, lastName, age, activity, pass, token);
                         session.setAttribute("correctRegistration", "True");
+                        sender.sendUserAuthEmail(email, token);
                         response.sendRedirect("LoginPage.jsp");
                     } else {
                         session.setAttribute("incorrectValues", "email");

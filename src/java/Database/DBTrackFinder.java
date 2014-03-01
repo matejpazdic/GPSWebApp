@@ -119,6 +119,20 @@ public class DBTrackFinder {
         return trackFiles;
   }
   
+  public Integer getTrackUserID(int trackID){
+      Integer id = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            id = Integer.parseInt(resultSet.getString("TRACK_USER_ID"));
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackUserID.");
+        }
+        return id;
+  }
+  
   public String getTrackFilePath(int trackID){
       String str = null;
         try {
