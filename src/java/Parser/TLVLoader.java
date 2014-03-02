@@ -195,7 +195,7 @@ public class TLVLoader {
                                     double deltaLat2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j).getLatitude());
                                     double deltaLon2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j).getLongitude());
                                     
-                                    if ((deltaLat1 <= 0.006 && deltaLon1 <= 0.006) || (deltaLat2 <= 0.006 && deltaLon2 <= 0.006)) {
+                                    if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
                                         //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
                                          multimediaFiles.get(i).setTrackPointIndex(j - 1);
                                          isFiles[j - 1] = true;

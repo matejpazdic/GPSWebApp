@@ -106,8 +106,12 @@
                     var isAlreadyMark = false;
                     var mark;
                     
-                    var isGallery = false;
                     var photoTimeout;
+                    var presentTimeout;
+                    
+                    var isVideoShowed = false;
+                    var isPlayerReady = false;
+                    var isVideoPaused = false;
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
@@ -207,7 +211,7 @@
                 var firstScriptTag = document.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             
-               var player;
+                var player;
                             function onYouTubeIframeAPIReady() {
                                 player = new YT.Player('ytplayer', {
                                   playerVars: {
@@ -230,11 +234,14 @@
                             
                             function onPlayerReady(event) {
                                 event.target.playVideo();
+                                isPlayerReady = true;
+                                document.getElementById("play").disabled = false;
+                                //alert("som ready");
                             }
                             
                             function onPlayerStateChange(event) {
                                     if (event.data == YT.PlayerState.ENDED) {
-                                      next();
+                                      next();                                     
                                     }
                             }
 
@@ -269,13 +276,23 @@
 
             function draw() {
                 
+                    document.getElementById("play").disabled = true;
+                    document.getElementById("pause").disabled = false;
+                    document.getElementById("stop").disabled = false;
+                    
                     isPresented = true;
-                    graphDataFinal = google.visualization.arrayToDataTable(gData);
+                    //graphDataFinal = google.visualization.arrayToDataTable(gData);    ZAKOMENTOVANE POZOR
+                    
+                      if (marker) {    
+                        marker.setMap(null);
+                      }
+                    
+                    clearTimeout(presentTimeout); //  SKUSKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
 
                     if(isPolylineAlreadyCreated == false){
                         
                         if (isAlreadyMark == true) {
-                        mark.setMap(null); }    
+                        mark.setMap(null); }
                         
                     polylineOK.setPath([]);
                     polylineOK.setMap(null);
@@ -296,6 +313,8 @@
                     isPolylineAlreadyCreated = true;
                     function drawingMap() {
               
+                            clearTimeout(presentTimeout); //  SKUSKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+              
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
@@ -309,7 +328,7 @@
                                 isEnd = true;
                                 presentMultimedia();
                             }     
-                            setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, 40);
+                            presentTimeout = setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, 40);
                     };
                     drawingMap();
             }
@@ -321,13 +340,10 @@
             function presentMultimedia(){
                             
                                     if(a == filesPoints[index]){
-                                        var width, height;
+                                                             
+                                        document.getElementById("next").disabled = false;   
                                         
                                         if (filesPath[index].toString().indexOf("YTB") === 0) {
-                                            
-//                                            document.getElementById('ytplayer').innerHTML = "<iframe id=\"ytplayer\" type=\"text/html\" width=\"100%\" height=\"275\"" +
-//                                                     "src=\"https://www.youtube.com/embed/" + filesPath[index].toString().substr(4) + "?autoplay=1&enablejsapi=1&modestbranding=1&rel=0&showinfo=0&autohide=1&iv_load_policy=3&theme=light\"frameborder=\"0\" allowfullscreen></iframe>"
-                                            
 
                                             marker = new google.maps.Marker({
                                                 position: polylineCoordinatesList[a],
@@ -341,27 +357,19 @@
                                             document.getElementById('ytplayer').style.display="inline";
                                             document.getElementById('img').style.display="none";
                                             
+                                            if (isPlayerReady && !isVideoPaused) {
+                                                player.loadVideoById(filesPath[index].toString().substr(4), 0, "default");
+                                                isVideoShowed = true;
+                                            }
                                             
-                                            player.loadVideoById(filesPath[index].toString().substr(4), 0, "default");
-                                           
-      
+                                            else if (isPlayerReady && isVideoPaused){
+                                          
+                                                player.playVideo();
+                                                isVideoPaused = false;
+                                            }
                                             
                                         } else {
-                                        
-//                                        var i = new Image(); 
-//                                        i.src = filesPath[index] ; 
-                            
-//                                        i.onload = function(){
-//                                            width = i.width;
-//                                            height = i.height;
-//                                            newWidth = Math.round(width * (270 / height));
-//                                            
-//                                            var $infoWindowContent = $('<div style="' + newWidth + 'px; height: 270px">' +
-//                                            '<img src='+ filesPath[index] +'  width= "' + newWidth + 'px" height="270px">' +
-//                                                '</div>');
-//                                        
-//                                            document.getElementsByName("img")[0].src = filesPath[index];
-                                
+                                         
                                              marker = new google.maps.Marker({
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
@@ -371,30 +379,10 @@
                                 
                                              marker.setMap(map);
                                              
-
-//                                            var infowindow = new google.maps.InfoWindow({
-//                                            maxWidth: 500
-//                                            });
-//                                
-//                                            infowindow.setContent($infoWindowContent[0]);
-//
-//                                            infowindow.open(map,marker);
-                                
-//                                            google.maps.event.addListener(infowindow,'closeclick', function() {
-//                                                marker.setMap(null);
-//                                                
-//                                                if(filesPoints.length != index){
-//                                                    index++;
-//                                                    presentMultimedia();
-//                                                } else{
-//                                                     //isEnd = false;
-//                                                     a++;
-//                                                     isEnd = false;                                               
-//                                                     draw();
-//                                                }
-//                                   
-//                                            }); };
-                                                        document.getElementsByName("img")[0].src = filesPath[index];   
+                                                        document.getElementsByName("img")[0].src = filesPath[index];
+                                                        document.getElementsByName("img")[0].style.height = 'auto';
+                                                        
+                                                  
                                                         photoTimeout = setTimeout(function() {next();return} , 5000);   // automaticky mod
                                                     }
                                         }
@@ -415,19 +403,26 @@
             
             function next() {
                
+                document.getElementById("next").disabled = true;
+                
                 clearTimeout(photoTimeout);
                 
                 document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
+              
                 document.getElementById('ytplayer').style.display="none";
                 document.getElementById('img').style.display="inline";
                 
-                if(player) {
+                if(isVideoShowed) {
                     player.stopVideo();
+                    isVideoShowed = false;
+                    isVideoPaused = false;
+                    //alert("som v isVideoShowed v nexte");
                 }
                 
-                    
+                if (marker) {    
                 marker.setMap(null);
-                                                
+                }
+            
                 if(filesPoints.length != index){
                     index++;
                     presentMultimedia();
@@ -441,6 +436,11 @@
             
             function clearmap() {
             
+            document.getElementById("play").disabled = false;
+            document.getElementById("pause").disabled = true;
+            document.getElementById("stop").disabled = true;
+            document.getElementById("next").disabled = true;
+            
             clearTimeout(photoTimeout); // automaticky mod
             
             isEnd = true;
@@ -448,12 +448,17 @@
             a = 0;
             index = 0;
             isPolylineAlreadyCreated = false;
+            
             document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
+            
             document.getElementById('ytplayer').style.display="none";
             document.getElementById('img').style.display="inline";
             
-            if(player) {
+            if(isVideoShowed) {
                     player.stopVideo();
+                    isVideoShowed = false;
+                    isVideoPaused = false;
+                    //alert("som v isVideoShowed v stope");
                 }
             
             
@@ -510,9 +515,20 @@
                     
                 }
        
-//                function wait(time) {
-//                    setTimeout(function() {} , time);
-//                }
+                function pause() {
+                    
+                    document.getElementById("play").disabled = false;
+                    document.getElementById("pause").disabled = true;
+                    
+                    clearTimeout(photoTimeout);
+                    clearTimeout(presentTimeout);
+                    
+                    if(isVideoShowed) {
+                        player.pauseVideo();
+                        isVideoPaused = true;
+                        //alert("pauseVideo");
+                    }
+                }
        
         </script>
         
@@ -561,19 +577,19 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -607,19 +623,16 @@
                                             <div id="map_canvas"></div>
                                         </div>
                                         
-                                        <div class="col-md-4">
-                                                <div class="text-center">
-                                                <img name="img" src="HTMLStyle\PV.PNG" alt="..." class="img-thumbnail">
-<!--                                                <img name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">-->
+                                        <div class="col-md-4" style="height:550px">
+                                                <div class="text-center" style="height:275px;">
+                                                <img name="img" src="HTMLStyle\PV.PNG" alt="..." class="fixed_width">
+     
                                                 </div>
                                             
-                                            <div id="ytplayer" style="display:none">
-<!--                                                <img name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">-->
-                                                
-<!--                                            <iframe id="ytplayer" type="text/html" width=100% height="275" 
-                                                    src="https://www.youtube.com/embed/M7lc1UVf-VE" frameborder="0" allowfullscreen></iframe>-->
+                                            <div id="ytplayer" style="display:none" >
+                                
                                             </div>
-                                            <img id="img" name="img" src="HTMLStyle\VP.PNG" alt="..." class="img-thumbnail">
+                                            <img id="img" name="img" src="HTMLStyle\VP.PNG" alt="..." class="fixed_width" style="height:100%">
                                             
                                             
 					</div></div>
@@ -628,9 +641,10 @@
                                         <div id="chart_div" style="width: 100%; height: 200px;"></div>                                                                             
                                             <p style="line-height: 20px; text-align: center;">
                                                 <!--<div class="btn-group">-->
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="draw();"> <span class="glyphicon glyphicon-play"></span></button>  
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="next();"> <span class="glyphicon glyphicon-step-forward"></span></button>
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="clearmap();"> <span class="glyphicon glyphicon-stop"></span></button>
+                                                    <button id="play" type="button" class="btn btn-sm btn-danger" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
+                                                    <button id="pause" type="button" class="btn btn-sm btn-danger" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
+                                                    <button id="next" type="button" class="btn btn-sm btn-danger" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
+                                                    <button id="stop" type="button" class="btn btn-sm btn-danger" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
                                                 <!--</div>-->
                                             </p>
                                             
@@ -650,32 +664,45 @@
                             
                                         %>    
                                             
-                                        <label for="TrackDesc">Track description</label>
-                                        <h5> <% out.println(loader.getTrackDescription()); %> </h5>
+                                        <label for="TrackDesc" style="font-size:13px; margin-bottom: 0px">Track description</label>
+                                        <h6> <% out.println(loader.getTrackDescription()); %> </h6>
 
-                                        <label for="TrackActivity">Track activity</label>
-                                        <h5> <% out.println(loader.getTrackType());%> </h5>
+                                        <label for="TrackActivity" style="font-size:13px; margin-bottom: 0px">Track activity</label>
+                                        <h6> <% out.println(loader.getTrackType());%> </h6>
                                         
-                                        <label for="StartPlace">Start place</label>
-                                        <h5> <% out.println(loader.getStartAddress());%> </h5>
+<!--                                        <label for="Privacy" style="font-size:13px; margin-bottom: 0px">Privacy</label>
+                                        <h6> <% out.println(trackFinder.getAccess(trkID));%> </h6>
                                         
-                                        <label for="EndPlace">End place</label>
-                                        <h5> <% out.println(loader.getEndAddress());%> </h5>
+                                        <label for="Uploaded" style="font-size:13px; margin-bottom: 0px">Uploaded</label>
+                                        <h6> <% out.println(trackFinder.getUploadedDate(trkID));%> </h6>-->
                                         
-                                        <label for="StartDate">Start</label>
-                                        <h5> <% out.println(trackFinder.getTrackStartDate(trkID));%> </h5>
+                                        <label for="StartPlace" style="font-size:13px; margin-bottom: 0px">Start place</label>
+                                        <h6> <% out.println(loader.getStartAddress());%> </h6>
                                         
-                                        <label for="EndDate">End</label>
-                                        <h5> <% out.println(trackFinder.getTrackEndDate(trkID));%> </h5>
+                                        <label for="EndPlace" style="font-size:13px; margin-bottom: 0px">End place</label>
+                                        <h6> <% out.println(loader.getEndAddress());%> </h6>
                                         
-                                        <label for="Privacy">Privacy</label>
-                                        <h5> <% out.println(trackFinder.getAccess(trkID));%> </h5>
+                                        <label for="Track Length" style="font-size:13px; margin-bottom: 0px">Track Length</label>
+                                        <h6> <% out.println(trackFinder.getTrackLengthKm(trkID));%> km</h6>
                                         
-                                        <label for="Uploaded">Uploaded</label>
-                                        <h5> <% out.println(trackFinder.getUploadedDate(trkID));%> </h5>
+                                        <label for="MinElevation" style="font-size:13px; margin-bottom: 0px">Min Elevation</label>
+                                        <h6> <% out.println(trackFinder.getMinElevation(trkID));%> m </h6>
                                         
-                                        <label for="Modified">Modified</label>
-                                        <h5> <% out.println(modifiedDate);%> </h5>
+                                        <label for="MaxElevation" style="font-size:13px; margin-bottom: 0px">Max Elevation</label>
+                                        <h6> <% out.println(trackFinder.getMaxElevation(trkID));%> m</h6>
+
+                                        <label for="HeightDiff" style="font-size:13px; margin-bottom: 0px">Height Difference</label>
+                                        <h6> <% out.println(trackFinder.getHeightDifference(trkID));%> m</h6>
+                                        
+                                        <label for="StartDate" style="font-size:13px; margin-bottom: 0px">Start</label>
+                                        <h6> <% out.println(trackFinder.getTrackStartDate(trkID));%> </h6>
+                                        
+                                        <label for="EndDate" style="font-size:13px; margin-bottom: 0px">End</label>
+                                        <h6> <% out.println(trackFinder.getTrackEndDate(trkID));%> </h6>
+                                        
+                                        <label for="Duration" style="font-size:13px; margin-bottom: 0px">Duration</label>
+                                        <h6> <% out.println(trackFinder.getTrackDuration(trkID));%> </h6>
+   
                                         
                                         </div>
 

@@ -74,19 +74,19 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -191,8 +191,8 @@
                             out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
                                     + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
                                     trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + 
-                                    " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
-                                    + " <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-warning btn-sm pull-right\">Edit</a>"
+                                    " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
+                                    + " <a href=\"#\" class=\"btn btn-warning btn-sm pull-right\">Edit</a>"
                                     + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
 
                             

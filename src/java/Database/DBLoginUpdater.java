@@ -59,8 +59,13 @@ public class DBLoginUpdater {
             DBLoginFinder finder = new DBLoginFinder();
             boolean existing = finder.isExistingLoginNonLog(newEmail);
             DBLoginFinder finder1 = new DBLoginFinder();
-            ArrayList<String> info = finder1.getUserInformation(currentEmail);
             
+            System.out.println("terajsi email " + currentEmail + " novyemail " + newEmail + " meno " + firstName + " priezvisko " + lastName + " aktivita " + activity + " stareHeslo " + oldPassword + " noveHeslo " + newPassword + " rok " + age);
+            
+            ArrayList<String> info = finder1.getUserInformation(currentEmail);
+          
+            
+           
             if (oldPassword.equals(info.get(5))) {
                 if (!existing || currentEmail.equals(newEmail)) {
                     Statement statement = connect.createStatement();

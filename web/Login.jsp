@@ -18,6 +18,8 @@
         DBLoginFinder finder = new DBLoginFinder();
         boolean isGood = finder.isCorrectLogin(request.getParameter("Login"), request.getParameter("Pass"));
         
+        //session.removeAttribute("correctRegistration");
+        
         if (isGood) {
                 DBLoginFinder finder1 = new DBLoginFinder();
                     boolean isUserStatus = finder1.isUserStatus(request.getParameter("Login"));
@@ -26,12 +28,15 @@
                         session.setAttribute("username", request.getParameter("Login"));
                         session.setAttribute("isCorrectLogin", "True");
                         if (isUserStatus) {
+                            session.setAttribute("Admin", "False");
                             response.sendRedirect("Logged/HomePage.jsp");
                         } else {
-                            response.sendRedirect("Logged/ShowTracks.jsp");
+                            session.setAttribute("Admin", "True");
+                            response.sendRedirect("Logged/HomePage.jsp");
                         }
                     } else {
-                        session.setAttribute("isCorrectLogin", "False");
+                        session.setAttribute("isCorrectLogin", "True");
+                        session.setAttribute("notAcceptedUser", "True");
                         response.sendRedirect("LoginPage.jsp");
                     }
 

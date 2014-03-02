@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="Database.DBLoginFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
@@ -5,13 +7,28 @@
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
+    
+     DBLoginFinder finder = new DBLoginFinder();
+     ArrayList<String> information = finder.getUserInformation(session.getAttribute("username").toString());
+
+     String usrage, usractivity;
+     
+     if (information.get(2).toString().equalsIgnoreCase("-1")) {
+         usrage = "";
+     } else {usrage = information.get(2).toString();}
+     
+ 
+     
+     if (information.get(3).toString().equalsIgnoreCase("null")) {
+         usractivity = "";
+     } else {usractivity = information.get(3).toString();}
   
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Upload tracklog file</title>
+        <title>Account info</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -25,28 +42,7 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
-
-        <script>
-            
-            function checkFileExtension(ele){
-                var filename = $(ele).val();
-                var extension = filename.split('.').pop();
-
-                console.log(extension);
-
-                if(extension != 'gpx'){
-                    document.getElementById('inp').style.visibility='hidden';
-                    alert('Unsupported file!!! Please upload only .gpx files!');
-                }
-                
-                else {
-                    document.getElementById('inp').style.visibility='visible';
-                }
-                        
-            }
-        </script>
-        <%  %>
-        
+    
     </head>
 
     <body>
@@ -66,7 +62,7 @@
                                 <li>
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
-                                <li class="dropdown active">
+                                <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
@@ -90,7 +86,7 @@
                                 <li>
                                     <a href="About.jsp">About</a>
                                 </li>
-                                <li class="dropdown">
+                                <li class="dropdown active">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
@@ -116,32 +112,68 @@
                     <div class="tabbable" id="tabs-883724">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#panel-234896" data-toggle="tab">Track upload</a>
+                                <a href="#panel-234896" data-toggle="tab">Account data</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload tracklog file (Step 1)
+                                    View account
                                 </h3>
                                 <br>
 
                                 <div class="container">
-                                    <div class="row clearfix">
-                                        <div class="col-md-4 column"></div>
-                                        <div class="col-md-4 column">
-                                            <form action="UploadTrackFileOnly" method="post" enctype="multipart/form-data">
-                                                <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input onchange="checkFileExtension(this);" type="file" accept=".gpx, .GPX" name="file" required="required" id="exampleInputFile" />
-                                                    <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button id="inp" type="submit" class="btn btn-default btn-success ">Second step</button></p>
-                                            </form>
+                                    <div class="row">
+                                        <div>
+                                    
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label col-sm-pad">Email</label>
+                                          <div class="col-md-1 col-sm-pad">
+                                              <p class="form-control-static"><% out.print(information.get(4));%></p>
+                                          </div>
                                         </div>
-                                        <div class="col-md-4 column"></div>
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label col-sm-pad">First name</label>
+                                          <div class="col-md-1 col-sm-pad">
+                                            <p class="form-control-static"><% out.print(information.get(0));%></p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label">Last name</label>
+                                          <div>
+                                            <p class="col-md-1 form-control-static"><% out.print(information.get(1));%></p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label">Age</label>
+                                          <div>
+                                            <p class="col-md-1 form-control-static"><% out.print(usrage);%></p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label">Favourite activity</label>
+                                          <div>
+                                            <p class="col-md-1 form-control-static"><% out.print(usractivity);%></p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-md-6 control-label">Account type</label>
+                                          <div>
+                                            <p class="col-md-1 form-control-static"><% out.print(information.get(6));%></p>
+                                          </div>
+                                        </div>
+                                        </form>
+                                                <br>
+                                             <p style="line-height: 20px; text-align: center;"> <a class="btn btn-default btn-success" href="EditAccount.jsp">Edit account</a> </p>
+                                        </div>
+                                          
+                                        
                                     </div>
+                                </div>
+                                    
+                                    
                                 </div>
                             </div>
                            
@@ -150,8 +182,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+         
     </body>
 </html>
 

@@ -60,16 +60,16 @@ and open the template in the editor.
        
            <form action="Register.jsp" name="form" class="form-signin" method="POST">
         <h2 class="form-signin-heading">Registration form</h2>
-        <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required">
+        <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required" value="">
         <br>
-        <input type="text" name="FirstName" class="form-control" placeholder="Your firstname">
+        <input type="text" name="FirstName" class="form-control" placeholder="Your firstname" value="">
         <br>
-        <input type="text" name="LastName" class="form-control" placeholder="Your lastname">
+        <input type="text" name="LastName" class="form-control" placeholder="Your lastname" value="">
         <br>
-        <input type="text" name="Age" class="form-control" placeholder="Age">
+        <input type="number" name="Age" class="form-control" placeholder="Age" value="" min="1">
         <br>
         <select name="Activity" class="form-control">
-            <option value="">Select your Activity</option>
+            <option value=" " disabled selected>Select your Activity</option>
             <option value="Hiking">Hiking</option>
             <option value="Cycling">Cycling</option>
             <option value="Paragliding">Paragliding</option>
@@ -80,9 +80,9 @@ and open the template in the editor.
             <option value="Flying">Flying</option>
         </select>
         <br>
-        <input type="password" name="Pass" class="form-control" placeholder="Your password" required = "required">
+        <input type="password" name="Pass" class="form-control" placeholder="Your password" required = "required" value="">
         <br>
-        <input type="password" name="RetypePass" class="form-control" placeholder="Retype your password" required = "required">
+        <input type="password" name="RetypePass" class="form-control" placeholder="Retype your password" required = "required" value="">
         <br><br>
         <script language='javascript' type='text/javascript'>
             function check() {

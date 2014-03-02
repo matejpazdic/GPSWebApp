@@ -11,15 +11,20 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
+    session.removeAttribute("Admin");
+    
 %>
 <%
             DBLoginFinder finder = new DBLoginFinder();
             if(session.getAttribute("username") != null){
                 if(finder.isExistingLoginNonLog(session.getAttribute("username").toString())){
                     if(finder.isUserStatus(session.getAttribute("username").toString())){
+                        session.setAttribute("Admin", "False");
                         response.sendRedirect("Logged/HomePage.jsp");
                     }else{
-                        response.sendRedirect("Logged/ShowTracks.jsp");
+                        session.setAttribute("Admin", "True");
+                        response.sendRedirect("Logged/HomePage.jsp");
                     }
                 }
             }
@@ -85,14 +90,36 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 					<h3 class="modal-title" id="myModalLabel">
-                                            Congrats! Your registration is succesfull!
+                                            Congrats! We send you a activation email with Activation link! 
 					</h3>
 			</div>
 			<div class="modal-body">
-				You can continue with Signin in...
+				After use our link you can sign in! 
 			</div>
 			<div class="modal-footer">
 			<button type="button" class="btn btn-primary" data-dismiss="modal">Sign in</button>
+				</div>
+			</div>
+					
+		</div></div></div>
+           
+           <div id="top3"> 
+                 <a id="modal-49448" href="#modal-container-49449" data-toggle="modal"></a>
+			
+                <div class="modal fade" id="modal-container-49449" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h3 class="modal-title" id="myModalLabel">
+                                            Your account isn't activated! 
+					</h3>
+			</div>
+			<div class="modal-body">
+				Check your email for message with activation link and use it! 
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">I understand!</button>
 				</div>
 			</div>
 					
@@ -119,11 +146,17 @@
                 
                 } else if (session.getAttribute("correctRegistration") != null && session.getAttribute("correctRegistration").toString().equals("True")) {
                     //out.print("<script>alert(\"Congrats you have been successfuly registered! You can now Sign in.\")</script>");
-                    
-                    out.print("<script>$(document).ready(function() {$('#top2').find('a').trigger('click');});</script>");
                     session.removeAttribute("correctRegistration");
+                    out.print("<script>$(document).ready(function() {$('#top2').find('a').trigger('click');});</script>");
                     
-                }
+                    
+                } else if (session.getAttribute("isCorrectLogin") != null && session.getAttribute("isCorrectLogin").equals("True") && session.getAttribute("notAcceptedUser") != null && session.getAttribute("notAcceptedUser").equals("True")) {
+                    //out.print("<script>alert(\"Congrats you have been successfuly registered! You can now Sign in.\")</script>");
+                    
+                    out.print("<script>$(document).ready(function() {$('#top3').find('a').trigger('click');});</script>");
+                    session.removeAttribute("isCorrectLogin");
+                    session.removeAttribute("notAcceptedUser");
+                    }
             %>
            
     </div>

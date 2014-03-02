@@ -62,6 +62,7 @@ public class DBLoginFinder {
   }
   
   public boolean isCorrectLogin(String username, String userpass) throws Exception{
+     
       while (resultSet.next()) {
         String email = resultSet.getString("user_email");
         String pass = resultSet.getString("user_pass");

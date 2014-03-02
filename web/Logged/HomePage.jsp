@@ -66,16 +66,16 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
                                             <a href="DeleteUser.jsp">Delete account</a>
