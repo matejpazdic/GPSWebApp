@@ -60,7 +60,7 @@ public class EmailSender {
             if(system.startsWith("Windows")){
                 message.setContent("<h1>Hello, please confirm your email by clicking on link ...</h1><a href=http://localhost:8084/GPSWebApp/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a>","text/html");
             }else{
-                message.setContent("<h1>Hello, please confirm your email by clicking on link ...</h1><a href=http://gps.kpi.fei.tuke.sk/GPSWebApp/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a>","text/html");
+                message.setContent("<h1>Hello, please confirm your email by clicking on link ...</h1><a href=http://gps.kpi.fei.tuke.sk/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a>","text/html");
             }
 
             Transport.send(message);
