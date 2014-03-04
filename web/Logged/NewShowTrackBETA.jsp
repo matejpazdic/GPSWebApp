@@ -32,7 +32,7 @@
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
-        <title>Example track</title>
+        <title><%out.print("Track: " + file);%></title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -756,7 +756,7 @@
                                                     wait: '20 000'
                                                 });
                                                 Galleria.run('.galleria', {
-                                                    height: 600,
+                                                    height: 640,
                                                     width: 'auto'
                                                 });
                                             });

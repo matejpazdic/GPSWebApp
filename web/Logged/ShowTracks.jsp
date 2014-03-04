@@ -192,7 +192,7 @@
                                     + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
                                     trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + 
                                     " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
-                                    + " <a href=\"#\" class=\"btn btn-warning btn-sm pull-right\">Edit</a>"
+                                    + " <a href=SynchronizeTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-warning btn-sm pull-right\">Edit</a>"
                                     + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
 
                             
