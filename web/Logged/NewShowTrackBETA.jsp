@@ -42,6 +42,7 @@
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
+        <link href="HTMLStyle/SliderStyle/css/slider.css" rel="stylesheet">
         
         <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
         
@@ -58,6 +59,7 @@
         <script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
 
         <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/SliderStyle/js/bootstrap-slider.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     
 
@@ -112,6 +114,19 @@
                     var isVideoShowed = false;
                     var isPlayerReady = false;
                     var isVideoPaused = false;
+                    
+                    ///////////////////////////////////// OPTIONS
+                    
+                    var presentationSpeed = 40;
+                    var pictureShowingTime = 5000;
+                    var lastPictureStayShowed = false;
+                    
+                    var polyLineColor = '#3300FF';
+                    var polyLinePresentationColor = '#FF0000';
+                    
+                    
+                    
+                    /////////////////////////////////////
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
@@ -261,7 +276,7 @@
 
                     polylineOK = new google.maps.Polyline({
                     path: polylineCoordinatesList,
-                            strokeColor: '#3300FF',
+                            strokeColor: polyLineColor,
                             geodesic: true,
                             strokeOpacity: 1.0,
                             strokeWeight: 2,
@@ -302,7 +317,7 @@
                     
                     polylineOK = new google.maps.Polyline({
                          path: polylineCoordinatesListFinal,
-                         strokeColor: '#FF0000',
+                         strokeColor: polyLinePresentationColor,
                          geodesic: true,
                          strokeOpacity: 1.0,
                          strokeWeight: 2,
@@ -328,7 +343,7 @@
                                 isEnd = true;
                                 presentMultimedia();
                             }     
-                            presentTimeout = setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, 40);
+                            presentTimeout = setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, presentationSpeed);
                     };
                     drawingMap();
             }
@@ -383,7 +398,7 @@
                                                         document.getElementsByName("img")[0].style.height = 'auto';
                                                         
                                                   
-                                                        photoTimeout = setTimeout(function() {next();return} , 5000);   // automaticky mod
+                                                        photoTimeout = setTimeout(function() {next();return} , pictureShowingTime);   // automaticky mod
                                                     }
                                         }
                                         else {
@@ -529,6 +544,12 @@
                         //alert("pauseVideo");
                     }
                 }
+                
+                function saveOptions() {
+                     presentationSpeed = $('#ex1').data('slider').getValue();
+                     pictureShowingTime = $('#ex2').data('slider').getValue()*1000;
+                     //clearmap();
+                }
        
         </script>
         
@@ -610,6 +631,9 @@
 					</li>
 					<li>
 						<a href="#panel-536799" data-toggle="tab">Track information</a>
+					</li>
+                                        <li>
+						<a href="#panel-536719" data-toggle="tab">Track options</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -764,6 +788,90 @@
                                             
                                         </div>
 				</div>
+                                            
+                                        <div class="tab-pane" id="panel-536719">
+                                            
+                                        
+                                        <h3>Track options</h3>
+
+                                        <br>
+                                        
+                                       <div class="container">
+                                        <div class="row clearfix">
+                                        <div class="col-md-4 column"></div>
+                                        <div class="col-md-4 column">
+                                            
+                                        <label for="presentationSpeed">Presentation speed</label>
+                                        <br>
+                                                           
+                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="10" data-slider-max="150" data-slider-step="1" data-slider-value="40" style="width:360px;"/>
+                                  
+                                        <br>
+                                        <br>
+                                        
+                                        <label for="presentationSpeed">Picture showing time</label>
+                                        <br>
+                                          <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5" style="width:360px;"/>
+                                        <br>
+                                        <br>
+                                        
+                                        <script> $('#ex1').slider({
+                                                    formater: function(value) {
+                                                    return 'Current value: ' + value;
+                                                    }
+                                                 }); 
+                                                 
+                                                 $('#ex2').slider({
+                                                    formater: function(value) {
+                                                    return value + ' seconds';
+                                                    }
+                                                 }); 
+                                                 
+                                        </script>
+                                        
+                                        <div class="checkbox">
+                                            <input id ="lstPict" type="checkbox" value="">
+                                            <label>
+                                            
+                                              <b> Last picture stay showed</b>
+                                            </label>
+                                       </div>
+                                        <br>
+                                        <label for="polylineColorState">Polyline color</label>
+                                        
+                                        <select id="polColor" name="polColor" class="form-control" >
+                                                    <option value="1">Blue</option>
+                                                    <option value="Hiking">Red</option>
+                                                    <option value="Cycling">Orange</option>
+                                                    <option value="Paragliding">Clack</option>
+                                                    <option value="Road tripping">White</option>
+                                                    <option value="Skiing">Yellow</option>
+                                                    <option value="Canoeing">Green</option>
+                                                </select>
+                                        <br>
+                                        <br>
+                                        <label for="polylineColorState">Polyline color in presentation</label>
+                                        
+                                        <select id="polColorPres" name="polColorPres" class="form-control" >
+                                                    <option value="1">Blue</option>
+                                                    <option value="Hiking">Red</option>
+                                                    <option value="Cycling">Orange</option>
+                                                    <option value="Paragliding">Clack</option>
+                                                    <option value="Road tripping">White</option>
+                                                    <option value="Skiing">Yellow</option>
+                                                    <option value="Canoeing">Green</option>
+                                                </select>
+                                        <br>
+                                        <br>
+                                        
+                                        <p style="line-height: 20px; text-align: center;"> <button id="saveOptions" class="btn btn-default btn-success" onClick="saveOptions();">Save</button></p>
+                                            
+                                            
+                                        </div>
+                                         <div class="col-md-4 column"></div>
+                                        
+                                        </div>
+                                        </div>
 			</div>
                     </div>
                 </div>
