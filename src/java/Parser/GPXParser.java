@@ -85,7 +85,7 @@ public class GPXParser {
         deviceElevation.clear();
         serverElevation = null;
         time.clear();
-        track.clear();
+        getTrack().clear();
 
         try {
             DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
@@ -135,7 +135,7 @@ public class GPXParser {
                 tempTP.setLongitude(Double.parseDouble(longitude.get(i)));
                 tempTP.setDeviceElevation(Integer.parseInt(deviceElevation.get(i).substring(0, deviceElevation.get(i).indexOf("."))));
                 tempTP.setTime(time.get(i));
-                track.add(tempTP);
+                getTrack().add(tempTP);
             }
         }
     }
@@ -177,49 +177,49 @@ public class GPXParser {
                 rootElement3.appendChild(document.createTextNode(os));
                 rootElement.appendChild(rootElement3);
                 org.w3c.dom.Element rootElement2 = document.createElement("FILES");
-                if (files.isEmpty() == true) {
+                if (getFiles().isEmpty() == true) {
                    rootElement2.appendChild(document.createTextNode("null"));
                 }
                 rootElement.appendChild(rootElement2);
 
-                for (int i = 0; i < files.size(); i++) {
+                for (int i = 0; i < getFiles().size(); i++) {
                     
-                    if(files.get(i).getPath().toLowerCase().endsWith(".avi") || files.get(i).getPath().toLowerCase().endsWith(".mov") || files.get(i).getPath().toLowerCase().endsWith(".mp4") || files.get(i).getPath().toLowerCase().endsWith(".3gp")){
-                        //System.out.println("Mam Video: " + files.get(i).getPath());
-                        String videoID = youTubeAgent.uploadVideo(files.get(i), trackDBUser, trackDBName, String.valueOf(i));
-                        files.get(i).setPath("YTB " + videoID);
-                        //System.out.println("Mam Video: " + videoID);
-                    }
+//                    if(getFiles().get(i).getPath().toLowerCase().endsWith(".avi") || getFiles().get(i).getPath().toLowerCase().endsWith(".mov") || getFiles().get(i).getPath().toLowerCase().endsWith(".mp4") || getFiles().get(i).getPath().toLowerCase().endsWith(".3gp")){
+//                        //System.out.println("Mam Video: " + files.get(i).getPath());
+//                        String videoID = youTubeAgent.uploadVideo(getFiles().get(i), trackDBUser, trackDBName, String.valueOf(i));
+//                        getFiles().get(i).setPath("YTB " + videoID);
+//                        //System.out.println("Mam Video: " + videoID);
+//                    }
                     
                     org.w3c.dom.Element em = document.createElement("File_entity");
                     rootElement2.appendChild(em);
                     org.w3c.dom.Element em1 = document.createElement("path");
-                    em1.appendChild(document.createTextNode(files.get(i).getPath().toString()));
+                    em1.appendChild(document.createTextNode(getFiles().get(i).getPath().toString()));
                     em.appendChild(em1);
 
                     org.w3c.dom.Element em2 = document.createElement("creation_date");
-                    em2.appendChild(document.createTextNode(String.valueOf(files.get(i).getDate().getTime())));
+                    em2.appendChild(document.createTextNode(String.valueOf(getFiles().get(i).getDate().getTime())));
                     em.appendChild(em2);
 
                     org.w3c.dom.Element emr = document.createElement("gps_latitude");
-                    if (files.get(i).getLatitude() != null) {
-                        emr.appendChild(document.createTextNode(files.get(i).getLatitude()));
+                    if (getFiles().get(i).getLatitude() != null) {
+                        emr.appendChild(document.createTextNode(getFiles().get(i).getLatitude()));
                     } else {
                         emr.appendChild(document.createTextNode("null"));
                     }
                     em.appendChild(emr);
 
                     org.w3c.dom.Element emr1 = document.createElement("gps_longitude");
-                    if (files.get(i).getLongitude() != null) {
-                        emr1.appendChild(document.createTextNode(files.get(i).getLongitude()));
+                    if (getFiles().get(i).getLongitude() != null) {
+                        emr1.appendChild(document.createTextNode(getFiles().get(i).getLongitude()));
                     } else {
                         emr1.appendChild(document.createTextNode("null"));
                     }
                     em.appendChild(emr1);
 
                     org.w3c.dom.Element emr2 = document.createElement("gps_elevation");
-                    if (files.get(i).getElevation() != null) {
-                        emr2.appendChild(document.createTextNode(files.get(i).getElevation()));
+                    if (getFiles().get(i).getElevation() != null) {
+                        emr2.appendChild(document.createTextNode(getFiles().get(i).getElevation()));
                     } else {
                         emr2.appendChild(document.createTextNode("null"));
                     }
@@ -228,7 +228,7 @@ public class GPXParser {
                 }
                 
                 ElevationLoader eleLoader = new ElevationLoader();
-                serverElevation = eleLoader.reclaimElevation(track);
+                serverElevation = eleLoader.reclaimElevation(getTrack());
                 if(serverElevation.size() == deviceElevation.size()){
                     isLoadedElevationsFromServer = true;
                 }else{
@@ -248,7 +248,7 @@ public class GPXParser {
                 
                 //
                 LocationResolver resolver = new LocationResolver();
-                ArrayList<String> addresses =  resolver.getStartEndAddressFromTrack(track);
+                ArrayList<String> addresses =  resolver.getStartEndAddressFromTrack(getTrack());
                 //
                 
                 org.w3c.dom.Element element2_2 = document.createElement("Track_Start_Address");
@@ -270,7 +270,7 @@ public class GPXParser {
                 rootElement1.appendChild(element2_3);
                 
                 // Pridane 19.2.2014 Detaily o trase
-                TrackDetailResolver trackDetail = new TrackDetailResolver(track, trackType, serverElevation);
+                TrackDetailResolver trackDetail = new TrackDetailResolver(getTrack(), trackType, serverElevation);
                 trackSpeed = trackDetail.resolveTrackSpeed();
                 
                 org.w3c.dom.Element element2_4 = document.createElement("Track_Length_Km");
@@ -354,15 +354,16 @@ public class GPXParser {
 
             } catch (Exception ex) {
                 System.out.println("Error: Cannot create *.tlv file!!!");
+                ex.printStackTrace();
             }
         }
     }
     
     public void searchForMultimediaFiles(String searchFolder){
-        TimezoneLoader gmt = new TimezoneLoader(track);
+        TimezoneLoader gmt = new TimezoneLoader(getTrack());
         gmt.correctTimeZone();
-        MultimediaSearcher searcher = new MultimediaSearcher(destFolder.getPath(), searchFolder, track);
-        files = searcher.startSearch();
+        MultimediaSearcher searcher = new MultimediaSearcher(destFolder.getPath(), searchFolder, getTrack());
+        files = searcher.startSearchWithBadFiles();
     }
     
     public List getStartAndEndDate() {
@@ -419,5 +420,19 @@ public class GPXParser {
      */
     public String getTrackHeightDiff() {
         return trackHeightDiff;
+    }
+
+    /**
+     * @return the files
+     */
+    public ArrayList<FileImpl> getFiles() {
+        return files;
+    }
+
+    /**
+     * @return the track
+     */
+    public ArrayList<TrackPointImpl> getTrack() {
+        return track;
     }
 }

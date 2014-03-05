@@ -195,12 +195,12 @@ public class TLVLoader {
                                     double deltaLat2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j).getLatitude());
                                     double deltaLon2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j).getLongitude());
                                     
-                                    if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
+                                    //if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
                                         //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
                                          multimediaFiles.get(i).setTrackPointIndex(j - 1);
                                          isFiles[j - 1] = true;
                                          break;
-                                    }
+                                    //}
                                 }
                             } else {
                                 // nechat toto tu prosim // || (fileDate.equals(prevTrackPointDate)) || (fileDate.equals(nextTrackPointDate))
@@ -209,6 +209,10 @@ public class TLVLoader {
                                     multimediaFiles.get(i).setTrackPointIndex(j - 1);
                                     isFiles[j - 1] = true;
                                     break;
+                                }else{
+                                    multimediaFiles.get(i).setTrackPointIndex(track.size() - 1);
+                                    //isFiles[track.size() - 1] = true;
+                                    //break;
                                 }
                             }
                         }

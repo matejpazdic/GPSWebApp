@@ -122,8 +122,8 @@
                                         <div class="col-md-4 column">
                                             
                                             <br>
-                                            <form action="SubmitTrack" method="post" enctype="multipart/form-data">
-                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Finish</button></p>
+                                            <form action="SynchronizeTrack.jsp" method="post" enctype="multipart/form-data">
+                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Final step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>

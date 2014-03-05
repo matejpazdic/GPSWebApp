@@ -4,6 +4,9 @@
     Author     : Lubinko
 --%>
 
+<%@page import="File.Video.YouTubeAgent"%>
+<%@page import="Parser.Utilities.MultimediaFilesMerger"%>
+<%@page import="Parser.GPXParser"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -12,28 +15,46 @@
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="Parser.TLVLoader"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
-    
-%>
 <!DOCTYPE html>
 
 <%
-    TLVLoader loader = new TLVLoader();
+    String trackName = session.getAttribute("trackName").toString();
+    String userName = session.getAttribute("username").toString();
     String system = System.getProperty("os.name");
-    int trkID = Integer.parseInt(request.getParameter("trkID"));
-    DBTrackFinder trackFinder = new DBTrackFinder();
-    String path = trackFinder.getTrackFilePath(trkID);
-    String file = trackFinder.getTrackFileName(trkID);
-    
-    if (system.startsWith("Windows")) {
-        path = path.replaceAll("/", "\\\\"); // vymazat pri pouziti na serveri LINUX!!!
+    String trackFile = trackName + ".gpx";
+    String path = null;
+    String multimediaPath = null;
+    if(system.startsWith("Windows XP")){
+        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+        multimediaPath = path + "\\Multimedia\\";
+    } else if(system.startsWith("Windows")){
+        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + trackName + "\\";
+        multimediaPath = path + "\\Multimedia\\";
+    } else{
+        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+        multimediaPath = path + "/Multimedia/";
     }
-    loader.readTLVFile(path, file);
+    
+    System.out.println(trackName + " " + trackFile + " " + path + " " + multimediaPath);
+    GPXParser parser = new GPXParser(path, trackFile, " ", " ");
+    parser.readGpx();
+    parser.searchForMultimediaFiles(multimediaPath);
+    
+    YouTubeAgent youTubeAgent = new YouTubeAgent("skuska.api3@gmail.com", "skuskaapi3");
+    for(int i = 0; i < parser.getFiles().size(); i++){
+        if (parser.getFiles().get(i).getPath().toLowerCase().endsWith(".avi") || parser.getFiles().get(i).getPath().toLowerCase().endsWith(".mov") || parser.getFiles().get(i).getPath().toLowerCase().endsWith(".mp4") || parser.getFiles().get(i).getPath().toLowerCase().endsWith(".3gp")) {
+                //System.out.println("Mam Video: " + files.get(i).getPath());
+                String videoID = youTubeAgent.uploadVideo(parser.getFiles().get(i), userName, trackName, String.valueOf(i));
+                parser.getFiles().get(i).setPath("YTB " + videoID);
+                //System.out.println("Mam Video: " + videoID);
+            }
+    }
+        
+    
+    MultimediaFilesMerger merger = new MultimediaFilesMerger(parser);
+    merger.locateMultimediaFilesWithTrack();
+    
+    
 %>
 <html lang="en">
     <head>
@@ -110,39 +131,39 @@
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
-                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
-                    out.print("new google.maps.LatLng(" + loader.getTrackPoints().get(i).getLatitude() + ", " + loader.getTrackPoints().get(i).getLongitude() + ")");
-                    if (i != loader.getTrackPoints().size() - 1) {
+                for (int i = 0; i < merger.getTrackPoints().size(); i++) {
+                    out.print("new google.maps.LatLng(" + merger.getTrackPoints().get(i).getLatitude() + ", " + merger.getTrackPoints().get(i).getLongitude() + ")");
+                    if (i != merger.getTrackPoints().size() - 1) {
                         out.println(",");
                     }
                 }
                 out.print("\n];");
                 
                 out.print("var isFiles = [\n");
-                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
-                    out.print(loader.getIsFiles()[i]);
-                    if (i != loader.getTrackPoints().size() - 1) {
+                for (int i = 0; i < merger.getTrackPoints().size(); i++) {
+                    out.print(merger.getIsFiles()[i]);
+                    if (i != merger.getTrackPoints().size() - 1) {
                         out.println(",");
                     }
                 }
                 out.print("\n];");
                 
                 out.print("\nvar filesPath = [\n");
-                for (int i = 0; i < loader.getMultimediaFiles().size(); i++) {
+                for (int i = 0; i < merger.getMultimediaFiles().size(); i++) {
                     String temp = null;
                     
                     if(System.getProperty("os.name").startsWith("Windows")){
-                        File f = new File(loader.getMultimediaFiles().get(i).getPath());
+                        File f = new File(merger.getMultimediaFiles().get(i).getPath());
                         temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
                     }else{
-                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
-                        String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
+                        if (!merger.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                        String temp1 = merger.getMultimediaFiles().get(i).getPath().substring(38);
                         temp = temp1.replaceAll(" ", "%20");}
                     }
                     
                     String newPath = null;
                     
-                    if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                    if (!merger.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
                     
                         String extension = temp.substring(temp.lastIndexOf("."), temp.length());
                         newPath = temp.substring(0,temp.lastIndexOf(".")) + "_THUMB" + extension; 
@@ -154,7 +175,7 @@
                         newPath = newPath.replaceAll("%20"," ");
                         }
                         else {
-                        newPath = loader.getMultimediaFiles().get(i).getPath();
+                        newPath = merger.getMultimediaFiles().get(i).getPath();
                     }
                         
                     }
@@ -163,16 +184,16 @@
                     //String temp2 = temp1.replaceAll("/", "\\\\\\\\");
                     //System.out.print("NEW: " + temp1);
                     out.print("\"" + newPath + "\"");
-                    if (i != loader.getMultimediaFiles().size() - 1) {
+                    if (i != merger.getMultimediaFiles().size() - 1) {
                         out.println(",");
                    }
                 }
                 out.print("\n];");
                 
                 out.print("\nvar filesPoints = [\n");
-                for (int i = 0; i < loader.getMultimediaFiles().size(); i++) {
-                    out.print(loader.getMultimediaFiles().get(i).getTrackPointIndex());
-                    if (i != loader.getMultimediaFiles().size() - 1) {
+                for (int i = 0; i < merger.getMultimediaFiles().size(); i++) {
+                    out.print(merger.getMultimediaFiles().get(i).getTrackPointIndex());
+                    if (i != merger.getMultimediaFiles().size() - 1) {
                         out.println(",");
                     }
                 }
@@ -183,16 +204,16 @@
                 int miny = 10000; 
                 
                 out.print("\nvar gData = [\n ['', 'Device elevation', 'Elevation on the map'],\n");
-                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                for (int i = 0; i < merger.getTrackPoints().size(); i++) {
                    
-                    if (i==loader.getTrackPoints().size()-1){
+                    if (i==merger.getTrackPoints().size()-1){
                                 
                                 
-                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
+                                out.print("['"+ i +"', " + merger.getTrackPoints().get(i).getDeviceElevation() + ","+ merger.getTrackPoints().get(i).getInternetElevation() +"]];\n");
                                         }
                     else {
                        
-                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
+                                out.print("['"+ i +"', " + merger.getTrackPoints().get(i).getDeviceElevation() + ","+ merger.getTrackPoints().get(i).getInternetElevation() +"],\n");
                     
                          }   
                      
@@ -274,6 +295,21 @@
                         if (marker) {    
                             marker.setMap(null);
                           }
+                          
+                          if (filesPoints[index] === -1) {
+                               document.getElementById('place').style.display='inline';
+                               document.getElementById('mesg').style.display='inline';
+                               document.getElementById('unplace').style.display='none';
+                               
+                               indeX = index;
+                               
+                               
+                          } else {
+                              
+                       document.getElementById('unplace').style.display='inline';      
+                       document.getElementById('place').style.display='none';
+                       document.getElementById('mesg').style.display='none';       
+                              
                         
                         marker = new google.maps.Marker({
                                                     position: polylineCoordinatesList[filesPoints[index]],
@@ -295,7 +331,7 @@
 
                      google.maps.event.addDomListener(marker, 'drag', function(e) {
                         marker.setPosition(find_closest_point_on_path(e.latLng,polylineCoordinatesList));
-                        });
+                        }); }
                 }
                 
                  function find_closest_point_on_path(drop_pt,path_pts){
@@ -337,6 +373,57 @@
                 var newPoint = polylineCoordinatesList.indexOf(position);
                 
                    filesPoints[indeX] = newPoint;
+                }
+                
+                function submitTrack() {
+                    var string = "";
+                    for (i=0; i<filesPoints.length;i++) {
+                        string = string + filesPath[i] + ";" + filesPoints[i] + "," ;
+                    }
+                    document.getElementById("textBox").value=string;
+                    document.forms["index"].submit();
+                }
+                
+                function placeMarker() {
+                     document.getElementById('place').style.display='none';
+                     document.getElementById('mesg').style.display='none';
+                     document.getElementById('unplace').style.display='inline';
+                 
+                              
+                        
+                        marker = new google.maps.Marker({
+                                                    position: polylineCoordinatesList[0],
+                                                    map: map,
+                                                    draggable:true,
+    //                                              icon: iconF,
+                                                    title: 'Kalvarka :)'
+                                                 });
+
+                                                 marker.setMap(map);
+                                                 
+                     
+                                                 
+                     google.maps.event.addDomListener(marker, 'dragend', function(e) {
+                        marker.setPosition(find_closest_point_on_path(e.latLng,polylineCoordinatesList));
+                        newPos(find_closest_point_on_path(e.latLng,polylineCoordinatesList));
+                        });
+
+                     google.maps.event.addDomListener(marker, 'drag', function(e) {
+                        marker.setPosition(find_closest_point_on_path(e.latLng,polylineCoordinatesList));
+                        }); 
+                                                 
+                                                 newPos(polylineCoordinatesList[0]);
+                                                 
+                }
+                
+                function unPlace() {
+                     filesPoints[indeX] = -1;
+                      if (marker) {    
+                            marker.setMap(null);
+                          }
+                     document.getElementById('unplace').style.display='none';
+                     document.getElementById('place').style.display='inline';
+                     
                 }
                 
                 google.maps.event.addDomListener(window, 'load', initialize);
@@ -434,19 +521,19 @@
                                             <div class="galleria">
                                                 <%
                                                     String temp = null;
-                                                    for(int i = 0; i < loader.getMultimediaFiles().size(); i++){
+                                                    for(int i = 0; i < merger.getMultimediaFiles().size(); i++){
                                                     if(System.getProperty("os.name").startsWith("Windows")){
-                                                        File f = new File(loader.getMultimediaFiles().get(i).getPath());
+                                                        File f = new File(merger.getMultimediaFiles().get(i).getPath());
                                                         temp = f.toURI().toString().substring(f.toURI().toString().lastIndexOf("/Logged/") + 8);
                                                     }else{
-                                                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
-                                                        String temp1 = loader.getMultimediaFiles().get(i).getPath().substring(38);
+                                                        if (!merger.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                                                        String temp1 = merger.getMultimediaFiles().get(i).getPath().substring(38);
                                                         temp = temp1.replaceAll(" ", "%20");}
                                                     }
                                                     
                                                         String newPath = null;
                                                         
-                                                        if (!loader.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
+                                                        if (!merger.getMultimediaFiles().get(i).getPath().toString().contains("YTB")) {
                                                         
                                                             String extension = temp.substring(temp.lastIndexOf("."), temp.length());
                                                         
@@ -459,7 +546,7 @@
                                                             if (System.getProperty("os.name").startsWith("Windows")) {
                                                                 newPath = temp.substring(temp.length() -11); }
                                                             else {
-                                                                newPath = loader.getMultimediaFiles().get(i).getPath().substring(4);
+                                                                newPath = merger.getMultimediaFiles().get(i).getPath().substring(4);
                                                                 
                                                                 } 
                                                             out.println("<a href=\"http://www.youtube.com/watch?v=" + newPath + "\"><span class=\"video\">Watch this on Vimeo!</span></a>");
@@ -487,17 +574,26 @@
                                         
                                         <br>
                                         <p style="line-height: 20px; text-align: center;"> <button id="inp" class="btn btn-default btn-success" onClick="startSync();">Start Synchronizing</button></p>
-                                            
-                                            
+                                        <br>
+                                        <p style="line-height: 20px; text-align: center;"> <button id="unplace" class="btn btn-default btn-success" onClick="unPlace();" style="display:none">Unplace file</button></p>
+                                        <br>
+                                        <p style="line-height: 20px; text-align: center;"> <button id="place" class="btn btn-default btn-success" onClick="placeMarker();" style="display:none">Place on map</button></p>
+                                        <br>
+                                        <p id="mesg" class="help-block" style="display:none"> This multimedia file do not belong to added track!!!</p>    
                                         </div>
                                         <div class="col-md-8">
                                             
                                             <div id="map_canvas"></div>
                                         </div></div>
-                                      
                                     </div>
                          </div>
-                     </div>                                        
+                     </div> 
+                                            <form name="index" action="SubmitTrack" method="post">
+                                                <input type="hidden" id="textBox" name="textBox"><br>
+                                                
+                                               <!--<input type="Submit" />-->
+                                            </form>
+                                            <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
 		</div>
             </div>
 	</div>

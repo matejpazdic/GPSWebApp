@@ -164,7 +164,7 @@
                                                     </select>                                                    
                                                 </div>
                                                     <br>
-                                                    <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Final step</button></p>
+                                                    <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Third step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>
