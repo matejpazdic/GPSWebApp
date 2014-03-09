@@ -2,9 +2,9 @@
 <%
     session.removeAttribute("trackFilename");
     //session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
+    //session.removeAttribute("trackDescr");
+    //session.removeAttribute("trackActivity");
+    //session.removeAttribute("access");
 %>
 <!DOCTYPE html>
 <html lang="en">

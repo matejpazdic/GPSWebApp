@@ -371,8 +371,9 @@
                 function newPos (position){
                     
                 var newPoint = polylineCoordinatesList.indexOf(position);
-                
+                    
                    filesPoints[indeX] = newPoint;
+                   
                 }
                 
                 function submitTrack() {
@@ -563,7 +564,7 @@
                                                 Galleria.configure({
                                                     transition: 'fade',
                                                     imageCrop: true,
-                                                    wait: '20 000'
+                                                    wait: true
                                                 });
                                                 Galleria.run('.galleria', {
                                                     height: 320,
@@ -575,9 +576,9 @@
                                         <br>
                                         <p style="line-height: 20px; text-align: center;"> <button id="inp" class="btn btn-default btn-success" onClick="startSync();">Start Synchronizing</button></p>
                                         <br>
-                                        <p style="line-height: 20px; text-align: center;"> <button id="unplace" class="btn btn-default btn-success" onClick="unPlace();" style="display:none">Unplace file</button></p>
-                                        <br>
-                                        <p style="line-height: 20px; text-align: center;"> <button id="place" class="btn btn-default btn-success" onClick="placeMarker();" style="display:none">Place on map</button></p>
+                                        <p style="line-height: 20px; text-align: center;"> <button id="unplace" class="btn btn-default btn-warning" onClick="unPlace();" style="display:none">Unplace file</button>
+                                        
+                                       <button id="place" class="btn btn-default btn-success" onClick="placeMarker();" style="display:none">Place on map</button></p>
                                         <br>
                                         <p id="mesg" class="help-block" style="display:none"> This multimedia file do not belong to added track!!!</p>    
                                         </div>

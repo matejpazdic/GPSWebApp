@@ -44,28 +44,24 @@
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
         <link href="HTMLStyle/SliderStyle/css/slider.css" rel="stylesheet">
         
-        <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
-        
         <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/tab.js"></script>
+        <!--<script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>-->
         
-        <script src="http://vjs.zencdn.net/4.3/video.js"></script>
-        
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+
+        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>-->
         
         <script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
-
         <script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/SliderStyle/js/bootstrap-slider.js"></script>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart"]}]}'></script>
     
 
         <style>
-            
-                       
+          
             #map_canvas {
                 
                 display: block;
@@ -127,6 +123,44 @@
                     
                     
                     /////////////////////////////////////
+                    
+                    var tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+                    var player;
+                            function onYouTubeIframeAPIReady() {
+                                player = new YT.Player('ytplayer', {
+                                  playerVars: {
+                                    autohide: "1",
+                                    modestbranding: "1",
+                                    rel: "0",
+                                    showinfo: "0",
+                                    iv_load_policy: "3",
+                                    theme: "light"
+                                  },
+                                  height: '275',
+                                  width: '100%',
+                           
+                                  events: {
+                                    'onReady': onPlayerReady,
+                                    'onStateChange': onPlayerStateChange
+                                  }
+                                });
+                              }
+                            
+                            function onPlayerReady(event) {
+                                event.target.playVideo();
+                                isPlayerReady = true;
+                                document.getElementById("play").disabled = false;
+                            }
+                            
+                            function onPlayerStateChange(event) {
+                                    if (event.data == YT.PlayerState.ENDED) {
+                                      next();                                     
+                                    }
+                            }
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
@@ -199,9 +233,6 @@
                 out.print("\n];");
                 
                 
-                int maxy = -500;
-                int miny = 10000; 
-                
                 out.print("\nvar gData = [\n ['', 'Device elevation', 'Elevation on the map'],\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
                    
@@ -221,45 +252,6 @@
                 
             %>
 
-                var tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
-                var firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            
-                var player;
-                            function onYouTubeIframeAPIReady() {
-                                player = new YT.Player('ytplayer', {
-                                  playerVars: {
-                                    autohide: "1",
-                                    modestbranding: "1",
-                                    rel: "0",
-                                    showinfo: "0",
-                                    iv_load_policy: "3",
-                                    theme: "light"
-                                  },
-                                  height: '275',
-                                  width: '100%',
-                           
-                                  events: {
-                                    'onReady': onPlayerReady,
-                                    'onStateChange': onPlayerStateChange
-                                  }
-                                });
-                              }
-                            
-                            function onPlayerReady(event) {
-                                event.target.playVideo();
-                                isPlayerReady = true;
-                                document.getElementById("play").disabled = false;
-                                //alert("som ready");
-                            }
-                            
-                            function onPlayerStateChange(event) {
-                                    if (event.data == YT.PlayerState.ENDED) {
-                                      next();                                     
-                                    }
-                            }
-
             function initialize() {
             
             isAlreadyMark = false;
@@ -271,8 +263,8 @@
             }
 
             map_canvas = document.getElementById('map_canvas');
+
             map = new google.maps.Map(map_canvas, map_options);
-            
 
                     polylineOK = new google.maps.Polyline({
                     path: polylineCoordinatesList,
@@ -343,15 +335,11 @@
                                 isEnd = true;
                                 presentMultimedia();
                             }     
-                            presentTimeout = setTimeout(function() { if (isEnd != true) {a++}; if (a <= polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, presentationSpeed);
+                            presentTimeout = setTimeout(function() { if (isEnd != true) {a++}; if (a < polylineCoordinatesList.length) { if (isEnd != true) drawingMap(); } else clearmap(); }, presentationSpeed);
                     };
                     drawingMap();
             }
-            
-            
-            
-            
-            
+
             function presentMultimedia(){
                             
                                     if(a == filesPoints[index]){
@@ -373,12 +361,13 @@
                                             document.getElementById('img').style.display="none";
                                             
                                             if (isPlayerReady && !isVideoPaused) {
+                                            
                                                 player.loadVideoById(filesPath[index].toString().substr(4), 0, "default");
                                                 isVideoShowed = true;
                                             }
                                             
                                             else if (isPlayerReady && isVideoPaused){
-                                          
+                                                                                     
                                                 player.playVideo();
                                                 isVideoPaused = false;
                                             }
@@ -422,7 +411,9 @@
                 
                 clearTimeout(photoTimeout);
                 
+                if(!lastPictureStayShowed) {
                 document.getElementsByName("img")[0].src = "HTMLStyle/PV.PNG";
+                }
               
                 document.getElementById('ytplayer').style.display="none";
                 document.getElementById('img').style.display="inline";
@@ -482,7 +473,7 @@
 
             google.maps.event.addDomListener(window, 'load', initialize); 
         
-            google.load("visualization", "1", {packages:["corechart"]});
+            //google.load("visualization", "1", {packages:["corechart"]});
             
             function drawChart() {
                               
@@ -546,17 +537,30 @@
                 }
                 
                 function saveOptions() {
-                     presentationSpeed = $('#ex1').data('slider').getValue();
+                     var tempSpeed = $('#ex1').data('slider').getValue();
+                     presentationSpeed = Math.abs(tempSpeed - 145);
                      pictureShowingTime = $('#ex2').data('slider').getValue()*1000;
-                     //clearmap();
+                     
+                     if (document.getElementById("lstPict").checked) {
+                         lastPictureStayShowed = true;
+                     } else {
+                         lastPictureStayShowed = false;
+                     }
+                     
+                     var polColorselect = document.getElementById("polColor");
+                     polyLineColor = polColorselect.options[polColorselect.selectedIndex].value;
+                     var polColorPresSelect = document.getElementById("polColorPres");
+                     polyLinePresentationColor = polColorPresSelect.options[polColorPresSelect.selectedIndex].value;
+                     
+                     $(function () {
+                        $('#myTab a:first').tab('show')
+                     });
+                     
+                     clearmap();
                 }
        
         </script>
-        
-        
 
-    
-    
     </head>
 
     <body>
@@ -624,20 +628,20 @@
 
                     </nav>
                     
-                    <div class="tabbable" id="tabs-747520">
-				<ul class="nav nav-tabs">
+                    <div class="tabbable" id="tabs-747520" >
+				<ul class="nav nav-tabs" id="myTab">
 					<li class="active">
-						<a href="#panel-740839" data-toggle="tab">Track on map</a>
+						<a href="#tabs-1" data-toggle="tab">Track on map</a>
 					</li>
 					<li>
-						<a href="#panel-536799" data-toggle="tab">Track information</a>
+						<a href="#tabs-2" data-toggle="tab">Track information</a>
 					</li>
                                         <li>
-						<a href="#panel-536719" data-toggle="tab">Track options</a>
+						<a href="#tabs-3" data-toggle="tab">Track options</a>
 					</li>
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane active" id="panel-740839">
+					<div class="tab-pane active" id="tabs-1">
 						                                            
                                         <h3> <% out.print(file); %></h3>
                                         <br>
@@ -673,7 +677,7 @@
                                             </p>
                                             
 					</div>
-					<div class="tab-pane" id="panel-536799">
+					<div class="tab-pane" id="tabs-2">
                                         
                                         <h3>Info and multimedia files</h3>
 
@@ -789,7 +793,7 @@
                                         </div>
 				</div>
                                             
-                                        <div class="tab-pane" id="panel-536719">
+                                        <div class="tab-pane" id="tabs-3">
                                             
                                         
                                         <h3>Track options</h3>
@@ -803,13 +807,13 @@
                                             
                                         <label for="presentationSpeed">Presentation speed</label>
                                         <br>
-                                                           
-                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="10" data-slider-max="150" data-slider-step="1" data-slider-value="40" style="width:360px;"/>
+                                                            
+                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="5" data-slider-max="150" data-slider-step="1" data-slider-value="105" style="width:360px;"/>
                                   
                                         <br>
                                         <br>
                                         
-                                        <label for="presentationSpeed">Picture showing time</label>
+                                        <label for="PictureLength">Picture showing time</label>
                                         <br>
                                           <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5" style="width:360px;"/>
                                         <br>
@@ -817,7 +821,7 @@
                                         
                                         <script> $('#ex1').slider({
                                                     formater: function(value) {
-                                                    return 'Current value: ' + value;
+                                                    return 'Current speed: ' + value;
                                                     }
                                                  }); 
                                                  
@@ -840,26 +844,28 @@
                                         <label for="polylineColorState">Polyline color</label>
                                         
                                         <select id="polColor" name="polColor" class="form-control" >
-                                                    <option value="1">Blue</option>
-                                                    <option value="Hiking">Red</option>
-                                                    <option value="Cycling">Orange</option>
-                                                    <option value="Paragliding">Clack</option>
-                                                    <option value="Road tripping">White</option>
-                                                    <option value="Skiing">Yellow</option>
-                                                    <option value="Canoeing">Green</option>
+                                                    <option value="#3300FF" selected>Blue</option>
+                                                    <option value="#FF0000">Red</option>
+                                                    <option value="#FF6600">Orange</option>
+                                                    <option value="#000000">Black</option>
+                                                    <option value="#FFFFFF">White</option>
+                                                    <option value="#FFCC00">Yellow</option>
+                                                    <option value="#00E000">Green</option>
+                                                    <option value="#F10066">Pink</option>
                                                 </select>
                                         <br>
                                         <br>
-                                        <label for="polylineColorState">Polyline color in presentation</label>
+                                        <label for="polylineColorPresent">Polyline color in presentation</label>
                                         
                                         <select id="polColorPres" name="polColorPres" class="form-control" >
-                                                    <option value="1">Blue</option>
-                                                    <option value="Hiking">Red</option>
-                                                    <option value="Cycling">Orange</option>
-                                                    <option value="Paragliding">Clack</option>
-                                                    <option value="Road tripping">White</option>
-                                                    <option value="Skiing">Yellow</option>
-                                                    <option value="Canoeing">Green</option>
+                                                    <option value="#3300FF">Blue</option>
+                                                    <option value="#FF0000" selected>Red</option>
+                                                    <option value="#FF6600">Orange</option>
+                                                    <option value="#000000">Black</option>
+                                                    <option value="#FFFFFF">White</option>
+                                                    <option value="#FFCC00">Yellow</option>
+                                                    <option value="#00E000">Green</option>
+                                                    <option value="#F10066">Pink</option>
                                                 </select>
                                         <br>
                                         <br>

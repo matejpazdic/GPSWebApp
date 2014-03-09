@@ -7,11 +7,11 @@
 <%@page import="Database.DBLoginFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    session.removeAttribute("trackFilename");
+    //session.removeAttribute("trackFilename");
     //session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
+    //session.removeAttribute("trackDescr");
+    //session.removeAttribute("trackActivity");
+    //session.removeAttribute("access");
     session.removeAttribute("Admin");
     
 %>

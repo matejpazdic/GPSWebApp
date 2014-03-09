@@ -40,6 +40,7 @@ public class TLVLoader {
     private String maxElevation;
     private String heightDiff;
     private String duration;
+  
     
     
     public void readTLVFile(String path, String file){
@@ -140,6 +141,7 @@ public class TLVLoader {
                     }
                     track.add(tempTP);
                 }
+                
                 //gpxFile = new File(gpxNode.item(0).getTextContent());
                 //System.out.println(gpxFile.getAbsolutePath());
 
@@ -176,14 +178,33 @@ public class TLVLoader {
                     for(int i = 0 ; i < track.size() ; i++){
                         isFiles[i] = false;
                     }
+                    
+                    
+                    String firstPointDate = track.get(0).getTime().toString();
+                    
                     for (int i = 0; i < multimediaFiles.size(); i++){
+                        
+                        
+                        
                         //System.out.println("File number " + i);
                         //System.out.println("Path: " + multimediaFiles.get(i).getPath());
                         //System.out.println("Date: " + multimediaFiles.get(i).getDate());
                         //System.out.println("GPS: " + multimediaFiles.get(i).getLatitude() + " "+ multimediaFiles.get(i).getLongitude() + " " + multimediaFiles.get(i).getElevation());
                         //System.out.println();
+                        
                         Date fileDate = multimediaFiles.get(i).getDate();
+                        
+                        //System.out.println(fileDate.toString() + "  " +  firstPointDate.toString());
+                        
+                        if (fileDate.toString().equalsIgnoreCase(firstPointDate)) {
+                            multimediaFiles.get(i).setTrackPointIndex(0);
+                                    isFiles[0] = true;
+                                             
+                        } else { 
+                            
+                   
                         for(int j = 1; j < track.size(); j++){
+
                             Date prevTrackPointDate = track.get(j-1).getTime();
                             prevTrackPointDate.setSeconds(track.get(j-1).getTime().getSeconds()-1);
                             Date nextTrackPointDate = track.get(j).getTime();
@@ -197,17 +218,18 @@ public class TLVLoader {
                                     
                                     //if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
                                         //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
-                                         multimediaFiles.get(i).setTrackPointIndex(j - 1);
-                                         isFiles[j - 1] = true;
+                                         multimediaFiles.get(i).setTrackPointIndex(j);
+                                         isFiles[j] = true;
                                          break;
                                     //}
                                 }
-                            } else {
+                            } else { 
+                                
                                 // nechat toto tu prosim // || (fileDate.equals(prevTrackPointDate)) || (fileDate.equals(nextTrackPointDate))
                                 if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate))) {
                                     //System.out.println(i + ". " + (j - 1));
-                                    multimediaFiles.get(i).setTrackPointIndex(j - 1);
-                                    isFiles[j - 1] = true;
+                                    multimediaFiles.get(i).setTrackPointIndex(j);
+                                    isFiles[j] = true;
                                     break;
                                 }else{
                                     multimediaFiles.get(i).setTrackPointIndex(track.size() - 1);
@@ -215,6 +237,7 @@ public class TLVLoader {
                                     //break;
                                 }
                             }
+                        }
                         }
                     }
             } catch (ParserConfigurationException ex) {
