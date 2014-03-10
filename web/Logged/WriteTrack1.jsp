@@ -1,17 +1,11 @@
+<%@page import="org.apache.tomcat.util.codec.binary.StringUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
-    session.removeAttribute("trackNameExist");
-%>
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
-        <title>Upload track</title>
+        <title>Fill info about drawing track</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -25,9 +19,24 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        <script type="text/javascript" src="HTMLStyle/civem-0.0.7.min.js"></script>
+        <script type="text/javascript" src="HTMLStyle/civem-0.0.7.js"></script>
+        
+        
 
+        <script language="javascript" type="text/javascript">
+
+    
+        $(document).ready(function() {
+            if(document.getElementById('trackName').validity.patternMismatch)
+            {
+                message = document.getElementById('trackName').dataset.patternError;
+            }
+            });
         
-        
+        </script>
+    
+
     </head>
 
     <body>
@@ -48,13 +57,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown active">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -72,19 +78,19 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -100,14 +106,14 @@
                     <div class="tabbable" id="tabs-883724">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#panel-234896" data-toggle="tab">Track upload</a>
+                                <a href="#panel-234896" data-toggle="tab">Draw track</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload your track
+                                    Fill track info (Step 1)
                                 </h3>
                                 <br>
 
@@ -115,35 +121,53 @@
                                     <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            <form action="Upload" method="post" enctype="multipart/form-data">
+                                            <form action="SaveDrawTrackInfo" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
                                                     
+                                                    <label for="TrackName">Track name</label><input id="trackName" name="trkName" type="text" value="" required="required" class="form-control" pattern="[A-Za-z0-9_\-+() ]*" data-errormessage-pattern-mismatch="Only alphanumeric characters, whitespace and _ ( ) - + symbols is supported!!!)" />
+                                                 
                                                 </div>
+                                                    <% 
+                                                        if (session.getAttribute("trackNameExist") != null) {
+                                                                if (session.getAttribute("trackNameExist").toString().equals("True")) {
+                                                                    out.print("<script> alert(\"This trackname has already been used!\"); </script>");
+                                                                }
+                                                            }
+                                                        
+                                                    %> 
+                                                    
                                                 <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
+                                                    <label for="TrackDesc">Track description</label><textarea id="desc" class="form-control" name="descr" rows="3" onkeyup="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')" onkeypress="this.value = this.value.replace(/[^a-z|0-9|A-Z|_| |+|\-|(|)]/, '')"></textarea>
                                                     
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="TrackActivity">Activity</label> 
                                                     <select name="Activity" class="form-control">
                                                     <option value="Hiking">Hiking</option>
-                                                    <option value="Cycling">Cycling</option>
-                                                    <option value="Paragliding">Paragliding</option>
+                                                    <option value="Climbing">Climbing</option>
+                                                    <option value="Moto cycling">Moto cycling</option>
                                                     <option value="Road tripping">Road tripping</option>
-                                                    <option value="Skiing">Skiing</option>
-                                                    <option value="Canoeing">Canoeing</option>
+                                                    <option value="Road cycling">Road cycling</option>
+                                                    <option value="Mountain biking">Mountain biking</option>
                                                     <option value="Sailing">Sailing</option>
+                                                    <option value="Canoeing">Canoeing</option>
+                                                    <option value="Windsurfing">Windsurfing</option>
+                                                    <option value="Kiteboarding">Kiteboarding</option>
+                                                    <option value="Paragliding">Paragliding</option>
                                                     <option value="Flying">Flying</option>
                                                     </select>                                                    
                                                 </div>
-                                                
+                                                    
                                                 <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" accept=".gpx, .GPX" required="required" id="exampleInputFile" />
+                                                    <label for="TrackAccess">Access</label> 
+                                                    <select name="Activity" class="form-control">
+                                                    <option value="Private">Private</option>
+                                                    <option value="Public">Public</option>
+                                                   
+                                                    </select>                                                    
+                                                </div>
                                                     <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Submit</button></p>
+                                                    <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Second step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>

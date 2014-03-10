@@ -39,7 +39,7 @@ public class DBTrackCreator {
         }
     }
     
-    public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID, String startDate, String endDate, String access, String startAddress, String endAddress, String length, String minElevation, String maxElevation, String heightDiff, String duration){
+    public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID, String startDate, String endDate, String access, String startAddress, String endAddress, String length, String minElevation, String maxElevation, String heightDiff, String duration, String creationType){
         try {
             statement =  connect.createStatement();
             //statement.executeQuery();
@@ -53,8 +53,8 @@ public class DBTrackCreator {
       
             String modifiedDate = df.format(date);
   
-            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_LENGTH_KM, TRACK_MIN_ELEVATION, TRACK_MAX_ELEVATION, TRACK_HEIGHT_DIFF, TRACK_DURATION, TRACK_DATE_CREATED) VALUES ('"+ trackName +"' , '"+ trackDescr + 
-                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+length+"', '"+minElevation+"', '"+maxElevation+"', '"+heightDiff+"', '"+duration+"', '"+ df.format(date) +"')";
+            String stat = "INSERT INTO TRACKS (TRACK_NAME, TRACK_DESCRIPTION, TRACK_ACTIVITY, TRACK_FILE, TRACK_USER_ID, TRACK_STARTDATE, TRACK_ENDDATE, TRACK_ACCESS, TRACK_START_ADDRESS, TRACK_END_ADDRESS, TRACK_LENGTH_KM, TRACK_MIN_ELEVATION, TRACK_MAX_ELEVATION, TRACK_HEIGHT_DIFF, TRACK_DURATION, TRACK_DATE_CREATED, TRACK_CREATION_TYPE) VALUES ('"+ trackName +"' , '"+ trackDescr + 
+                                                                "' , '" + trackActivity + "' , '" + trackPath +"' ," + userID + ", '"+ startDate +"' , '"+ endDate + "', '"+access+"', '"+startAddress+"', '"+endAddress+"', '"+length+"', '"+minElevation+"', '"+maxElevation+"', '"+heightDiff+"', '"+duration+"', '"+ df.format(date) +"', '" + creationType + "')";
             if (system.startsWith("Windows")) {
                 stat = stat.replaceAll("\\\\", "/");
             }

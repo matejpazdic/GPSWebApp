@@ -1,17 +1,27 @@
+<%@page import="org.apache.commons.io.FileUtils"%>
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
-    session.removeAttribute("trackNameExist");
-%>
 <!DOCTYPE html>
 <html lang="en">
+    <%
+        String os = System.getProperty("os.name");
+        String pathToMultimedia =  null;
+        
+        if(os.startsWith("Windows XP")){
+            pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+        }else if(os.startsWith("Windows")){
+            pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+        }else{
+            pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + session.getAttribute("trackName") + "/Multimedia/";
+        }
+        
+        File f = new File(pathToMultimedia);
+        f.mkdirs();
+        FileUtils.forceMkdir(f);
+    %>
     <head>
-        <meta charset="Windows-1250">
-        <title>Upload track</title>
+        <meta charset="UTF-8">
+        <title>Upload multimedia files</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -21,6 +31,10 @@
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
         <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
+        
+        <link href="HTMLStyle/MultimediaUploaderStyle/css/dropzone.css" type="text/css" rel="stylesheet" />
+
+        <script src="HTMLStyle/MultimediaUploaderStyle/dropzone.min.js"></script>
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
@@ -48,13 +62,10 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown active">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.jsp">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadTrack1.jsp">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
@@ -72,19 +83,19 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -100,53 +111,41 @@
                     <div class="tabbable" id="tabs-883724">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#panel-234896" data-toggle="tab">Track upload</a>
+                                <a href="#panel-234896" data-toggle="tab">Draw track</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="panel-234896">
 
                                 <h3>
-                                    Upload your track
+                                    Upload your multimedia files (Step 2)
                                 </h3>
                                 <br>
 
                                 <div class="container">
                                     <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
+                                        <div class="col-md-4 column"></div>
+                                        <div class="col-md-4 column"></div>
+                                    </div>
+                                </div>
+                                    <form action="UploadMultimedia" class="dropzone" enctype="multipart/form-data">
+                                                <div class="fallback">
+                                                <input name="file" type="file" multiple />
+                                                </div>
+                                            </form>
+                                <div class="container">    
+                                    <div class="row clearfix">
+                                        <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            <form action="Upload" method="post" enctype="multipart/form-data">
-                                                <div class="form-group">
-                                                    <label for="TrackName">Track name</label><input type="text" name="name" required="required" class="form-control" id="exampleInputEmail1" />
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackDesc">Track description</label><textarea class="form-control" name="descr" rows="3" id="exampleInputEmail1"></textarea>
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="TrackActivity">Activity</label> 
-                                                    <select name="Activity" class="form-control">
-                                                    <option value="Hiking">Hiking</option>
-                                                    <option value="Cycling">Cycling</option>
-                                                    <option value="Paragliding">Paragliding</option>
-                                                    <option value="Road tripping">Road tripping</option>
-                                                    <option value="Skiing">Skiing</option>
-                                                    <option value="Canoeing">Canoeing</option>
-                                                    <option value="Sailing">Sailing</option>
-                                                    <option value="Flying">Flying</option>
-                                                    </select>                                                    
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input type="file" name="file" accept=".gpx, .GPX" required="required" id="exampleInputFile" />
-                                                    <br>
-                                                    <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
-                                                    <br>
-                                                    </div> <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Submit</button></p>
+                                            
+                                            <br>
+                                            <form action="DrawTrack.jsp" method="post" enctype="multipart/form-data">
+                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Final step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +155,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+         
     </body>
 </html>
 

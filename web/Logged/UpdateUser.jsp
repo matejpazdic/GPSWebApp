@@ -14,6 +14,7 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    session.removeAttribute("trackNameExist");
 %>
 <!DOCTYPE html>
 <html>

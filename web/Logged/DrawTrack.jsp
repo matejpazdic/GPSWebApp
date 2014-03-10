@@ -42,7 +42,7 @@
                 
                 display: block;
                 width: 100%;
-                height: 750px;
+                height: 500px;
             }
 
         </style>
@@ -52,7 +52,7 @@
 
             var isPolyCr = false;
             var polylineOK = null;
-            var list = [];
+            var list = new Array();
 
             function initialize() {
                 var mapOptions = {
@@ -92,6 +92,11 @@
                 polylineOK.setMap(map);
                 
             }
+            
+            function submitTrack() {
+                    document.getElementById("textBox").value=list.getArray();
+                    document.forms["index"].submit();
+                }
 
        google.maps.event.addDomListener(window, 'load', initialize);
       </script>
@@ -164,12 +169,18 @@
 
                     </nav>
                                         					                                            
-                                        <h3> Draw your track </h3>
-                                        <br>
+                    <h3> Draw your track </h3>
+                    <br>
 
-                                        <div id="map_canvas"></div>
-   
-			</div>
+                    <div id="map_canvas"></div>
+                    <form name="index" action="WriteNewTrack" method="post">
+                        <input type="hidden" id="textBox" name="textBox"><br>
+
+                        <!--<input type="Submit" />-->
+                    </form>
+                    <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
+
+                </div>
                     </div>
                 </div>
     </body>

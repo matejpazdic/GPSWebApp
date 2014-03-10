@@ -20,27 +20,35 @@
 <%
     session.removeAttribute("trackNameExist");
     
+    
+    
     String trackName = session.getAttribute("trackName").toString();
     String userName = session.getAttribute("username").toString();
+    String trackType = session.getAttribute("trackActivity").toString();
+    String trackDescr = session.getAttribute("trackDescr").toString();
     String system = System.getProperty("os.name");
     String trackFile = trackName + ".gpx";
     String path = null;
     String multimediaPath = null;
+    String pathToTemp = null;
     if(system.startsWith("Windows XP")){
         path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
         multimediaPath = path + "\\Multimedia\\";
+        pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp\\" + "Temp.txt";
     } else if(system.startsWith("Windows")){
         path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + trackName + "\\";
         multimediaPath = path + "\\Multimedia\\";
+        pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp\\" + "Temp.txt";
     } else{
         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
         multimediaPath = path + "/Multimedia/";
+        pathToTemp = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp/" + "Temp.txt";
     }
     
     System.out.println(trackName + " " + trackFile + " " + path + " " + multimediaPath);
     GPXParser parser = new GPXParser(path, trackFile, " ", " ");
-    parser.readGpx();
-    parser.searchForMultimediaFiles(multimediaPath);
+    parser.readFromTrackPoints(pathToTemp, trackType, trackDescr);
+    parser.searchForMultimediaFilesWithoutCorrection(multimediaPath);
     
     YouTubeAgent youTubeAgent = new YouTubeAgent("skuska.api3@gmail.com", "skuskaapi3");
     for(int i = 0; i < parser.getFiles().size(); i++){
@@ -591,7 +599,7 @@
                                     </div>
                          </div>
                      </div> 
-                                            <form name="index" action="SubmitTrack" method="post">
+                                            <form name="index" action="SubmitDrawTrack" method="post">
                                                 <input type="hidden" id="textBox" name="textBox"><br>
                                                 
                                                <!--<input type="Submit" />-->

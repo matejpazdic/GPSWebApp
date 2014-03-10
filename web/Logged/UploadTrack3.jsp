@@ -1,6 +1,24 @@
+<%@page import="org.apache.commons.io.FileUtils"%>
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+    <%
+        String os = System.getProperty("os.name");
+        String pathToMultimedia = null;
+
+        if (os.startsWith("Windows XP")) {
+            pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+        } else if (os.startsWith("Windows")) {
+            pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+        } else {
+            pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + session.getAttribute("trackName") + "/Multimedia/";
+        }
+
+        File f = new File(pathToMultimedia);
+        f.mkdirs();
+        FileUtils.forceMkdir(f);
+    %>
     <head>
         <meta charset="UTF-8">
         <title>Upload multimedia files</title>

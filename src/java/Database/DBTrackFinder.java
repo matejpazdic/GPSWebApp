@@ -356,5 +356,19 @@ public class DBTrackFinder {
         }
         return str;
   }
+    
+    public String getTrackCreationType(int trackID){
+      String str = null;
+        try {
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            str = resultSet.getString("TRACK_CREATION_TYPE");
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Cannot read table TRACKS from BD!!!");
+            FileLogger.getInstance().createNewLog("ERROR: Cannot read table TRACKS from DB!!! In getTrackCreationType.");
+        }
+        return str;
+  }
 
 } 

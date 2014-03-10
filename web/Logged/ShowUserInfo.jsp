@@ -7,6 +7,7 @@
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
+    session.removeAttribute("trackNameExist");
     
      DBLoginFinder finder = new DBLoginFinder();
      ArrayList<String> information = finder.getUserInformation(session.getAttribute("username").toString());

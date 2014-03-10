@@ -12,6 +12,7 @@
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
+    session.removeAttribute("trackNameExist");
     
 %>
 <!DOCTYPE html>
@@ -138,6 +139,7 @@
                                     rel: "0",
                                     showinfo: "0",
                                     iv_load_policy: "3",
+                                    videoId: "M7lc1UVf-VE",
                                     theme: "light"
                                   },
                                   height: '275',

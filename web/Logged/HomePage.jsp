@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
+    session.removeAttribute("trackNameExist");
+    session.removeAttribute("isMultimedia");
     //session.removeAttribute("trackName");
     //session.removeAttribute("trackDescr");
     //session.removeAttribute("trackActivity");
@@ -54,7 +56,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>

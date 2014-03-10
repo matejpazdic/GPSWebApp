@@ -35,9 +35,10 @@ import org.apache.tomcat.jni.OS;
  *
  * @author matej_000
  */
-public class SubmitTrack extends HttpServlet {
+public class SubmitDrawTrack extends HttpServlet {
     
     private String pathToFile;
+    private String pathToTempFile;
     private String pathToMultimediaFiles;
     private String trackName;
     private String trackDescr;
@@ -69,7 +70,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                 //System.out.println("File: " + temp[0].substring(temp[0].lastIndexOf("/"), temp[0].lastIndexOf("_THUMB")) + ext);
                 
                 //System.out.println("Cesta: " + temp[0]);
-                //System.out.println("Point: " + temp[1]);
+                System.out.println("Point: " + list.length);
                 filePoints.add(Integer.parseInt(temp[1]));
             }
             
@@ -85,6 +86,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
                 pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToTempFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
                 //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 File fTemp = new File(pathToMultimediaFiles);
@@ -93,6 +95,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                 }
             } else {
                 pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                pathToTempFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/Temp.txt";
                 pathToMultimediaFiles = pathToFile + "Multimedia" + "/";
                 File fTemp = new File(pathToMultimediaFiles);
                 if(!fTemp.exists()){
@@ -101,9 +104,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }
 
             GPXParser parser = new GPXParser(pathToFile, filename, session.getAttribute("username").toString(), trackName);
-            parser.readGpx();
+            parser.readFromTrackPoints(pathToTempFile, trackName, trackDescr);
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created GPXParser in STEP 3 for track " + trackName + " .");
-            parser.searchForMultimediaFiles(pathToMultimediaFiles);
+            parser.searchForMultimediaFilesWithoutCorrection(pathToMultimediaFiles);
             
             System.out.println("Mam Multi: " + parser.getFiles().size() + " " + filePoints.size());
             
@@ -129,7 +132,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }
             
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly founded multimedia files in STEP 3 for track " + trackName + " .");
-            parser.parseGpx(trackActivity, trackDescr);
+            parser.parseFromTrackPoints(trackActivity, trackDescr);
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly parsed GPX file in STEP 3 for track " + trackName + " .");
 
             
@@ -141,7 +144,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 
             
             tCreator.createNewTrack(trackName, trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()), 
-                                                    parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress(), parser.getTrackLengthKm(), parser.getTrackMinElevation(), parser.getTrackMaxElevation(), parser.getTrackHeightDiff(), parser.getTrackDuration(), "Parsed");
+                                                    parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress(), parser.getTrackLengthKm(), parser.getTrackMinElevation(), parser.getTrackMaxElevation(), parser.getTrackHeightDiff(), parser.getTrackDuration(), "Drawed");
             
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
         } catch (Exception ex) {
