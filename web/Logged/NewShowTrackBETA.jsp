@@ -737,15 +737,15 @@
                                         <% if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Parsed")) {
                                         out.print("<label for=\"MinElevation\" style=\"font-size:13px; margin-bottom: 0px\">Min Elevation</label><h6>");
                                         out.print(trackFinder.getMinElevation(trkID));
-                                        out.print("m </h6>");
+                                        out.print(" m </h6>");
                                         
                                         out.print("<label for=\"MaxElevation\" style=\"font-size:13px; margin-bottom: 0px\">Max Elevation</label><h6>");
                                         out.print(trackFinder.getMaxElevation(trkID));
-                                        out.print("m </h6>");
+                                        out.print(" m </h6>");
                                         
                                         out.print("<label for=\"HeightDiff\" style=\"font-size:13px; margin-bottom: 0px\">Height Difference</label><h6>");
                                         out.print(trackFinder.getHeightDifference(trkID));
-                                        out.print("m </h6>");
+                                        out.print(" m </h6>");
                                         } %>
                                          
                                         <label for="StartDate" style="font-size:13px; margin-bottom: 0px">Start</label>
