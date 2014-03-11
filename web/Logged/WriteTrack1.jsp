@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <%
     session.removeAttribute("isMultimedia");
+
 %>    
 
 <html lang="en">
@@ -134,6 +135,7 @@
                                                         if (session.getAttribute("trackNameExist") != null) {
                                                                 if (session.getAttribute("trackNameExist").toString().equals("True")) {
                                                                     out.print("<script> alert(\"This trackname has already been used!\"); </script>");
+                                                                    session.removeAttribute("trackNameExist");
                                                                 }
                                                             }
                                                         

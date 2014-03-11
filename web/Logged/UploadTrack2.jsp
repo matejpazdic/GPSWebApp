@@ -130,6 +130,7 @@
                                                 </div>
                                                     <% if(session.getAttribute("trackNameExist").toString().equals("True")){
                                                         out.print("<script> alert(\"This trackname has already been used!\"); </script>");
+                                                        session.removeAttribute("trackNameExist");
                                                     }
                                                     %> 
                                                     
