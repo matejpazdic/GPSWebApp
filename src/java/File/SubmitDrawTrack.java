@@ -61,9 +61,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             ArrayList<String> filePaths = new ArrayList<String>();
             ArrayList<Integer> filePoints = new ArrayList<Integer>();
             for(int i = 0; i < list.length; i++){
-                if(list.length == 1){
-                    break;
-                }
+//                if(list.length == 1){                           POZOR TU SOM ZAKOMENTOVAL MATOV KOD
+//                    break;
+//                }
                 String[] temp = list[i].split(";");
                 //String ext = temp[0].substring(temp[0].lastIndexOf("."));
                 filePaths.add(temp[0]);
@@ -85,9 +85,10 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                pathToTempFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
-                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //pathToTempFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
+                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToTempFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 File fTemp = new File(pathToMultimediaFiles);
                 if(!fTemp.exists()){
@@ -111,6 +112,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             System.out.println("Mam Multi: " + parser.getFiles().size() + " " + filePoints.size());
             
             int index = parser.getFiles().size();
+            System.out.println("index" + index + filePoints.size());
             for(int i = 0; i < index; i++){
                 if(filePoints.get(i) != -1){
                     if(filePaths.get(i).startsWith("YTB")){

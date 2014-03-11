@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
@@ -42,7 +43,7 @@
                 
                 display: block;
                 width: 100%;
-                height: 500px;
+                height: 710px;
             }
 
         </style>
@@ -67,6 +68,8 @@
                 google.maps.event.addListener(map, 'click', function(e) {
 
                 if (isPolyCr == false) {
+                    //alert("som tu");
+                    isPolyCr = true;
                     polylineOK = new google.maps.Polyline({
                          path: list,
                          strokeColor: '#FF0000',
@@ -91,6 +94,9 @@
                 polylineOK.setPath(list);
                 polylineOK.setMap(map);
                 
+                if (list.length > 1) {
+                    document.getElementById("nextStep").disabled = false;
+                }
             }
             
             function submitTrack() {
@@ -131,7 +137,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>
@@ -168,8 +174,18 @@
                         </div>
 
                     </nav>
+                    
+                    <div class="tabbable" id="tabs-883724">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#panel-234896" data-toggle="tab">Draw track</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="panel-234896">
+
                                         					                                            
-                    <h3> Draw your track </h3>
+                    <h3> Draw your track on map </h3>
                     <br>
 
                     <div id="map_canvas"></div>
@@ -178,10 +194,12 @@
 
                         <!--<input type="Submit" />-->
                     </form>
-                    <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
-
-                </div>
+                    <p style="line-height: 20px; text-align: center;"> <button id="nextStep" class="btn btn-default btn-success" onClick="submitTrack();" disabled > <% if (session.getAttribute("isMultimedia") != null) { out.print("Final step"); } else {out.print("Finish");} %></button></p>
                     </div>
-                </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+       </div>
     </body>
 </html>

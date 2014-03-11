@@ -2,7 +2,7 @@
 <%
     session.removeAttribute("trackFilename");
     session.removeAttribute("trackNameExist");
-    session.removeAttribute("isMultimedia");
+    //session.removeAttribute("isMultimedia");
     //session.removeAttribute("trackName");
     //session.removeAttribute("trackDescr");
     //session.removeAttribute("trackActivity");

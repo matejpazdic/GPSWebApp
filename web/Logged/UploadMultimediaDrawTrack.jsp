@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <%
+        
+        session.removeAttribute("isMultimedia");
         String os = System.getProperty("os.name");
         String pathToMultimedia =  null;
         
@@ -71,7 +73,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -141,7 +143,7 @@
                                             
                                             <br>
                                             <form action="DrawTrack.jsp" method="post" enctype="multipart/form-data">
-                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Final step</button></p>
+                                                <p style="line-height: 20px; text-align: center;"> <button type="submit" class="btn btn-default btn-success ">Third step</button></p>
                                             </form>
                                         </div>
                                         <div class="col-md-4 column"></div>

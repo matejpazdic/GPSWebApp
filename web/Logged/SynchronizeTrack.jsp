@@ -90,7 +90,7 @@
                 
                 display: block;
                 width: 100%;
-                height: 680px;
+                height: 710px;
             }
 
         </style>
@@ -467,7 +467,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>

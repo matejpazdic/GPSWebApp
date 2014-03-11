@@ -153,7 +153,7 @@
                               }
                             
                             function onPlayerReady(event) {
-                                event.target.playVideo();
+                                //event.target.playVideo();
                                 isPlayerReady = true;
                                 document.getElementById("play").disabled = false;
                             }
@@ -234,6 +234,24 @@
                 }
                 out.print("\n];");
                 
+            if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Drawed")) {
+                
+                    out.print("\nvar gData = [\n ['','Elevation on the map'],\n");
+                    for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                   
+                    if (i==loader.getTrackPoints().size()-1){
+                                
+                                
+                                out.print("['"+ i +"', "+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
+                                        }
+                    else {
+                       
+                                out.print("['"+ i +"', "+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
+                    
+                         }   
+                     
+                    }
+           } else {
                 
                 out.print("\nvar gData = [\n ['', 'Device elevation', 'Elevation on the map'],\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
@@ -249,6 +267,7 @@
                     
                          }   
                      
+                } 
             }
       
                 
@@ -592,7 +611,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>                                      
                                     </ul>
                                 </li>
@@ -715,24 +734,31 @@
                                         <label for="Track Length" style="font-size:13px; margin-bottom: 0px">Track Length</label>
                                         <h6> <% out.println(trackFinder.getTrackLengthKm(trkID));%> km</h6>
                                         
-                                        <label for="MinElevation" style="font-size:13px; margin-bottom: 0px">Min Elevation</label>
-                                        <h6> <% out.println(trackFinder.getMinElevation(trkID));%> m </h6>
+                                        <% if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Parsed")) {
+                                        out.print("<label for=\"MinElevation\" style=\"font-size:13px; margin-bottom: 0px\">Min Elevation</label><h6>");
+                                        out.print(trackFinder.getMinElevation(trkID));
+                                        out.print("m </h6>");
                                         
-                                        <label for="MaxElevation" style="font-size:13px; margin-bottom: 0px">Max Elevation</label>
-                                        <h6> <% out.println(trackFinder.getMaxElevation(trkID));%> m</h6>
-
-                                        <label for="HeightDiff" style="font-size:13px; margin-bottom: 0px">Height Difference</label>
-                                        <h6> <% out.println(trackFinder.getHeightDifference(trkID));%> m</h6>
+                                        out.print("<label for=\"MaxElevation\" style=\"font-size:13px; margin-bottom: 0px\">Max Elevation</label><h6>");
+                                        out.print(trackFinder.getMaxElevation(trkID));
+                                        out.print("m </h6>");
                                         
+                                        out.print("<label for=\"HeightDiff\" style=\"font-size:13px; margin-bottom: 0px\">Height Difference</label><h6>");
+                                        out.print(trackFinder.getHeightDifference(trkID));
+                                        out.print("m </h6>");
+                                        } %>
+                                         
                                         <label for="StartDate" style="font-size:13px; margin-bottom: 0px">Start</label>
                                         <h6> <% out.println(trackFinder.getTrackStartDate(trkID));%> </h6>
                                         
                                         <label for="EndDate" style="font-size:13px; margin-bottom: 0px">End</label>
                                         <h6> <% out.println(trackFinder.getTrackEndDate(trkID));%> </h6>
                                         
-                                        <label for="Duration" style="font-size:13px; margin-bottom: 0px">Duration</label>
-                                        <h6> <% out.println(trackFinder.getTrackDuration(trkID));%> </h6>
-   
+                                        <% if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Parsed")) {
+                                        out.print("<label for=\"Duration\" style=\"font-size:13px; margin-bottom: 0px\">Duration</label><h6>");
+                                        out.print(trackFinder.getTrackDuration(trkID));
+                                        out.print("</h6>"); } 
+                                        %>
                                         
                                         </div>
 

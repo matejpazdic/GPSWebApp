@@ -77,7 +77,7 @@
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="DrawTrack.jsp">Write new track</a>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
                                         </li>
                                     </ul>
                                 </li>
