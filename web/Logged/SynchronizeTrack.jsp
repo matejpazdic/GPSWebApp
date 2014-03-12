@@ -265,7 +265,7 @@
                                                     position: polylineCoordinatesList[filesPoints[i]],
                                                     map: map,
     //                                              icon: iconF,
-                                                    title: 'Kalvarka :)'
+                                                    title: ''
                                                  });
 
                                                  marker.setMap(map);
@@ -318,7 +318,7 @@
                                                     map: map,
                                                     draggable:true,
     //                                              icon: iconF,
-                                                    title: 'Kalvarka :)'
+                                                    title: ''
                                                  });
 
                                                  marker.setMap(map);
@@ -399,7 +399,7 @@
                                                     map: map,
                                                     draggable:true,
     //                                              icon: iconF,
-                                                    title: 'Kalvarka :)'
+                                                    title: ''
                                                  });
 
                                                  marker.setMap(map);

@@ -26,7 +26,8 @@ import org.xml.sax.SAXException;
 public class ElevationLoader extends Thread {
 
     private final String baseUrlString = "https://maps.googleapis.com/maps/api/elevation/xml?locations=";
-    private final String endUrlString = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
+    //private final String endUrlString = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
+    private final String endUrlString = "&sensor=false&key=AIzaSyAJEy1EPr4qN9sY6ElEcQGo32BAMDaavnc";
 
 
     public ElevationLoader() {
@@ -35,6 +36,8 @@ public class ElevationLoader extends Thread {
 
     public ArrayList<String> reclaimElevation(ArrayList<TrackPointImpl> lats) {
         ArrayList<String> internetElevations = new ArrayList<String>();
+        
+        System.out.println("Loadujem vysky");
         
             int nenacitaneBody = lats.size();
             int nacitaneBody = 0;
@@ -76,7 +79,7 @@ public class ElevationLoader extends Thread {
                     nacitaneBody = nacitaneBody + 50;
                     
                 } catch (Exception ex) {
-                    System.out.println("EROOR: Cannot read elevations from Google server!");
+                    System.out.println("ERROR: Cannot read elevations from Google server!");
                 } 
             }
             return internetElevations;

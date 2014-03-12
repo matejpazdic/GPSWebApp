@@ -60,16 +60,19 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             ArrayList<String> filePaths = new ArrayList<String>();
             ArrayList<Integer> filePoints = new ArrayList<Integer>();
             for(int i = 0; i < list.length; i++){
-                if(list.length == 1){
+                System.out.println("trpovina" + list.length + list[i]);
+                if(list[0].length() < 5){
                     break;
                 }
+                System.out.println("Som dalej");
+                
                 String[] temp = list[i].split(";");
                 //String ext = temp[0].substring(temp[0].lastIndexOf("."));
                 filePaths.add(temp[0]);
                 //System.out.println("File: " + temp[0].substring(temp[0].lastIndexOf("/"), temp[0].lastIndexOf("_THUMB")) + ext);
                 
-                //System.out.println("Cesta: " + temp[0]);
-                //System.out.println("Point: " + temp[1]);
+//                System.out.println("Cesta: " + temp[0]);
+//                System.out.println("Point: " + temp[1]);
                 filePoints.add(Integer.parseInt(temp[1]));
             }
             
@@ -109,6 +112,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             
             int index = parser.getFiles().size();
             for(int i = 0; i < index; i++){
+                if(filePoints.isEmpty()) {
+                    break;
+                }
                 if(filePoints.get(i) != -1){
                     if(filePaths.get(i).startsWith("YTB")){
                         parser.getFiles().get(i).setPath(filePaths.get(i));

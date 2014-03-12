@@ -34,6 +34,7 @@ public class TrackDetailResolver {
         this.trackType = trackType;
         this.internetElevation = internetElevation;
         this.isDrawed = isDrawed;
+        System.out.println("som " + isDrawed);
     }
     
     public double resolveTrackLength(){
@@ -73,20 +74,27 @@ public class TrackDetailResolver {
     public int resolveMaxElevation(){
         int maxElevation = -1000;
         
+        System.out.println("Je prazdne + velkost" + internetElevation.isEmpty() + internetElevation.size());
+         System.out.println("velkost bodov" + track.size());
+        
+        
         if (track.size() > 0) {
-            if (!trackType.startsWith("Land") || !trackType.startsWith("Water") || !isDrawed) {
-                for (int i = 0; i < track.size(); i++) {
-                    if (maxElevation < track.get(i).getDeviceElevation()) {
-                        maxElevation = track.get(i).getDeviceElevation();
-                    }
-                }
-            }else{
+            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && !internetElevation.isEmpty()) {
                 for (int i = 0; i < track.size(); i++) {
                     int temp = Integer.parseInt(internetElevation.get(i));
                     if (maxElevation < temp) {
                         maxElevation = temp;
                     }
                 }
+                System.out.println("Loadujem zinternetu");
+            }else{
+                for (int i = 0; i < track.size(); i++) {
+                    if (maxElevation < track.get(i).getDeviceElevation()) {
+                        maxElevation = track.get(i).getDeviceElevation();
+                    }
+                }
+                System.out.println("Loadujem zo zariadenia");
+                
             }
         }
         if(maxElevation < 0){
@@ -99,21 +107,23 @@ public class TrackDetailResolver {
         int minElevation = 1000000;
 
         if (track.size() > 0) {
-            if (!trackType.startsWith("Land") || !trackType.startsWith("Water") || !isDrawed) {
-                for (int i = 0; i < track.size(); i++) {
-                    if (minElevation > track.get(i).getDeviceElevation()) {
-                        minElevation = track.get(i).getDeviceElevation();
-                    }
-                }
-            }else{
+            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && !internetElevation.isEmpty()) {
                 for (int i = 0; i < track.size(); i++) {
                     int temp = Integer.parseInt(internetElevation.get(i));
                     if (minElevation > temp) {
                         minElevation = temp;
                     }
                 }
+            }else{
+                for (int i = 0; i < track.size(); i++) {
+                    if (minElevation > track.get(i).getDeviceElevation()) {
+                        minElevation = track.get(i).getDeviceElevation();
+                    }
+                }
+                
             }
         }
+        
         if (minElevation == 1000000) {
             return 0;
         }

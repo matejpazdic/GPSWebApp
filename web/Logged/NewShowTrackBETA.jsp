@@ -98,8 +98,8 @@
                     var polylineCoordinatesListFinal = [];
                     var isPolylineAlreadyCreated = false;
                     
-                    var graphDataFinal = [];
-                    var graphEx = [];
+//                    var graphDataFinal = [];
+//                    var graphEx = [];
                     var options;
                     
                     var isAlreadyMark = false;
@@ -120,6 +120,8 @@
                     
                     var polyLineColor = '#3300FF';
                     var polyLinePresentationColor = '#FF0000';
+                    
+                    var emptyGraph = false;
                     
                     
                     
@@ -165,6 +167,10 @@
                             }
                     
             <%
+                out.print("var creationType = \"" + trackFinder.getTrackCreationType(trkID) +"\";\n\n");
+                
+                out.print("var trackType = \"" + trackFinder.getTrackActivity(trkID) +"\";\n\n");
+            
                 out.print("var polylineCoordinatesList = [\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
                     out.print("new google.maps.LatLng(" + loader.getTrackPoints().get(i).getLatitude() + ", " + loader.getTrackPoints().get(i).getLongitude() + ")");
@@ -177,6 +183,15 @@
                 out.print("var isFiles = [\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
                     out.print(loader.getIsFiles()[i]);
+                    if (i != loader.getTrackPoints().size() - 1) {
+                        out.println(",");
+                    }
+                }
+                out.print("\n];");
+                
+                out.print("\n\n var times = [\n");
+                for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                    out.print("\"" + loader.getTrackPoints().get(i).getTime().toString().substring(11, 19) + "\"");
                     if (i != loader.getTrackPoints().size() - 1) {
                         out.println(",");
                     }
@@ -234,44 +249,190 @@
                 }
                 out.print("\n];");
                 
-            if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Drawed")) {
-                
-                    out.print("\nvar gData = [\n ['','Elevation on the map'],\n");
-                    for (int i = 0; i < loader.getTrackPoints().size(); i++) {
-                   
-                    if (i==loader.getTrackPoints().size()-1){
-                                
-                                
-                                out.print("['"+ i +"', "+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
-                                        }
-                    else {
-                       
-                                out.print("['"+ i +"', "+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
-                    
-                         }   
-                     
-                    }
-           } else {
-                
-                out.print("\nvar gData = [\n ['', 'Device elevation', 'Elevation on the map'],\n");
+                out.print("var elevationsOnMap = [\n");
                 for (int i = 0; i < loader.getTrackPoints().size(); i++) {
-                   
-                    if (i==loader.getTrackPoints().size()-1){
-                                
-                                
-                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"]];\n");
-                                        }
-                    else {
-                       
-                                out.print("['"+ i +"', " + loader.getTrackPoints().get(i).getDeviceElevation() + ","+ loader.getTrackPoints().get(i).getInternetElevation() +"],\n");
-                    
-                         }   
-                     
-                } 
-            }
+                    out.print(loader.getTrackPoints().get(i).getInternetElevation());
+                    if (i != loader.getTrackPoints().size() - 1) {
+                        out.println(",");
+                    }
+                }
+                out.print("\n];");
+       
+                
+                    out.print("var deviceElevations = [\n");
+                    for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                        out.print(loader.getTrackPoints().get(i).getDeviceElevation());
+                        if (i != loader.getTrackPoints().size() - 1) {
+                            out.println(",");
+                        }
+                    }
+                    out.print("\n];");
+                
+                    out.print("var speeds = [\n");
+                    for (int i = 0; i < loader.getTrackPoints().size(); i++) {
+                        out.print(loader.getTrackPoints().get(i).getSpeed());
+                        if (i != loader.getTrackPoints().size() - 1) {
+                            out.println(",");
+                        }
+                    }
+                    out.print("\n];");
+            
       
                 
             %>
+                
+            //var graphData = google.visualization.arrayToDataTable(gData);
+             var graphData = new google.visualization.DataTable();
+             
+             
+             graphData.addColumn('number', '');
+                          
+                        
+             if (creationType==="Drawed") {
+                 if (elevationsOnMap[0]==0) {
+                     alert("Sorry, but we cant draw elevation chart because elevation server wasn't return values and device elevation not exist (Drawed track) - For view elevation graph you must add (draw) yout track again!!!");       
+                     
+                     graphData.addColumn('number', 'Device elevation');
+                
+                      for (i=0; i<polylineCoordinatesList.length;i++) {
+
+                            graphData.addRow([i,deviceElevations[i]]);
+                     }
+
+                     
+                    options = {
+                        chartArea:{left:50,top:35, height: "70%", width:"100%"},
+                        hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                        vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
+                        legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                        colors: ['blue'],
+                        vAxes:[                                                                             /// odtialto
+                                {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                                {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                        ],series:[
+                                {targetAxisIndex:0},
+                        ],                                                                                  
+                        };
+                    
+                    $( document ) .ready(function() { document.getElementById('chart_div').style.display="none";
+                                                      var tag = document.createElement('br');
+                                                      document.getElementById('empty_div').appendChild(tag);}); 
+                    
+                 } else {
+                     //alert("2");
+                 
+                     graphData.addColumn('number', 'Elevation on map');
+                     graphData.addColumn({type: 'string', role: 'tooltip'});
+
+
+                     for (i=0; i<polylineCoordinatesList.length;i++) {
+
+                            graphData.addRow([i,elevationsOnMap[i],"Elevation on the map: " + elevationsOnMap[i].toString()]);
+                     }
+
+                     options = {
+                         chartArea:{left:45,top:35, height: "70%", width:"100%"},
+                         hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                         vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
+                         legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                         colors: ['blue'],
+                         vAxes:[                                                                             /// odtialto
+                                {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                                {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                         ],series:[
+                                {targetAxisIndex:0},
+                         ],                                                                                  
+                         };
+                 }
+             } else if (elevationsOnMap[0]==0) {
+                //alert("1");
+
+                graphData.addColumn('number', 'Device elevation');
+                graphData.addColumn({type: 'string', role: 'tooltip'});
+             
+                graphData.addColumn('number', 'Speed');
+                graphData.addColumn({type: 'string', role: 'tooltip'});
+             
+                for (i=0; i<polylineCoordinatesList.length;i++) {
+
+                        graphData.addRow([i,deviceElevations[i],"Time: " + times[i] + "\nDevice elevation: " + deviceElevations[i].toString(),speeds[i], "Time: " + times[i] + "\nSpeed: " + speeds[i].toString() + "km/h" ]);
+                }
+                
+                options = {
+                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                    vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
+                    legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                    colors: ['green','red'],
+                    vAxes:[                                                                             /// odtialto
+                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                    ],series:[
+                            {targetAxisIndex:0},
+                            {targetAxisIndex:1}
+
+                    ],                                                                                  
+                    };
+             }  else if (trackType.substring(0,3) === "Air"){
+                 //alert("3");
+                 graphData.addColumn('number', 'Device elevation');
+                 graphData.addColumn({type: 'string', role: 'tooltip'});
+                 graphData.addColumn('number', 'Elevation on map');
+                 graphData.addColumn({type: 'string', role: 'tooltip'});
+                 graphData.addColumn('number', 'Speed');
+                 graphData.addColumn({type: 'string', role: 'tooltip'});
+                 
+                 for (i=0; i<polylineCoordinatesList.length;i++) {
+
+                        graphData.addRow([i,deviceElevations[i],"Time: " + times[i] + "\nDevice elevation: " + deviceElevations[i].toString(),elevationsOnMap[i],"Time: " + times[i] + "\nElevation on the map: " + elevationsOnMap[i].toString(),speeds[i], "Time: " + times[i] + "\nSpeed: " + speeds[i].toString() + "km/h" ]);
+
+                 }
+                
+                 options = {
+                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                    vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
+                    legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                    colors: ['green','blue','red'],
+                    vAxes:[                                                                             /// odtialto
+                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                    ],series:[
+                            {targetAxisIndex:0},
+                            {targetAxisIndex:0},
+                            {targetAxisIndex:1},
+                    ],                                                                                  
+                    };
+             } else {
+                 //alert("5");
+                graphData.addColumn('number', 'Elevation on map');
+                graphData.addColumn({type: 'string', role: 'tooltip'});
+             
+          
+                graphData.addColumn('number', 'Speed');
+                graphData.addColumn({type: 'string', role: 'tooltip'});
+                
+                for (i=0; i<polylineCoordinatesList.length;i++) {
+
+                        graphData.addRow([i,elevationsOnMap[i],"Time: " + times[i] + "\nElevation on the map: " + elevationsOnMap[i].toString(),speeds[i], "Time: " + times[i] + "\nSpeed: " + speeds[i].toString() + "km/h" ]);
+                }
+                
+                options = {
+                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
+                    vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
+                    legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
+                    colors: ['blue','red'],
+                    vAxes:[                                                                             /// odtialto
+                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                    ],series:[
+                            {targetAxisIndex:0},
+                            {targetAxisIndex:1}
+                    ],                                                                                  
+                    };
+             }
+
 
             function initialize() {
             
@@ -297,12 +458,18 @@
                     });
                     
                     polylineOK.setMap(map);
-                    map.fitBounds(bounds);               
-                    drawChart();
+                    map.fitBounds(bounds);    
+                    if (!emptyGraph) {
+                    drawChart(); }
                     
             }
 
             function draw() {
+                
+                    if (a == polylineCoordinatesList.length) {
+                       clearmap();
+                       return;
+                    }
                 
                     document.getElementById("play").disabled = true;
                     document.getElementById("pause").disabled = false;
@@ -340,9 +507,9 @@
                      }
                     isPolylineAlreadyCreated = true;
                     function drawingMap() {
-              
+
                             clearTimeout(presentTimeout); //  SKUSKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-              
+                            
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
@@ -350,8 +517,7 @@
                             //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
                                 
                                 chart.setSelection([{row:a, column:null}]);
-                            
-                            
+
                             if (isFiles[a] == true) {
                                 isEnd = true;
                                 presentMultimedia();
@@ -373,7 +539,7 @@
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
 //                                              icon: iconF,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                 
                                               marker.setMap(map);
@@ -399,7 +565,7 @@
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
 //                                              icon: iconF,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                 
                                              marker.setMap(map);
@@ -409,19 +575,21 @@
                                                         
                                                   
                                                         photoTimeout = setTimeout(function() {next();return} , pictureShowingTime);   // automaticky mod
-                                                    }
+                                               }
                                         }
                                         else {
+                                                //alert("som v presentation length je " + filesPoints.length + " a index je " + index);
                                                 if(filesPoints.length != index){
                                                     index++;
                                                     presentMultimedia();
-                                                } else{
-                                                isEnd = false;
-                                                a++;
-                                                index = 0;
-                                                draw();
+                                                } else {                                                 
+                                                    isEnd = false;
+                                                    a++;
+                                                    index = 0; 
+                                                     draw();
+                                                    
                                                 }
-                                    }
+                                        }
 
             }
             
@@ -449,14 +617,14 @@
                 if (marker) {    
                 marker.setMap(null);
                 }
-            
+                
                 if(filesPoints.length != index){
                     index++;
                     presentMultimedia();
                 } else {
-                    a++;
-                    isEnd = false;                                               
+                    isEnd = false;
                     draw();
+
                }
                 
             }
@@ -493,48 +661,41 @@
             }
 
             google.maps.event.addDomListener(window, 'load', initialize); 
-        
-            //google.load("visualization", "1", {packages:["corechart"]});
-            
-            function drawChart() {
-                              
-                var graphData = google.visualization.arrayToDataTable(gData);
 
-               
-                options = {
-                    chartArea:{left:50,top:35, height: "70%", width:"100%"},
-                    hAxis:  {textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
-                    vAxis: { gridlines: {count: 8}},
-                    legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
-                    colors: ['green','blue']
-                    };
+            function drawChart() {
+   
+                
                     
                     chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                     
                     function selectHandler() {
+                        
+                       if ((typeof chart.getSelection()[0] == 'undefined')) {
+                           chart.setSelection(null);
+                       } else {
                        
                         var selectedItem = chart.getSelection()[0];
-                        if (selectedItem && isPresented == false) {
-                            var value = graphData.getValue(selectedItem.row,0);
 
-                            if (isAlreadyMark == true) {
-                                   mark.setMap(null);
-                            }
-                            mark = new google.maps.Marker({
+                            if (selectedItem.row != null  && isPresented == false) {
+                                var value = graphData.getValue(selectedItem.row,0);
+
+                                if (isAlreadyMark == true) {
+                                    mark.setMap(null);
+                                }
+                                mark = new google.maps.Marker({
                                                 position: polylineCoordinatesList[value],
                                                 map: map,
 //                                              icon: iconF,
                                                 animation: google.maps.Animation.DROP,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                              
-                                             mark.setMap(map);
+                                mark.setMap(map);
                                              
-                                             isAlreadyMark=true;
+                               isAlreadyMark=true;
                              
-                        }
-                     
-                                
+                            }
+                        }     
                     }
 
                     google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -687,7 +848,8 @@
 					</div></div>
                                         
                                         
-                                        <div id="chart_div" style="width: 100%; height: 200px;"></div>                                                                             
+                                        <div id="chart_div" style="width: 100%; height: 200px;"></div>  
+                                        <div id="empty_div"> </div>
                                             <p style="line-height: 20px; text-align: center;">
                                                 <!--<div class="btn-group">-->
                                                     <button id="play" type="button" class="btn btn-sm btn-danger" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
@@ -717,7 +879,7 @@
                                         <h6> <% out.println(loader.getTrackDescription()); %> </h6>
 
                                         <label for="TrackActivity" style="font-size:13px; margin-bottom: 0px">Track activity</label>
-                                        <h6> <% out.println(loader.getTrackType());%> </h6>
+                                        <h6> <% out.println(loader.getTrackType().substring(4));%> </h6>
                                         
 <!--                                        <label for="Privacy" style="font-size:13px; margin-bottom: 0px">Privacy</label>
                                         <h6> <% out.println(trackFinder.getAccess(trkID));%> </h6>
@@ -734,30 +896,26 @@
                                         <label for="Track Length" style="font-size:13px; margin-bottom: 0px">Track Length</label>
                                         <h6> <% out.println(trackFinder.getTrackLengthKm(trkID));%> km</h6>
                                         
+                                        <label for="MinElevation" style="font-size:13px; margin-bottom: 0px">Min Elevation</label>
+                                        <h6><% out.println(trackFinder.getMinElevation(trkID));%> m</h6>
+                                        
+                                        <label for="MaxElevation" style="font-size:13px; margin-bottom: 0px">Max Elevation</label>
+                                        <h6><% out.println(trackFinder.getMaxElevation(trkID));%> m</h6>
+                                        
+                                        <label for="HeightDiff" style="font-size:13px; margin-bottom: 0px">Height Difference</label>
+                                        <h6><% out.println(trackFinder.getHeightDifference(trkID));%> m</h6>
+                                  
                                         <% if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Parsed")) {
-                                        out.print("<label for=\"MinElevation\" style=\"font-size:13px; margin-bottom: 0px\">Min Elevation</label><h6>");
-                                        out.print(trackFinder.getMinElevation(trkID));
-                                        out.print(" m </h6>");
-                                        
-                                        out.print("<label for=\"MaxElevation\" style=\"font-size:13px; margin-bottom: 0px\">Max Elevation</label><h6>");
-                                        out.print(trackFinder.getMaxElevation(trkID));
-                                        out.print(" m </h6>");
-                                        
-                                        out.print("<label for=\"HeightDiff\" style=\"font-size:13px; margin-bottom: 0px\">Height Difference</label><h6>");
-                                        out.print(trackFinder.getHeightDifference(trkID));
-                                        out.print(" m </h6>");
-                                        } %>
-                                         
-                                        <label for="StartDate" style="font-size:13px; margin-bottom: 0px">Start</label>
-                                        <h6> <% out.println(trackFinder.getTrackStartDate(trkID));%> </h6>
-                                        
-                                        <label for="EndDate" style="font-size:13px; margin-bottom: 0px">End</label>
-                                        <h6> <% out.println(trackFinder.getTrackEndDate(trkID));%> </h6>
-                                        
-                                        <% if (trackFinder.getTrackCreationType(trkID).equalsIgnoreCase("Parsed")) {
+                                        out.print("<label for=\"StartDate\" style=\"font-size:13px; margin-bottom: 0px\">Start</label><h6>");
+                                        out.print(trackFinder.getTrackStartDate(trkID));
+                                        out.print("</h6>");
+                                        out.print("<label for=\"EndDate\" style=\"font-size:13px; margin-bottom: 0px\">End</label><h6>");
+                                        out.print(trackFinder.getTrackEndDate(trkID));
+                                        out.print("</h6>");
                                         out.print("<label for=\"Duration\" style=\"font-size:13px; margin-bottom: 0px\">Duration</label><h6>");
                                         out.print(trackFinder.getTrackDuration(trkID));
-                                        out.print("</h6>"); } 
+                                        out.print("</h6>"); 
+                                        } 
                                         %>
                                         
                                         </div>

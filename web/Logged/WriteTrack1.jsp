@@ -148,18 +148,18 @@
                                                 <div class="form-group">
                                                     <label for="TrackActivity">Activity</label> 
                                                     <select name="Activity" class="form-control">
-                                                    <option value="Hiking">Hiking</option>
-                                                    <option value="Climbing">Climbing</option>
-                                                    <option value="Moto cycling">Moto cycling</option>
-                                                    <option value="Road tripping">Road tripping</option>
-                                                    <option value="Road cycling">Road cycling</option>
-                                                    <option value="Mountain biking">Mountain biking</option>
-                                                    <option value="Sailing">Sailing</option>
-                                                    <option value="Canoeing">Canoeing</option>
-                                                    <option value="Windsurfing">Windsurfing</option>
-                                                    <option value="Kiteboarding">Kiteboarding</option>
-                                                    <option value="Paragliding">Paragliding</option>
-                                                    <option value="Flying">Flying</option>
+                                                    <option value="Lnd-Hiking">Hiking</option>
+                                                    <option value="Lnd-Climbing">Climbing</option>
+                                                    <option value="Lnd-Moto cycling">Moto cycling</option>
+                                                    <option value="Lnd-Road tripping">Road tripping</option>
+                                                    <option value="Lnd-Road cycling">Road cycling</option>
+                                                    <option value="Lnd-Mountain biking">Mountain biking</option>
+                                                    <option value="Wtr-Sailing">Sailing</option>
+                                                    <option value="Wtr-Canoeing">Canoeing</option>
+                                                    <option value="Wtr-Windsurfing">Windsurfing</option>
+                                                    <option value="Wtr-Kiteboarding">Kiteboarding</option>
+                                                    <option value="Air-Paragliding">Paragliding</option>
+                                                    <option value="Air-Flying">Flying</option>
                                                     </select>                                                    
                                                 </div>
                                                     

@@ -191,9 +191,15 @@
                             out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
                             
                             out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
-                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\"> <label for=\"TrackSD\">Start:</label><h5>" + 
-                                    trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + 
-                                    " </h5>  <label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
+                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)).substring(4) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\">"); 
+                            
+                            if(trackFinder.getTrackCreationType(trackIDs.get(i)).equalsIgnoreCase("Parsed")) {
+                                out.print("<label for=\"TrackSD\">Start:</label><h5>" + trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + "</h5>");
+                            } else {
+                                out.print("<label for=\"TrackSD\">Start:</label><h5>None</h5><label for=\"TrackED\">End:</label><h5>None</h5>");
+                            }
+                            
+                            out.print("<label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
                                     + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
 
                             

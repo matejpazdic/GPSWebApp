@@ -300,7 +300,7 @@
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
 //                                              icon: iconF,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                 
                                             var infowindow = new google.maps.InfoWindow({
@@ -343,7 +343,7 @@
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
 //                                              icon: iconF,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                 
                                             var infowindow = new google.maps.InfoWindow({
@@ -429,7 +429,7 @@
                                                 map: map,
 //                                              icon: iconF,
                                                 animation: google.maps.Animation.DROP,
-                                                title: 'Kalvarka :)'
+                                                title: ''
                                              });
                                              
                                              mark.setMap(map);
