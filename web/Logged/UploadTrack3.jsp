@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <%
+        session.removeAttribute("isMultimedia");
+        
         String os = System.getProperty("os.name");
         String pathToMultimedia = null;
 

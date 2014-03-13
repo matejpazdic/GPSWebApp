@@ -56,7 +56,6 @@
     MultimediaFilesMerger merger = new MultimediaFilesMerger(parser);
     merger.locateMultimediaFilesWithTrack();
     
-    
 %>
 <html lang="en">
     <head>
@@ -99,7 +98,15 @@
         
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
-
+                    <%
+                        String isMultimedia = null;
+                        if(session.getAttribute("isMultimedia") != null){
+                            isMultimedia = "True";
+                        }else{
+                            isMultimedia = "False";
+                        }
+                        out.println("var isMultimedia = \"" + isMultimedia + "\"");%>
+                            
                     var map_options = {
                     mapTypeId: google.maps.MapTypeId.HYBRID
                     };
@@ -387,6 +394,7 @@
                     document.forms["index"].submit();
                 }
                 
+                
                 function placeMarker() {
                      document.getElementById('place').style.display='none';
                      document.getElementById('mesg').style.display='none';
@@ -444,6 +452,18 @@
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 column">
+                    <div style="display:none;">
+                        <form name="index" action="SubmitTrack" method="post">
+                            <input type="hidden" id="textBox" name="textBox" style="display:none;"><br>
+
+                            <!--<input type="Submit" />-->
+                        </form>
+                    </div>
+                    <script>
+                        if(isMultimedia === "False"){
+                            submitTrack();
+                        }
+                    </script>
                     <nav class="navbar navbar-default" role="navigation">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="HomePage.jsp"><i class="fa fa-globe"></i>&nbsp;  GPSWebApp</a>
@@ -589,18 +609,14 @@
                                             <div id="map_canvas"></div>
                                         </div></div>
                                     </div>
-                         </div>
-                     </div> 
-                                            <form name="index" action="SubmitTrack" method="post">
-                                                <input type="hidden" id="textBox" name="textBox"><br>
-                                                
-                                               <!--<input type="Submit" />-->
-                                            </form>
-                                            <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
-		</div>
+                        </div>
+                    </div> 
+                    <br>
+                    <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
+                </div>
             </div>
-	</div>
-           
+        </div>
+
     </body>
 </html>
 
