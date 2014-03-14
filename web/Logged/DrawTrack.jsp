@@ -185,7 +185,7 @@
                             <div class="tab-pane active" id="panel-234896">
 
                                         					                                            
-                    <h3> Draw your track on map </h3>
+                    <h3> Drawd your track on map </h3>
                     <br>
 
                     <div id="map_canvas"></div>
