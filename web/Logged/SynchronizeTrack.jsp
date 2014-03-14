@@ -101,12 +101,13 @@
                     <%
                         String isMultimedia = null;
                         if(session.getAttribute("isMultimedia") != null){
-                            isMultimedia = "True";
-                        }else{
-                            isMultimedia = "False";
-                        }
-                        out.println("var isMultimedia = \"" + isMultimedia + "\"");%>
-                            
+                             isMultimedia = "True";
+                         }else{
+                             isMultimedia = "False";
+                         }
+                         out.println("var isMultimedia = \"" + isMultimedia + "\"");
+                    %>
+                                           
                     var map_options = {
                     mapTypeId: google.maps.MapTypeId.HYBRID
                     };
@@ -394,7 +395,6 @@
                     document.forms["index"].submit();
                 }
                 
-                
                 function placeMarker() {
                      document.getElementById('place').style.display='none';
                      document.getElementById('mesg').style.display='none';
@@ -455,8 +455,6 @@
                     <div style="display:none;">
                         <form name="index" action="SubmitTrack" method="post">
                             <input type="hidden" id="textBox" name="textBox" style="display:none;"><br>
-
-                            <!--<input type="Submit" />-->
                         </form>
                     </div>
                     <script>
@@ -599,18 +597,18 @@
                                         <p style="line-height: 20px; text-align: center;"> <button id="inp" class="btn btn-default btn-success" onClick="startSync();">Start Synchronizing</button></p>
                                         <br>
                                         <p style="line-height: 20px; text-align: center;"> <button id="unplace" class="btn btn-default btn-warning" onClick="unPlace();" style="display:none">Unplace file</button>
-                                        
-                                       <button id="place" class="btn btn-default btn-success" onClick="placeMarker();" style="display:none">Place on map</button></p>
+
+                                            <button id="place" class="btn btn-default btn-success" onClick="placeMarker();" style="display:none">Place on map</button></p>
                                         <br>
                                         <p id="mesg" class="help-block" style="display:none"> This multimedia file do not belong to added track!!!</p>    
                                         </div>
                                         <div class="col-md-8">
-                                            
+
                                             <div id="map_canvas"></div>
                                         </div></div>
-                                    </div>
+                            </div>
                         </div>
-                    </div> 
+                    </div>        
                     <br>
                     <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" onClick="submitTrack();" >Finish</button></p>
                 </div>

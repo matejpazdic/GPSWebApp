@@ -38,12 +38,12 @@
     
 
         <style>
-                      
+            //html,body {height: 100%}            
+            
             #map_canvas {
                 
                 display: block;
                 width: 100%;
-                height: 710px;
             }
 
         </style>
@@ -51,6 +51,14 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
 
+             $( document ) .ready(function() {                                       // povodne 710 Resize dorobeny
+                 var height = ((screen.height.toString())/100)*65;
+                 var heightSring = Math.round(height) + "px";
+                 document.getElementById('map_canvas').style.height=heightSring;
+             });
+             
+             
+             
             var isPolyCr = false;
             var polylineOK = null;
             var list = new Array();
@@ -185,7 +193,7 @@
                             <div class="tab-pane active" id="panel-234896">
 
                                         					                                            
-                    <h3> Drawd your track on map </h3>
+                    <h3> Draw your track on map </h3>
                     <br>
 
                     <div id="map_canvas"></div>

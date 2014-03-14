@@ -569,13 +569,13 @@ public class MultimediaSearcher {
 
                         if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
                             goodFiles.add(files.get(i));
-                            System.out.println("GOOD> " + files.get(i).getPath());
+                            //System.out.println("GOOD> " + files.get(i).getPath());
                             break;
-                        }else{
-                            if(!badFiles.contains(files.get(i))){
-                                badFiles.add(files.get(i));
-                            System.out.println("BAD> " + files.get(i).getPath());
-                            }
+                         }else{
+                             if(!badFiles.contains(files.get(i))){
+                                 badFiles.add(files.get(i));
+                             //System.out.println("BAD> " + files.get(i).getPath());
+                             }   
                         }
                     }
                 } else {

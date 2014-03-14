@@ -101,7 +101,6 @@
                 
                 display: block;
                 width: 100%;
-                height: 680px;
             }
 
         </style>
@@ -110,6 +109,14 @@
         
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH31FxBV_cLA7hdbY2dBTUsJjAaDEE0MI&sensor=true"></script>
         <script>
+
+
+                 $( document ) .ready(function() {                              // povodne 680 Resize dorobeny
+                 var height = ((screen.height.toString())/100)*65;
+                 var heightSring = Math.round(height) + "px";
+                 document.getElementById('map_canvas').style.height=heightSring;
+                 });
+
 
                     var map_options = {
                     mapTypeId: google.maps.MapTypeId.HYBRID
@@ -580,7 +587,7 @@
                                                     wait: true
                                                 });
                                                 Galleria.run('.galleria', {
-                                                    height: 320,
+                                                    height: Math.round((screen.height.toString())/3.3),               // povodne 320 Resize dorobeny
                                                     width: 'auto'
                                                 });
                                             });
