@@ -466,10 +466,10 @@
 
             function draw() {
                 
-                    if (a == polylineCoordinatesList.length) {
+                    if (a == polylineCoordinatesList.length) {                  /// NOVY KOD
                        clearmap();
                        return;
-                    }
+                    }                                                           ///
                 
                     document.getElementById("play").disabled = true;
                     document.getElementById("pause").disabled = false;

@@ -86,7 +86,7 @@ public class TrackDetailResolver {
                         maxElevation = temp;
                     }
                 }
-                System.out.println("Loadujem zinternetu");
+                System.out.println("Loadujem z internetu");
             }else{
                 for (int i = 0; i < track.size(); i++) {
                     if (maxElevation < track.get(i).getDeviceElevation()) {
