@@ -141,11 +141,11 @@ public class FileLogger {
         } catch (Exception ex) {
             Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                br.close();
-            } catch (IOException ex) {
-                Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          //  try {
+                //br.close();
+          //  } catch (IOException ex) {
+           //     Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
+           // }
         }
     }
     
