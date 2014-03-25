@@ -488,7 +488,7 @@
                             </ul>
                             <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search" name="finderText">
+                                    <input type="text" class="form-control home-search" name="finderText" accept-charset="Windows-1250">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">

@@ -17,6 +17,7 @@
     session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
     
+    request.setCharacterEncoding("Windows-1250");
     String findStr = request.getParameter("finderText");
 %>
 <!DOCTYPE html>
@@ -37,7 +38,8 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
- 
+        
+
     </head>
 
     <body>
@@ -72,7 +74,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search" accept-charset="Windows-1250">
                                 <div class="form-group">
                                     <input type="text" class="form-control home-search" name="finderText" value="<%out.print(findStr);%>">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
