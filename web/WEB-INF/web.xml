@@ -32,6 +32,10 @@
         <servlet-name>SubmitDrawTrack</servlet-name>
         <servlet-class>File.SubmitDrawTrack</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Find</servlet-name>
+        <servlet-class>Find.Find</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/Logged/Upload</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>SubmitDrawTrack</servlet-name>
         <url-pattern>/Logged/SubmitDrawTrack</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Find</servlet-name>
+        <url-pattern>/Logged/Find</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

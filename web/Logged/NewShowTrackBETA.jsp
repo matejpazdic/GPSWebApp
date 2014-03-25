@@ -777,9 +777,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search">
+                                    <input type="text" class="form-control home-search" name="finderText">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
@@ -835,14 +835,14 @@
                                         
                                         <div class="col-md-4" style="height:550px">
                                                 <div class="text-center" style="height:275px;">
-                                                <img name="img" src="HTMLStyle\PV.PNG" alt="..." class="fixed_width">
+                                                <img name="img" src="HTMLStyle/PV.PNG" alt="..." class="fixed_width">
      
                                                 </div>
                                             
                                             <div id="ytplayer" style="display:none" >
                                 
                                             </div>
-                                            <img id="img" name="img" src="HTMLStyle\VP.PNG" alt="..." class="fixed_width" style="height:100%">
+                                            <img id="img" name="img" src="HTMLStyle/VP.PNG" alt="..." class="fixed_width" style="height:100%">
                                             
                                             
 					</div></div>
@@ -852,10 +852,10 @@
                                         <div id="empty_div"> </div>
                                             <p style="line-height: 20px; text-align: center;">
                                                 <!--<div class="btn-group">-->
-                                                    <button id="play" type="button" class="btn btn-sm btn-danger" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
-                                                    <button id="pause" type="button" class="btn btn-sm btn-danger" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
-                                                    <button id="next" type="button" class="btn btn-sm btn-danger" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
-                                                    <button id="stop" type="button" class="btn btn-sm btn-danger" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
+                                                    <button id="play" type="button" class="btn btn-sm btn-primary" onclick="draw();"> <span class="glyphicon glyphicon-play"></span></button>
+                                                    <button id="pause" type="button" class="btn btn-sm btn-primary" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
+                                                    <button id="next" type="button" class="btn btn-sm btn-primary" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
+                                                    <button id="stop" type="button" class="btn btn-sm btn-primary" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
                                                 <!--</div>-->
                                             </p>
                                             

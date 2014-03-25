@@ -1,3 +1,10 @@
+<%@page import="Database.DBLoginFinder"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="Database.DBTrackFinder"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dbfindskuska.DBFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
@@ -61,9 +68,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search">
+                                    <input type="text" class="form-control home-search" name="finderText">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
@@ -144,6 +151,9 @@
                                 <a href="#panel-234896" data-toggle="tab">Overview</a>
                             </li>
                             <li>
+                                <a href="#panel-42569" data-toggle="tab">Last added tracks</a>
+                            </li>
+                            <li>
                                 <a href="#panel-42556" data-toggle="tab">Services for our users</a>
                             </li>
                         </ul>
@@ -166,7 +176,7 @@
 								Upload track from your new trip or travel. You can add a lot multimedia file formats.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="UploadTrack1.jsp">Add new track</a> 
+								<a class="btn btn-primary" href="UploadTrack1.jsp">Upload new track</a> 
 							</p>
 						</div>
 					</div>
@@ -182,7 +192,7 @@
 								Draw track of your unrecorded trip on our map and at next you can also add multimedia files.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="DrawTrack.jsp">Write your track</a> 
+								<a class="btn btn-primary" href="WriteTrack1.jsp">Write new track</a> 
 							</p>
 						</div>
 					</div>
@@ -206,6 +216,48 @@
 			</div>
 
                             </div>
+                            <div class="tab-pane" id="panel-42569">
+
+                                <h1>
+				Last added tracks...
+                                </h1>
+                                
+                                <br>
+                                <%
+                                    DBFinder finder = new DBFinder();
+                                    ArrayList<Integer> results = finder.findNewNTracks(5);
+
+                                    DBTrackFinder trackFinder = new DBTrackFinder();
+                                    DBLoginFinder loginFinder = new DBLoginFinder();
+
+                                    if (results.size() == 0) {
+                                            out.print("<div class=\"alert alert-danger\">Sorry, system does not contains any tracks at this time...</div>");
+                                        } else {
+                                            out.println("<table class=\"table\"><thead><tr><th>#</th><th>Creation date</th><th>Track owner</th><th>Track name</th><th>Track Access</th><th></th></tr></thead><tbody>");
+
+                                            for (int i = 0; i < results.size(); i++) {
+
+                                                String track = trackFinder.getTrackFileName(results.get(i));
+                                                String trackFile = trackFinder.getTrackFilePath(results.get(i));
+                                                String userName = loginFinder.getUserEmail(trackFinder.getTrackUserID(results.get(i)));
+                                                String trackAccess = trackFinder.getAccess(results.get(i));
+
+                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                Date modifiedDate = df.parse(trackFinder.getChangeDate(results.get(i)).substring(0, 19));
+                                                modifiedDate.toGMTString();
+
+                                                //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
+                                                out.println("<tr><td>" + (i + 1) + "</td><td>" + modifiedDate + "</td><td>" + userName + "</td><td>" + track + "</td><td>" + trackAccess + "</td><td>"); 
+                                                if(trackAccess.equalsIgnoreCase("Public") || userName.equalsIgnoreCase(session.getAttribute("username").toString())){
+                                                    out.print("<a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>");
+                                                }
+                                                out.print("</td></tr>");
+
+                                            }
+                                            out.println("</tbody></table>");
+                                        }
+                                %>
+                            </div>    
                             <div class="tab-pane" id="panel-42556">
 
                                 <h1>

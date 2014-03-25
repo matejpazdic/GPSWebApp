@@ -65,9 +65,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search">
+                                    <input type="text" class="form-control home-search" name="finderText">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">

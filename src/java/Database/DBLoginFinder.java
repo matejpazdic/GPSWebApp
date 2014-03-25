@@ -220,4 +220,24 @@ public class DBLoginFinder {
         }
     }
     
+    public String getUserEmail(int userID) throws Exception {
+        boolean condition = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection connect1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/GPSWebApp", "root", "Www4dm1n#");
+            PreparedStatement statement1 = connect1.prepareStatement("SELECT * from USERS where USER_ID=" + userID);
+            ResultSet resultSet1 = statement1.executeQuery();
+
+            resultSet1.next();
+            String userEmail = resultSet1.getString("USER_EMAIL");
+            connect1.close();
+            statement1.close();
+            resultSet1.close();
+            return userEmail;
+        } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot load user status from DB in isUserStatus!!!");
+            return null;
+        }
+    }
+    
 } 

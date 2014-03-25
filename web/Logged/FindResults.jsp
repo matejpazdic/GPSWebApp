@@ -1,3 +1,4 @@
+<%@page import="dbfindskuska.DBFinder"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -15,12 +16,14 @@
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
+    
+    String findStr = request.getParameter("finderText");
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
-        <title>Your tracks</title>
+        <title>Founded tracks</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 
@@ -71,7 +74,7 @@
                             </ul>
                             <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search" name="finderText">
+                                    <input type="text" class="form-control home-search" name="finderText" value="<%out.print(findStr);%>">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
@@ -149,28 +152,31 @@
                     </div>
                     
                     <h3>
-                        Explore your tracks
+                        Search results for: <%out.print(findStr);%>
                     </h3>
 
                     <br>
                     
                      <%
+                        DBFinder finder = new DBFinder();
+                        ArrayList<Integer> results = finder.findStringAll(findStr);
     
                         DBTrackFinder trackFinder = new DBTrackFinder();
                         DBLoginFinder loginFinder = new DBLoginFinder();
-                        int userID = loginFinder.getUserId(session.getAttribute("username").toString());
-                        ArrayList<String> tracks = trackFinder.getUserTracks(userID);
-                        ArrayList<String> trackFiles = trackFinder.getUserTracksFiles(userID);
-                        ArrayList<Integer> trackIDs = trackFinder.getTracksIDs(userID);
                         
-                        if (tracks.size() == 0) {
-                            out.print("<div class=\"alert alert-danger\">Sorry, you don't have any uploaded tracks...</div>");
+                        if (results.size() == 0) {
+                            out.print("<div class=\"alert alert-danger\">Sorry, we can't find any track...</div>");
                         }
                         
-                        for(int i = 0; i < tracks.size(); i++){
+                        for(int i = 0; i < results.size(); i++){
+                            
+                            String track = trackFinder.getTrackFileName(results.get(i));
+                            String trackFile = trackFinder.getTrackFilePath(results.get(i));
+                            
+                            String userName = loginFinder.getUserEmail(trackFinder.getTrackUserID(results.get(i)));
                             
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Date modifiedDate = df.parse(trackFinder.getChangeDate(trackIDs.get(i)).substring(0,19));
+                            Date modifiedDate = df.parse(trackFinder.getChangeDate(results.get(i)).substring(0,19));
                             modifiedDate.toGMTString(); 
                                                        
                             
@@ -182,7 +188,7 @@
                                                         
                             out.print("<div class=\"panel panel-default\">");
                             out.print("<div class=\"panel-heading\">");
-                            out.println("<a class=\"panel-title collapsed\" data-toggle=\"collapse\" data-parent=\"#panel-297555\" href=\"#panel-element-" + i + "\">" + tracks.get(i) + "</a>");
+                            out.println("<a class=\"panel-title collapsed\" data-toggle=\"collapse\" data-parent=\"#panel-297555\" href=\"#panel-element-" + i + "\">"+ userName + " / " + track + "</a>");
                             out.print("</div>");
                             out.print("<div id=\"panel-element-" + i + "\" class=\"panel-collapse collapse\">");
                             out.print("<div class=\"panel-body\">\n");
@@ -190,17 +196,17 @@
                  
                             out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
                             
-                            out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(trackIDs.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
-                                    + "<h5>" + trackFinder.getTrackActivity(trackIDs.get(i)).substring(4) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(trackIDs.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(trackIDs.get(i)) + " </h5> </div><div class=\"col-md-5 column\">"); 
+                            out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(results.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
+                                    + "<h5>" + trackFinder.getTrackActivity(results.get(i)).substring(4) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(results.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(results.get(i)) + " </h5> </div><div class=\"col-md-5 column\">"); 
                             
-                            if(trackFinder.getTrackCreationType(trackIDs.get(i)).equalsIgnoreCase("Parsed")) {
-                                out.print("<label for=\"TrackSD\">Start:</label><h5>" + trackFinder.getTrackStartDate(trackIDs.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(trackIDs.get(i)) + "</h5>");
+                            if(trackFinder.getTrackCreationType(results.get(i)).equalsIgnoreCase("Parsed")) {
+                                out.print("<label for=\"TrackSD\">Start:</label><h5>" + trackFinder.getTrackStartDate(results.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(results.get(i)) + "</h5>");
                             } else {
                                 out.print("<label for=\"TrackSD\">Start:</label><h5>None</h5><label for=\"TrackED\">End:</label><h5>None</h5>");
                             }
                             
-                            out.print("<label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(trackIDs.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
-                                    + " <a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
+                            out.print("<label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(results.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
+                                    + " <a href=DeleteTrack.jsp?trkID=" + results.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
 
                             
                             out.print("</div>");

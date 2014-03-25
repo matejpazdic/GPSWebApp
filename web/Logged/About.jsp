@@ -81,9 +81,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search">
+                                    <input type="text" class="form-control home-search" name="finderText">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
@@ -129,7 +129,7 @@
                                         <div class="col-md-4 column">
                                             <div class="text-center">
                                                 <br>
-                                                <img id="kpi" name="img" src="HTMLStyle\kpi.png" alt="..." class="img-rounded" style="height:120px;width:120px">
+                                                <img id="kpi" name="img" src="HTMLStyle/kpi.png" alt="..." class="img-rounded" style="height:120px;width:120px">
                                                 
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                         <div class="col-md-4 column">
                                             <div class="text-center">
                                                 <br>
-                                                <img id="fei" name="img" src="HTMLStyle\fei.png" alt="..." class="img-rounded" style="height:120px;width:120px">
+                                                <img id="fei" name="img" src="HTMLStyle/fei.png" alt="..." class="img-rounded" style="height:120px;width:120px">
                                                 
                                             
                                         </div>
@@ -146,7 +146,7 @@
                                         <div class="col-md-4 column">
                                         <div class="text-center">
                                                 <br>
-                                                <img id="tuke" name="img" src="HTMLStyle\tuke.png" alt="..." class="img-rounded" style="height:120px;width:120px">
+                                                <img id="tuke" name="img" src="HTMLStyle/tuke.png" alt="..." class="img-rounded" style="height:120px;width:120px">
                                                 
                                             
                                         </div>
