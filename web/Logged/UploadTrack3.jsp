@@ -32,7 +32,6 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
         
         <link href="HTMLStyle/MultimediaUploaderStyle/css/dropzone.css" type="text/css" rel="stylesheet" />
 
@@ -40,10 +39,7 @@
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
 
-        
-        
     </head>
 
     <body>

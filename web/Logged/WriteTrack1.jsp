@@ -18,11 +18,9 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
         <script type="text/javascript" src="HTMLStyle/civem-0.0.7.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/civem-0.0.7.js"></script>
         

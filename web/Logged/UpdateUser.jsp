@@ -15,6 +15,8 @@
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
     session.removeAttribute("trackNameExist");
+    
+    request.setCharacterEncoding("Windows-1250");
 %>
 <!DOCTYPE html>
 <html>

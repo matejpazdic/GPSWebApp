@@ -26,11 +26,38 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
+        
+        <script>
+        
+        //var app = angular.module('myapp', []); 
+        'use strict';
+        angular.module('myApp', ['myApp.directives']);
+        /* Controllers */
+        function stageController($scope) {
+            $scope.pw1 = 'password';
+        }   
+        /* Directives */
+        angular.module('myApp.directives', [])
+        .directive('pwCheck', [function () {
+            return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck;
+                    elem.add(firstPassword).on('keyup', function () {
+                    scope.$apply(function () {
+                    // console.info(elem.val() === $(firstPassword).val());
+                    ctrl.$setValidity('pwmatch', elem.val() === $(firstPassword).val());
+                    });
+                });
+            }
+        }
+        }]);
+
+        </script>    
            
         <% 
         if (information.get(3).toString().equalsIgnoreCase("null")) {
@@ -42,7 +69,7 @@
         
     </head>
 
-    <body>
+    <body ng-app="myApp">
         <div class="container">
             
             <div id="top1"> 
@@ -194,7 +221,7 @@
                                         <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
                                     
-                                            <form action="UpdateUser.jsp" name="form" class="form-signin" method="POST">
+                                            <form action="UpdateUser.jsp" name="form" class="form-signin" method="POST" accept-charset="Windows-1250">
                                                
                                                 <label for="email">Email</label>
                                                 <input type="email" name="Login" class="form-control" readonly value="<%out.print(information.get(4));%>">
@@ -223,11 +250,17 @@
                                                 </select>
                                                 </div>
                                                 <br>
-                                                <input type="password" name="currPass" class="form-control" placeholder="Current password" required = "required">
+                                                <div id="1" name = "1" ng-class="{'has-error': !form.currPass.$valid,  'has-success': form.currPass.$valid}">
+                                                <input type="password" name="currPass" class="form-control" placeholder="Current password (Required)" required = "required" ng-model="text">
+                                                </div>
                                                 <br>
-                                                <input type="password" name="Pass" class="form-control" placeholder="New password" required = "required">
+                                                <div id="2" name = "2" ng-class="{'has-error': !form.Pass.$valid,  'has-success': form.Pass.$valid}">
+                                                <input type="password" name="Pass" id="Pass" class="form-control" placeholder="New password (Required)" required = "required" ng-model="Pass">
+                                                </div>
                                                 <br>
-                                                <input type="password" name="RetypePass" class="form-control" placeholder="Retype new password" required = "required">
+                                                <div id="3" name = "3" ng-class="{'has-error': form.RetypePass.$error.pwmatch || !form.RetypePass.$valid, 'has-success': !form.RetypePass.$error.pwmatch && form.RetypePass.$valid}" ng-controller="stageController">
+                                                <input type="password" id="RetypePass" name="RetypePass" class="form-control" placeholder="Retype new password (Required)" required = "required" value="" ng-model="RetypePass" pw-check="Pass">
+                                                </div>
                                                 <br><br>
                                                 
                                                 <script language='javascript' type='text/javascript'>
@@ -239,7 +272,7 @@
                                                     }
                                                 }
                                                 </script>
-                                                <p style="line-height: 20px; text-align: center;"> <button class="btn btn-default btn-success" type="submit" onClick="return check();">Save</button> </p>
+                                                <p style="line-height: 20px; text-align: center;"> <button ng-disabled="!form.$valid" class="btn btn-default btn-success" type="submit" onClick="return check();">Save</button> </p>
                                                 </form>
                                             </div>
                                         <div class="col-md-4 column"></div>

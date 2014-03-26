@@ -14,6 +14,8 @@
     session.removeAttribute("trackName");
     session.removeAttribute("trackDescr");
     session.removeAttribute("trackActivity");
+    
+    request.setCharacterEncoding("Windows-1250");
 %>
 <!DOCTYPE html>
 <html>

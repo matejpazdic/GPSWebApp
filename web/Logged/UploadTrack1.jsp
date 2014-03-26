@@ -21,11 +21,9 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
 
         <script>
             
@@ -134,7 +132,7 @@
                                         <div class="col-md-4 column">
                                             <form action="UploadTrackFileOnly" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
-                                                    <label for="InputFileGps">Input track file</label><input onchange="checkFileExtension(this);" type="file" accept=".gpx, .GPX" name="file" required="required" id="exampleInputFile" />
+                                                    <label for="InputFileGps">Input track file</label><input onchange="checkFileExtension(this);" type="file" accept=".gpx" name="file" required="required" id="exampleInputFile" />
                                                     <br>
                                                     <p class="help-block"> Take note, in this time is only .gpx file supported!!!</p>
                                                     <br>

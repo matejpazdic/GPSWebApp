@@ -14,11 +14,9 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
         <script type="text/javascript" src="HTMLStyle/civem-0.0.7.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/civem-0.0.7.js"></script>
         
@@ -125,7 +123,7 @@
                                                 <div class="form-group">
                                                     
                                                     <label for="TrackName">Track name</label><input id="trackName" name="trkName" type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, 
-                                                            session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" required="required" class="form-control" pattern="[A-Za-z0-9_\-+() ]*" data-errormessage-pattern-mismatch="Only alphanumeric characters, whitespace and _ ( ) - + symbols is supported!!!)" />
+                                                            session.getAttribute("trackFilename").toString().lastIndexOf(".gpx")));%>" required="required" class="form-control" pattern="[A-Za-z0-9_\-+() ]*" data-errormessage-pattern-mismatch="Only alphanumeric characters, whitespace and _ ( ) - + symbols is supported!!!" />
                                                  
                                                 </div>
                                                     <% if(session.getAttribute("trackNameExist").toString().equals("True")){

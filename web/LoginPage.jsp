@@ -44,16 +44,22 @@
     <link href="HTMLStyle/LoginPageStyle/css/bootstrap.css" rel="stylesheet">
 
     
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/jquery.min.js"></script>
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/scripts.js"></script>
+    <script type="text/javascript" src="HTMLStyle/LoginPageStyle/js/jquery.min.js"></script>
+    <script type="text/javascript" src="HTMLStyle/LoginPageStyle/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
    
+    <script>
+    
+    var app = angular.module('myapp', []); 
+    
+    </script>
+    
     <!-- Add custom CSS here -->
     <link href="HTMLStyle/LoginPageStyle/css/stylish-portfolio.css" rel="stylesheet">
    
   </head>
 
-  <body>  
+  <body ng-app="myapp">  
     <!-- Full Page Image Header Area -->
     <div id="top" class="header">
      
@@ -90,7 +96,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 					<h3 class="modal-title" id="myModalLabel">
-                                            Congrats! We send you a activation email with Activation link! 
+                                            <b>Congrats! We send you a activation email with Activation link! </b>
 					</h3>
 			</div>
 			<div class="modal-body">
@@ -112,7 +118,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 					<h3 class="modal-title" id="myModalLabel">
-                                            Your account isn't activated! 
+                                            <b>Your account isn't activated! </b>
 					</h3>
 			</div>
 			<div class="modal-body">
@@ -126,14 +132,18 @@
 		</div></div></div>
         
                         
-           <form action="Login.jsp" class="form-signin" method="POST">
+           <form name = "form" action="Login.jsp" class="form-signin" method="POST">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" name="Login" class="form-control" placeholder="Email address" autofocus>
-        <input type="password" name="Pass" class="form-control" placeholder="Password">
+        <div id="1" name = "1" ng-class="{'has-error': !form.Login.$valid && form.Login.$dirty,  'has-success': form.Login.$valid}">
+        <input type="email" name="Login" class="form-control" placeholder="Email address" autofocus ng-model="email" required>
+        </div>
+        <div id="2" name = "2" ng-class="{'has-error': !form.Pass.$valid && form.Pass.$dirty,  'has-success': form.Pass.$valid}">
+        <input type="password" name="Pass" class="form-control" placeholder="Password" ng-model="text" required>
+        </div>
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button ng-disabled="!form.$valid" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
            <a href="RegisterPage.jsp" class="label">Or register!</a>
            <br>

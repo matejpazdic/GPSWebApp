@@ -28,7 +28,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="Windows-1250">
         <title>Account info</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
@@ -38,11 +38,9 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
     
     </head>
 
@@ -130,7 +128,7 @@
                                     
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group">
-                                          <label class="col-md-6 control-label col-sm-pad">Email</label>
+                                          <label class="col-md-6 control-label col-sm-pad" style="color: red;" >Email</label>
                                           <div class="col-md-1 col-sm-pad">
                                               <p class="form-control-static"><% out.print(information.get(4));%></p>
                                           </div>

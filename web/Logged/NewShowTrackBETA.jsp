@@ -42,7 +42,6 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
         <link href="HTMLStyle/SliderStyle/css/slider.css" rel="stylesheet">
         
         <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
@@ -50,7 +49,6 @@
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/tab.js"></script>
-        <!--<script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>-->
         
 
         <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>-->
@@ -122,6 +120,13 @@
                     var polyLinePresentationColor = '#FF0000';
                     
                     var emptyGraph = false;
+                    
+                    var graphData = null;
+                    
+                    var implicitGraph = 0;
+                    var isDeviceElevations = false;
+                    var isElevationsOnMap = false;
+                    
                     
                     
                     
@@ -282,15 +287,38 @@
             %>
                 
             //var graphData = google.visualization.arrayToDataTable(gData);
-             var graphData = new google.visualization.DataTable();
-             
-             
-             graphData.addColumn('number', '');
-                          
-                        
+            graphData = new google.visualization.DataTable();
+     
              if (creationType==="Drawed") {
                  if (elevationsOnMap[0]==0) {
-                     alert("Sorry, but we cant draw elevation chart because elevation server wasn't return values and device elevation not exist (Drawed track) - For view elevation graph you must add (draw) yout track again!!!");       
+                     implicitGraph = 1;
+                     setGraph1();
+                 } else {
+                     implicitGraph = 2;
+                     isElevationsOnMap = true;
+                     setGraph2();
+                 }
+             } else if (elevationsOnMap[0]==0) {
+                     implicitGraph = 3;
+                     isDeviceElevations = true;
+                     setGraph3();
+             } else if (trackType.substring(0,3) === "Air"){
+                     implicitGraph = 4;
+                     isDeviceElevations = true;
+                     isElevationsOnMap = true;
+                     setGraph4();
+             } else {
+                     implicitGraph = 5;
+                     isElevationsOnMap = true;
+                     isDeviceElevations = true;
+                     setGraph5();
+             }
+             
+            function setGraph1() {
+
+             graphData.addColumn('number', '');
+                
+                alert("Sorry, but we cant draw elevation chart because elevation server wasn't return values and device elevation not exist (Drawed track) - For view elevation graph you must add (draw) yout track again!!!");       
                      
                      graphData.addColumn('number', 'Device elevation');
                 
@@ -318,8 +346,11 @@
                                                       var tag = document.createElement('br');
                                                       document.getElementById('empty_div').appendChild(tag);}); 
                     
-                 } else {
-                     //alert("2");
+            }
+            
+            function setGraph2() {
+
+                     graphData.addColumn('number', '');
                  
                      graphData.addColumn('number', 'Elevation on map');
                      graphData.addColumn({type: 'string', role: 'tooltip'});
@@ -343,10 +374,12 @@
                                 {targetAxisIndex:0},
                          ],                                                                                  
                          };
-                 }
-             } else if (elevationsOnMap[0]==0) {
-                //alert("1");
+            }
+            
+            function setGraph3() {
 
+                graphData.addColumn('number', '');
+                
                 graphData.addColumn('number', 'Device elevation');
                 graphData.addColumn({type: 'string', role: 'tooltip'});
              
@@ -373,8 +406,12 @@
 
                     ],                                                                                  
                     };
-             }  else if (trackType.substring(0,3) === "Air"){
-                 //alert("3");
+            }
+            
+            function setGraph4() {
+
+                 graphData.addColumn('number', '');
+                
                  graphData.addColumn('number', 'Device elevation');
                  graphData.addColumn({type: 'string', role: 'tooltip'});
                  graphData.addColumn('number', 'Elevation on map');
@@ -400,11 +437,15 @@
                     ],series:[
                             {targetAxisIndex:0},
                             {targetAxisIndex:0},
-                            {targetAxisIndex:1},
-                    ],                                                                                  
+                            {targetAxisIndex:1}
+                    ]                                                                                  
                     };
-             } else {
-                 //alert("5");
+            }
+            
+            function setGraph5() {
+
+                graphData.addColumn('number', '');
+                
                 graphData.addColumn('number', 'Elevation on map');
                 graphData.addColumn({type: 'string', role: 'tooltip'});
              
@@ -431,7 +472,7 @@
                             {targetAxisIndex:1}
                     ],                                                                                  
                     };
-             }
+            }
 
 
             function initialize() {
@@ -734,11 +775,64 @@
                      var polColorPresSelect = document.getElementById("polColorPres");
                      polyLinePresentationColor = polColorPresSelect.options[polColorPresSelect.selectedIndex].value;
                      
+                     if (document.getElementById("lstPict").checked) {
+                         lastPictureStayShowed = true;
+                     } else {
+                         lastPictureStayShowed = false;
+                     }
+                     
+                     graphData = new google.visualization.DataTable();
+                     
+                     if (document.getElementById("optionsRadios1").checked) {
+                         
+                         switch(implicitGraph) {
+                            case 1:
+                              setGraph1();
+                              break;
+                            case 2:
+                              setGraph2();
+                              break;
+                            case 3:
+                              setGraph3();
+                              break;
+                            case 4:
+                              setGraph4();
+                              break;
+                            case 5:
+                              setGraph5();
+                              break;
+                            }
+                         
+                     } else {
+                         if (document.getElementById("thirdCheck").checked) {
+                              setGraph4();
+                         } else if (document.getElementById("firstCheck").checked) {
+                              setGraph3();
+                         } else if (creationType==="Drawed") {
+                              setGraph2();
+                         } else {
+                              setGraph5();
+                         }
+                         
+                     }
+
+                     drawChart();
+                     
                      $(function () {
                         $('#myTab a:first').tab('show')
                      });
                      
                      clearmap();
+                     
+                     
+                }
+                
+                function hideChecks() {
+                    document.getElementById('checks').style.display="none";
+                }
+                
+                function showChecks() {
+                    document.getElementById('checks').style.display="inline";
                 }
        
         </script>
@@ -1054,8 +1148,68 @@
                                                     <option value="#F10066">Pink</option>
                                                 </select>
                                         <br>
-                                        <br>
                                         
+                                        <label for="GraphOptions">Chart options</label>
+                                        
+                                        <br>
+
+                                        <div id="graphOpt" class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="implicit" onClick="hideChecks()" checked>
+                                                Show default chart based on track activity
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="customize" onClick="showChecks()">
+                                                Show customized chart
+                                            </label>
+                                        </div>
+                                        <br>
+                                        <div id="checks" style="display:none">
+                                        <div class="radio" >
+                                            <label>
+                                                <input type="radio" name="optionsRadio" value="optionsRadio1" disabled id="firstCheck">
+                                                Show device elevations
+                                            </label>
+                                        </div>
+                                         <div class="radio" >
+                                            <label>
+                                                <input type="radio" name="optionsRadio" value="optionsRadio2" disabled id="secondCheck">
+                                                Show elevations on map
+                                            </label>
+                                        </div>
+                                             <div class="radio" >
+                                            <label>
+                                                <input type="radio" name="optionsRadio" value="optionsRadio3" disabled id="thirdCheck">
+                                                Show elevations on map and device elevations
+                                            </label>
+                                        </div>
+                                        </div>
+                                        
+                                        <script>
+                                        $( document ) .ready(function() { 
+                                                    
+                                                      if(isDeviceElevations == true && isElevationsOnMap == true ) { 
+                                                          document.getElementById('thirdCheck').disabled = false;
+                                                          document.getElementById('firstCheck').disabled = false;
+                                                          document.getElementById('secondCheck').disabled = false;
+                                                          document.getElementById('thirdCheck').checked = true;
+                                                      } else if(isDeviceElevations == true) {
+                                                          document.getElementById('firstCheck').disabled = false;
+                                                          document.getElementById('firstCheck').checked = true;
+                                                      } else if(isElevationsOnMap == true) {
+                                                          document.getElementById('secondCheck').disabled = false;
+                                                          document.getElementById('secondCheck').checked = true;
+                                                      } else    {
+                                                          document.getElementById('optionsRadios2').disabled = true;
+                                                      }                       
+                                                     
+                                        }); 
+                                        </script>
+                                        
+                                        
+                                        <br>
                                         <p style="line-height: 20px; text-align: center;"> <button id="saveOptions" class="btn btn-default btn-success" onClick="saveOptions();">Save</button></p>
                                             
                                             

@@ -69,17 +69,15 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
                 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     	<script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
         <!--<script type="text/javascript" src="HTMLStyle/GalleryStyle/themes/classic2/galleria.classic.min.js"></script>-->
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+        <!--<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>-->
+        <script type="text/javascript" src="HTMLStyle/underscore-min.js"></script>
     
 
         <style>

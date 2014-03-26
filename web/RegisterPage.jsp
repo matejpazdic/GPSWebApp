@@ -21,16 +21,44 @@ and open the template in the editor.
     <!-- Bootstrap core CSS -->
     <link href="HTMLStyle/LoginPageStyle/css/bootstrap.css" rel="stylesheet" type="text/css">
     
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/jquery.min.js"></script>
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="HTMLStyle/ModalStyle/js/scripts.js"></script>
+    <script type="text/javascript" src="HTMLStyle/LoginPageStyle/js/jquery.min.js"></script>
+    <script type="text/javascript" src="HTMLStyle/LoginPageStyle/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
+    
+    <script>
+        
+        //var app = angular.module('myapp', []); 
+        'use strict';
+        angular.module('myApp', ['myApp.directives']);
+        /* Controllers */
+        function stageController($scope) {
+            $scope.pw1 = 'password';
+        }   
+        /* Directives */
+        angular.module('myApp.directives', [])
+        .directive('pwCheck', [function () {
+            return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck;
+                    elem.add(firstPassword).on('keyup', function () {
+                    scope.$apply(function () {
+                    // console.info(elem.val() === $(firstPassword).val());
+                    ctrl.$setValidity('pwmatch', elem.val() === $(firstPassword).val());
+                    });
+                });
+            }
+        }
+        }]);
+
+        </script>    
 
     <!-- Add custom CSS here -->
     <link href="HTMLStyle/LoginPageStyle/css/stylish-portfolio.css" rel="stylesheet" type="text/css">
   
   </head>
 
-  <body>  
+  <body ng-app="myApp">  
     <!-- Full Page Image Header Area -->
     <div id="top" class="header1">
        
@@ -45,22 +73,24 @@ and open the template in the editor.
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 					<h3 class="modal-title" id="myModalLabel">
-                                            This email has been already used!!!
+                                            <b>This email has been already used!!!</b>
 					</h3>
 			</div>
 			<div class="modal-body">
 				Click on the button and write new email adress...
 			</div>
 			<div class="modal-footer">
-			<button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
 				</div>
 			</div>
 					
 		</div></div></div>
        
-           <form action="Register.jsp" name="form" class="form-signin" method="POST">
+           <form action="Register.jsp" name="form" class="form-signin" method="POST" accept-charset="Windows-1250">
         <h2 class="form-signin-heading">Registration form</h2>
-        <input type="email" name="Login" class="form-control" placeholder="Your email address" required = "required" value="">
+        <div ng-class="{'has-error': form.Login.$invalid, 'has-success': !form.Login.$invalid}">
+        <input type="email" name="Login" class="form-control" placeholder="Your email address (Required)" required = "required" value="" ng-model="user.email" >
+        </div>
         <br>
         <input type="text" name="FirstName" class="form-control" placeholder="Your firstname" value="">
         <br>
@@ -80,9 +110,13 @@ and open the template in the editor.
             <option value="Flying">Flying</option>
         </select>
         <br>
-        <input type="password" name="Pass" class="form-control" placeholder="Your password" required = "required" value="">
+        <div id="1" name = "1" ng-class="{'has-error': !form.Pass.$valid,  'has-success': form.Pass.$valid}">
+        <input type="password" id="Pass" name="Pass" class="form-control" placeholder="Your password (Required)" required = "required" value="" ng-model="Pass">
+        </div>
         <br>
-        <input type="password" name="RetypePass" class="form-control" placeholder="Retype your password" required = "required" value="">
+        <div id="2" name = "2" ng-class="{'has-error': form.RetypePass.$error.pwmatch || !form.RetypePass.$valid, 'has-success': !form.RetypePass.$error.pwmatch && form.RetypePass.$valid}" ng-controller="stageController">  
+        <input type="password" id="RetypePass" name="RetypePass" class="form-control" placeholder="Retype your password (Required)" required = "required" value="" ng-model="RetypePass" pw-check="Pass"> 
+        </div>
         <br><br>
         <script language='javascript' type='text/javascript'>
             function check() {
@@ -103,8 +137,9 @@ and open the template in the editor.
                 
             }
         %>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" onClick="return check();">Register</button>
+        <button ng-disabled="!form.$valid" class="btn btn-lg btn-primary btn-block" type="submit" onClick="return check();">Register</button>
       </form>
+        <a href="LoginPage.jsp" class="label" style="">Back to Login page!</a>
 
     </div>
     </div>

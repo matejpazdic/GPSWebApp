@@ -42,17 +42,12 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
-        
-        <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
-        
+
         <link type="text/css" rel="stylesheet" href="HTMLStyle/GalleryStyle/themes/classic/galleria.classic.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
         
-        <script src="http://vjs.zencdn.net/4.3/video.js"></script>
         
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     	<script src="HTMLStyle/GalleryStyle/galleria-1.3.3.min.js"></script>
