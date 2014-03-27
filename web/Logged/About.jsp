@@ -6,16 +6,20 @@
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
+    session.removeAttribute("isMultimedia");
   
     String isUser = session.getAttribute("Admin").toString();
     
     String logLink;
+    String clearLogLink;
     String system = System.getProperty("os.name");
     
     if (system.startsWith("Windows")) {
         logLink = "http://localhost:8084/GPSWebApp/Logged/uploaded_from_server/GPSWebAppLog.log";
+        clearLogLink = "http://localhost:8084/GPSWebApp/Logged/ClearFileLog";
     } else {
         logLink = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/GPSWebAppLog.log";
+        clearLogLink = "http://gps.kpi.fei.tuke.sk/Logged/ClearFileLog";
     }
 %>
 <!DOCTYPE html>
@@ -233,6 +237,10 @@
                                     
                                                 <p>
                                                     <a href="<% out.print(logLink);%>">GPSWebApp Log »</a>
+                                                </p>
+                                                
+                                                <p>
+                                                    <a href="<% out.print(clearLogLink);%>">Clear GPSWebApp Log »</a>
                                                 </p>
                                         
                                         </div>

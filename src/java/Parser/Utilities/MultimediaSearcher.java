@@ -94,7 +94,53 @@ public class MultimediaSearcher {
         this.searchFolder = searchFolder;
     }
     
-    
+    public String[] startSearchWithoutTrack(){
+        String os = System.getProperty("os.name");
+
+        DirectoryScanner scanner = new DirectoryScanner();
+        scanner.setFollowSymlinks(false);
+
+        if (OS.startsWith("Windows")) {
+            String str1 = "**" + System.getProperty("file.separator") + "*.jpg";
+            String str2 = "**" + System.getProperty("file.separator") + "*.jpeg";
+            String str3 = "**\\*.avi";
+            String str4 = "**\\*.mov";
+            String str5 = "**\\*.mp4";
+            String str6 = "**\\*.3gp";
+            String str7 = "**\\*.mp3";
+            String str8 = "**\\*.wav";
+            String str9 = "**\\*.amr";
+            String str10 = "**\\*.txt";
+            String str11 = "**\\*.pdf";
+            scanner.setIncludes(new String[]{str1, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11});
+            File f = new File(this.getSearchFolder());
+            scanner.setBasedir(f);
+            scanner.setCaseSensitive(false);
+            scanner.scan();
+            String[] tempFiles = scanner.getIncludedFiles();
+
+            return tempFiles;
+        } else {
+            String str1 = "**/*.jpg";
+            String str2 = "**/*.jpeg";
+            String str3 = "**/*.avi";
+            String str4 = "**/*.mov";
+            String str5 = "**/*.mp4";
+            String str6 = "**/*.3gp";
+            String str7 = "**/*.mp3";
+            String str8 = "**/*.wav";
+            String str9 = "**/*.amr";
+            String str10 = "**/*.txt";
+            String str11 = "**/*.pdf";
+            scanner.setIncludes(new String[]{str1, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11});
+            scanner.setBasedir(this.searchFolder);
+            scanner.setCaseSensitive(false);
+            scanner.scan();
+            String[] tempFiles = scanner.getIncludedFiles();
+
+            return tempFiles;
+        }
+    }
 
     /**
      * Metóda určená na vyhľadávanie relevantných multimediálnych súborov
@@ -586,11 +632,21 @@ public class MultimediaSearcher {
                         //badFiles.add(files.get(i));
                     }
                 }
+                Date prevTrackPointDate1 = track.get(j - 1).getTime();
+                prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
+                Date nextTrackPointDate1 = track.get(j).getTime();
+                nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
             }
         }
         System.out.println("kolko je multimedii" + goodFiles.size() + " " + badFiles.size());
         goodFiles.addAll(badFiles);
         System.out.println("kolko je multimedii dokopy" + goodFiles.size());
+        
+        Date first = track.get(0).getTime();
+        first.setSeconds(first.getSeconds() + 1);
+        Date last = track.get(track.size() - 1).getTime();
+        last.setSeconds(last.getSeconds() - 1);
+        
         return goodFiles;
     }
 

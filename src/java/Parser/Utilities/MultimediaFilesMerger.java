@@ -74,6 +74,10 @@ public class MultimediaFilesMerger {
                                     //break;
                                 }
                             }
+                            Date prevTrackPointDate1 = getTrackPoints().get(j-1).getTime();
+                            prevTrackPointDate1.setSeconds(getTrackPoints().get(j-1).getTime().getSeconds()+1);
+                            Date nextTrackPointDate1 = getTrackPoints().get(j).getTime();
+                            nextTrackPointDate1.setSeconds(getTrackPoints().get(j).getTime().getSeconds()-1);
                         }
                     }
     }

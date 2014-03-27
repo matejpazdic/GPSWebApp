@@ -78,8 +78,8 @@ public class TrackDetailResolver {
          System.out.println("velkost bodov" + track.size());
         
         
-        if (track.size() > 0 && track.size() == internetElevation.size()) {
-            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && !internetElevation.isEmpty()) {
+        if (track.size() > 0) {
+            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && track.size() == internetElevation.size()) {
                 for (int i = 0; i < track.size(); i++) {
                     int temp = Integer.parseInt(internetElevation.get(i));
                     if (maxElevation < temp) {
@@ -106,8 +106,8 @@ public class TrackDetailResolver {
     public int resolveMinElevation() {
         int minElevation = 1000000;
 
-        if (track.size() > 0 && track.size() == internetElevation.size()) {
-            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && !internetElevation.isEmpty()) {
+        if (track.size() > 0) {
+            if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && track.size() == internetElevation.size()) {
                 for (int i = 0; i < track.size(); i++) {
                     int temp = Integer.parseInt(internetElevation.get(i));
                     if (minElevation > temp) {

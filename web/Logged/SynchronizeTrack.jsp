@@ -4,6 +4,7 @@
     Author     : Lubinko
 --%>
 
+<%@page import="Parser.Utilities.MultimediaSearcher"%>
 <%@page import="File.Video.YouTubeAgent"%>
 <%@page import="Parser.Utilities.MultimediaFilesMerger"%>
 <%@page import="Parser.GPXParser"%>
@@ -27,18 +28,25 @@
     String path = null;
     String multimediaPath = null;
     if(system.startsWith("Windows XP")){
-        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
         multimediaPath = path + "\\Multimedia\\";
     } else if(system.startsWith("Windows")){
-        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + trackName + "\\";
+        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
         multimediaPath = path + "\\Multimedia\\";
     } else{
-        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
         multimediaPath = path + "/Multimedia/";
     }
     
+    MultimediaSearcher searcher = new MultimediaSearcher();
+    searcher.setSearchFolder(multimediaPath);
+    String[] mult = searcher.startSearchWithoutTrack();
+    if(mult.length >= 1){
+        session.setAttribute("isMultimedia", "True");
+    }
+    
     System.out.println(trackName + " " + trackFile + " " + path + " " + multimediaPath);
-    GPXParser parser = new GPXParser(path, trackFile, " ", " ");
+    GPXParser parser = new GPXParser(path, "Temp.gpx", " ", " ");
     parser.readGpx();
     parser.searchForMultimediaFiles(multimediaPath);
     

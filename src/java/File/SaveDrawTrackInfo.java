@@ -36,6 +36,7 @@ import org.apache.tomcat.jni.OS;
 public class SaveDrawTrackInfo extends HttpServlet {
     
     private String pathToFile;
+    private String newPathToFile;
     private String trackName;
     private String trackDescr;
     private String trackActivity;
@@ -74,16 +75,32 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("access", access);
 
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //String pathToMultimedia = pathToFile + "Multimedia\\";
-
-                    ////String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    newPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     String pathToMultimedia = pathToFile + "Multimedia\\";
+
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //newPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String pathToMultimedia = pathToFile + "Multimedia\\";
                     
                     File newFile = new File(pathToFile);
+                    
+                    if (session.getAttribute("isMultimedia") != null) {
+                        if (new File(pathToFile + "Temp.txt").exists()) {
+                            System.out.println("Warning: Mam tempFile a vymazujem!!!");
+                            FileLogger.getInstance().createNewLog("Warning: Found old temp file in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+                            File tempFile = new File(pathToFile + "Temp.txt");
+                            tempFile.delete();
+                            FileUtils.forceDelete(tempFile);
+                        }
+                    } else if (newFile.exists()) {
+                        System.out.println("Warning: Mam temp a vymazujem!!!");
+                        FileLogger.getInstance().createNewLog("Warning: Found old temp folder in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+                        newFile.delete();
+                        FileUtils.forceDelete(newFile);
+                    }
 
-                    if (newFile.exists()) {
+                    if (new File(newPathToFile).exists()) {
                         System.out.println("Mam Rovnaku trasu!!!");
                         FileLogger.getInstance().createNewLog("Warning: User " + session.getAttribute("username") + " attempted to create duplicate of track with track name " + trackName + " !!!");
                         session.setAttribute("trackNameExist", "True");
@@ -102,11 +119,27 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     }
 
                 } else {
-                    pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
+                    pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
+                    newPathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
                     String pathToMultimedia = pathToFile + "Multimedia/";
                     File newFile = new File(pathToFile);
+                    
+                    if(session.getAttribute("isMultimedia") != null){
+                        if(new File(pathToFile + "Temp.txt").exists()){
+                            System.out.println("Warning: Mam tempFile a vymazujem!!!");
+                            FileLogger.getInstance().createNewLog("Warning: Found old temp file in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+                            File tempFile = new File(pathToFile + "Temp.txt");
+                            tempFile.delete();
+                            FileUtils.forceDelete(tempFile);
+                        } else if(newFile.exists()){
+                            System.out.println("Warning: Mam temp a vymazujem!!!");
+                            FileLogger.getInstance().createNewLog("Warning: Found old temp folder in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+                            newFile.delete();
+                            FileUtils.forceDelete(newFile);
+                        }
+                    }
 
-                    if (newFile.exists()) {
+                    if (new File(newPathToFile).exists()) {
                         System.out.println("Mam Rovnaku trasu!!!");
                         FileLogger.getInstance().createNewLog("Warning: User " + session.getAttribute("username") + " attempted to create duplicate of track with track name " + trackName + " !!!");
                         session.setAttribute("trackNameExist", "True");

@@ -11,6 +11,7 @@ import File.Image.ImageResizer;
 import Logger.FileLogger;
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,24 +53,27 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 //trackName = items.get(0).getString();
                 //System.out.println(items.get(0).getString());
             } else {
-                    System.out.println(item.getName());
+                    //System.out.println(item.getName());
                 try {
                     HttpSession session = request.getSession();
                     session.setAttribute("isMultimedia", "True");
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        //path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
-                        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\" + "Multimedia" + "\\";
+                        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        //path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
                     }else{
-                        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/" + "Multimedia" + "/";
+                        path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/" + "Multimedia" + "/";
                     }
                     new File(path).mkdirs();
-                    item.write(new File(path, item.getName()));
-                    FileLogger.getInstance().createNewLog("Successfuly uploaded multimedia file " + item.getName() + " in user's " + session.getAttribute("username") + " track " + trackName + " .");
+                    String tmpFileName = Normalizer.normalize(item.getName(), Normalizer.Form.NFD);
+                    String fileName = tmpFileName.replaceAll("[^\\x00-\\x7F]", "");
+                    //System.out.println("SUBORIK: "  + fileName);
+                    item.write(new File(path, fileName));
+                    FileLogger.getInstance().createNewLog("Successfuly uploaded multimedia file " + fileName + " in user's " + session.getAttribute("username") + " track " + trackName + " .");
                     if(item.getName().toLowerCase().endsWith(".jpg") || item.getName().toLowerCase().endsWith(".jpeg")){
                         ImageResizer resizer = new ImageResizer(1024, 720);
                         //System.out.println("Resized> " + path + item.getName());
-                        resizer.resizeImageWithTempThubnails(path + item.getName());
+                        resizer.resizeImageWithTempThubnails(path + fileName);
                     }
                 } catch (Exception ex) {
                     System.out.println("Error: Cannot save multimedia files!");

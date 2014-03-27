@@ -39,6 +39,7 @@ public class SubmitDrawTrack extends HttpServlet {
     
     private String pathToFile;
     private String pathToTempFile;
+    private String pathToTemp;
     private String pathToMultimediaFiles;
     private String trackName;
     private String trackDescr;
@@ -85,23 +86,26 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                //pathToTempFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                pathToTempFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToTempFile = pathToFile + "Temp.txt";
+                pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //pathToTempFile = pathToFile + "Temp.txt";
+                //pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
-                File fTemp = new File(pathToMultimediaFiles);
-                if(!fTemp.exists()){
-                    fTemp.mkdirs();
-                }
+                
+                File oldFile = new File(pathToTemp);
+                File newFile = new File(pathToFile);
+                oldFile.renameTo(newFile);
             } else {
                 pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
-                pathToTempFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/Temp.txt";
+                pathToTempFile = pathToFile + "Temp.txt";
+                pathToTemp = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
                 pathToMultimediaFiles = pathToFile + "Multimedia" + "/";
-                File fTemp = new File(pathToMultimediaFiles);
-                if(!fTemp.exists()){
-                    fTemp.mkdirs();
-                }
+                
+                File oldFile = new File(pathToTemp);
+                File newFile = new File(pathToFile);
+                oldFile.renameTo(newFile);
             }
 
             GPXParser parser = new GPXParser(pathToFile, filename, session.getAttribute("username").toString(), trackName);

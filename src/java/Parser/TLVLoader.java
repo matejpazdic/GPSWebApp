@@ -41,7 +41,9 @@ public class TLVLoader {
     private String heightDiff;
     private String duration;
   
-    
+    public TLVLoader(){
+        
+    }
     
     public void readTLVFile(String path, String file){
             track.clear();
@@ -199,9 +201,10 @@ public class TLVLoader {
                         if (fileDate.toString().equalsIgnoreCase(firstPointDate)) {
                             multimediaFiles.get(i).setTrackPointIndex(0);
                                     isFiles[0] = true;
+                                    System.out.println("Som v 0 bode!!!");
                                              
                         } else { 
-                            
+                            System.out.println("Som v >0 bode!!!");
                    
                         for(int j = 1; j < track.size(); j++){
 
@@ -220,6 +223,12 @@ public class TLVLoader {
                                         //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
                                          multimediaFiles.get(i).setTrackPointIndex(j);
                                          isFiles[j] = true;
+                                         
+                                    Date prevTrackPointDate1 = track.get(j - 1).getTime();
+                                    prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
+                                    Date nextTrackPointDate1 = track.get(j).getTime();
+                                    nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
+                                         
                                          break;
                                     //}
                                 }
@@ -230,6 +239,12 @@ public class TLVLoader {
                                     //System.out.println(i + ". " + (j - 1));
                                     multimediaFiles.get(i).setTrackPointIndex(j);
                                     isFiles[j] = true;
+                                    
+                                    Date prevTrackPointDate1 = track.get(j - 1).getTime();
+                                    prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
+                                    Date nextTrackPointDate1 = track.get(j).getTime();
+                                    nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
+                                    
                                     break;
                                 }else{
                                     multimediaFiles.get(i).setTrackPointIndex(track.size() - 1);
@@ -237,6 +252,10 @@ public class TLVLoader {
                                     //break;
                                 }
                             }
+                            Date prevTrackPointDate1 = track.get(j-1).getTime();
+                            prevTrackPointDate1.setSeconds(track.get(j-1).getTime().getSeconds()+1);
+                            Date nextTrackPointDate1 = track.get(j).getTime();
+                            nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
                         }
                         }
                     }

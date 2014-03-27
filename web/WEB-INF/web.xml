@@ -36,6 +36,10 @@
         <servlet-name>Find</servlet-name>
         <servlet-class>Find.Find</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClearFileLog</servlet-name>
+        <servlet-class>Logger.ClearFileLog</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/Logged/Upload</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>Find</servlet-name>
         <url-pattern>/Logged/Find</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClearFileLog</servlet-name>
+        <url-pattern>/Logged/ClearFileLog</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

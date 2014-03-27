@@ -390,6 +390,7 @@ public class GPXParser {
                 //String temp = tempStr1.substring(1);
                 String ttt[] = temp.split(",");
                 
+                System.out.println("MAM LAT A LNG: " + ttt[0] + ">>>" + ttt[1]);
                 point.setLatitude(Double.parseDouble(ttt[0]));
                 latitude.add(ttt[0]);
                 point.setLongitude(Double.parseDouble(ttt[1]));
@@ -397,19 +398,22 @@ public class GPXParser {
                 
                 DateFormat dateForm = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
                 Date date = dateForm.parse("2014:01:01 01:00:00");
+                
                 int iii = date.getSeconds();
                 
                 date.setSeconds(iii + i);
+                            
                 point.setTime(date);
                 time.add(date);
-                System.out.println(date);
                 deviceElevation.add("0");
                 //System.out.println("TOTO TU JE: " + point.getLatitude());
                 //System.out.println("TOTO TU JE: " + point.getLongitude());
                 //System.out.println("TOTO TU JE: " + point.getTime());
                 track.add(point);
+                
+                //System.out.println("Po zmene casu: " + track.get(i-1).getTime().toString() + "::::" + time.get(i-1).toString());
             }   
-            System.out.println("TOTO TU JE: " + track.size());
+            //System.out.println("TOTO TU JE: " + track.size());
             
         } catch (Exception ex) {
             Logger.getLogger(GPXParser.class.getName()).log(Level.SEVERE, null, ex);

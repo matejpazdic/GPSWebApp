@@ -6,6 +6,7 @@
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
+    session.removeAttribute("isMultimedia");
   
 %>
 <!DOCTYPE html>

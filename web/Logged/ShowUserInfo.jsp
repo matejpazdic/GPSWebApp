@@ -8,6 +8,7 @@
     session.removeAttribute("trackActivity");
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
+    session.removeAttribute("isMultimedia");
     
      DBLoginFinder finder = new DBLoginFinder();
      ArrayList<String> information = finder.getUserInformation(session.getAttribute("username").toString());

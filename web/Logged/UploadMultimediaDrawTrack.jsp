@@ -5,16 +5,16 @@
 <html lang="en">
     <%
         
-        session.removeAttribute("isMultimedia");
+        //session.removeAttribute("isMultimedia");
         String os = System.getProperty("os.name");
         String pathToMultimedia =  null;
         
         if(os.startsWith("Windows XP")){
-            pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+            pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Multimedia\\";
         }else if(os.startsWith("Windows")){
-            pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + session.getAttribute("trackName") + "\\Multimedia\\";
+            pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Multimedia\\";
         }else{
-            pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + session.getAttribute("trackName") + "/Multimedia/";
+            pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/Multimedia/";
         }
         
         File f = new File(pathToMultimedia);

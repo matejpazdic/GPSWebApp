@@ -43,7 +43,7 @@
                         DBLoginCreator creator = new DBLoginCreator();
                         creator.createNewLogin(email, firstName, lastName, age, activity, pass, token);
                         session.setAttribute("correctRegistration", "True");
-                        sender.sendUserAuthEmail(email, token);
+                        sender.sendUserAuthEmail(email, token, firstName, lastName);
                         response.sendRedirect("LoginPage.jsp");
                     } else {
                         session.setAttribute("incorrectValues", "email");

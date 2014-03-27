@@ -2,6 +2,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    session.removeAttribute("trackFilename");
+    session.removeAttribute("trackName");
+    session.removeAttribute("trackDescr");
+    session.removeAttribute("trackActivity");
+    session.removeAttribute("access");
+    session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
 
 %>    

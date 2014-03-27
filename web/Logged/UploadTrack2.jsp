@@ -1,3 +1,5 @@
+<%@page import="Logger.FileLogger"%>
+<%@page import="java.io.File"%>
 <%@page import="org.apache.tomcat.util.codec.binary.StringUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,7 +38,6 @@
     
 
     </head>
-
     <body>
         <div class="container">
             <div class="row clearfix">

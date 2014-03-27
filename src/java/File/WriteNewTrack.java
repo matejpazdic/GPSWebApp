@@ -10,6 +10,7 @@ import Database.DBLoginFinder;
 import Database.DBTrackCreator;
 import Logger.FileLogger;
 import Parser.GPXParser;
+import Parser.Utilities.MultimediaSearcher;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -33,6 +34,7 @@ public class WriteNewTrack extends HttpServlet {
     
     String system = System.getProperty("os.name");
     String pathToFile = null;
+    String pathToMultimedia = null;
     
 
     /**
@@ -54,31 +56,48 @@ public class WriteNewTrack extends HttpServlet {
         String access = session.getAttribute("access").toString();
 
         session.setAttribute("trackNameExist", "False");
-        if (system.startsWith("Windows")) {
-            //String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-            String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-            File tempFile = new File(tempPath);
-            if (tempFile.exists()) {
-                System.out.println("Mam temp a vymazujem!");
-                FileUtils.deleteDirectory(tempFile);
-                //tempFile.delete();
-                FileLogger.getInstance().createNewLog("Warning: Found old temp folder which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
-            }
-        } else {
-            String tempPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
-            File tempFile = new File(tempPath);
-            if (tempFile.exists()) {
-                System.out.println("Mam temp a vymazujem!");
-                FileUtils.deleteDirectory(tempFile);
-                FileLogger.getInstance().createNewLog("Warning: Found old temp folder which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
-            }
-        }
+//        if (system.startsWith("Windows")) {
+//            String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+//            //String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+//            File tempFile = new File(tempPath);
+//            if (tempFile.exists()) {
+//                System.out.println("Mam temp a vymazujem!");
+//                FileUtils.deleteDirectory(tempFile);
+//                //tempFile.delete();
+//                FileLogger.getInstance().createNewLog("Warning: Found old temp folder which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+//            }
+//        } else {
+//            String tempPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
+//            File tempFile = new File(tempPath);
+//            if (tempFile.exists()) {
+//                System.out.println("Mam temp a vymazujem!");
+//                FileUtils.deleteDirectory(tempFile);
+//                FileLogger.getInstance().createNewLog("Warning: Found old temp folder which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
+//            }
+//        }
         
         if (system.startsWith("Windows")) {
-           //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-            pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
+            //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           //pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
         } else {
             pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
+            pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/Multimedia/";
+        }
+        
+        File tempF = new File(pathToFile + "Temp.txt");
+        if(tempF.exists()){
+            FileUtils.forceDelete(tempF);
+            FileLogger.getInstance().createNewLog("Warning: Found tamp file Temp.txt in WriteNewTrack which belongs to user " + session.getAttribute("username") + " while writing new track " + trackName + " !!!");
+        }
+        
+        File multF = new File(pathToMultimedia);
+        MultimediaSearcher searcher = new MultimediaSearcher();
+        searcher.setSearchFolder(pathToMultimedia);
+        String[] files = searcher.startSearchWithoutTrack();
+        if(files.length >= 1){
+            session.setAttribute("isMultimedia", "True");
         }
         
         new File(pathToFile).mkdirs();
@@ -102,30 +121,37 @@ public class WriteNewTrack extends HttpServlet {
         }else{
             try {
                 
-                
+                String pathToTemp;
                 String pathToTempFile;
                 String pathToMultimediaFiles;
                 
                 String filename = trackName + ".gpx";
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //pathToTempFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    pathToTempFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Temp.txt";
-                    pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
-                    File fTemp = new File(pathToMultimediaFiles);
-                    if(!fTemp.exists()){
-                        fTemp.mkdirs();
-                    }
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToTempFile = pathToFile + "Temp.txt";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                     //pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToTempFile = pathToFile + "Temp.txt";
+                    pathToMultimediaFiles = pathToFile + "Multimedia" + "\\";
+//                    File fTemp = new File(pathToMultimediaFiles);
+//                    if(!fTemp.exists()){
+//                        fTemp.mkdirs();
+//                    }
                 } else {
                     pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + trackName + "/";
-                    pathToTempFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/Temp.txt";
+                    pathToTemp = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
+                    pathToTempFile = pathToFile + "Temp.txt";
                     pathToMultimediaFiles = pathToFile + "Multimedia" + "/";
-                    File fTemp = new File(pathToMultimediaFiles);
-                    if(!fTemp.exists()){
-                        fTemp.mkdirs();
-                    }
+//                    File fTemp = new File(pathToMultimediaFiles);
+//                    if(!fTemp.exists()){
+//                        fTemp.mkdirs();
+//                    }
                 }
+                
+                File oldFile = new File(pathToTemp);
+                File newFile = new File(pathToFile);
+                oldFile.renameTo(newFile);
                 
                 GPXParser parser = new GPXParser(pathToFile, filename, session.getAttribute("username").toString(), trackName);
                 parser.readFromTrackPoints(pathToTempFile, trackName, trackDescr);
