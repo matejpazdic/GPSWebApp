@@ -78,9 +78,11 @@
 					</h3>
 			</div>
 			<div class="modal-body">
-				Click on the button and write correct login and password...
+				Click on the "Sign in" button and write correct login and password...
+                                If you forgotten your password, just click on "Send me password" button!
 			</div>
 			<div class="modal-footer">
+                        <a class="btn btn-primary" href="RecoverYourPassword">Send me password</a>
 			<button type="button" class="btn btn-primary" data-dismiss="modal">Sign in</button>
 				</div>
 			</div>

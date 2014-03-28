@@ -14,6 +14,7 @@
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
+    session.removeAttribute("userEmail");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,15 +23,37 @@
         <title>Home page</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+        <link rel="stylesheet" href="HTMLStyle/theme.bootstrap.css">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
+        <!--<link href="HTMLStyle/bootstrap.min.tmp.css" rel="stylesheet">-->
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.js"></script>
+        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.widgets.js"></script>
+        
+        <script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter({ 
+        
+            theme: 'boostrap',
+    headerTemplate: '{content}{icon}',
+    initWidgets: true,
+    widgets: ['uitheme', 'zebra', 'columns'],
+    widgetOptions: {
+        stickyHeaders: "tablesorter-stickyHeader"
+    }
+        
+        });
+    });
+        </script>
     </head>
 
     <body>
@@ -231,7 +254,7 @@
                                     if (results.size() == 0) {
                                             out.print("<div class=\"alert alert-danger\">Sorry, system does not contains any tracks at this time...</div>");
                                         } else {
-                                            out.println("<table class=\"table\"><thead><tr><th>#</th><th>Creation date</th><th>Track owner</th><th>Track name</th><th>Track Access</th><th></th></tr></thead><tbody>");
+                                            out.println("<table id=\"myTable\" class= \"table\"><thead><tr><th>#</th><th>Creation date</th><th>Track owner</th><th>Track name</th><th>Track Access</th><th></th></tr></thead><tbody>");
 
                                             for (int i = 0; i < results.size(); i++) {
 

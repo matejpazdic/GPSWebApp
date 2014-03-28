@@ -40,6 +40,10 @@
         <servlet-name>ClearFileLog</servlet-name>
         <servlet-class>Logger.ClearFileLog</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecoverYourPassword</servlet-name>
+        <servlet-class>Security.RecoverYourPassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/Logged/Upload</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>ClearFileLog</servlet-name>
         <url-pattern>/Logged/ClearFileLog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecoverYourPassword</servlet-name>
+        <url-pattern>/RecoverYourPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

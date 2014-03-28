@@ -42,6 +42,7 @@
 
                 } else {
                     session.setAttribute("isCorrectLogin", "False");
+                    session.setAttribute("userEmail", request.getParameter("Login"));
                     response.sendRedirect("LoginPage.jsp");
         } %>
 </html>

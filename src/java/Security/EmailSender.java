@@ -70,9 +70,9 @@ public class EmailSender {
             //message.setText(userToken);
             message.setSubject("Confirmation email from GPSWebApp server!!!");
             if(system.startsWith("Windows")){
-                message.setContent("<h1>Hello " + name + " " + surname + ", please confirm your email by clicking on link ...</h1><a href=http://localhost:8084/GPSWebApp/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a>","text/html");
+                message.setContent("<html><head><meta charset=\"Windows-1250\"></head><body><h1>Hello " + name + " " + surname + ", please confirm your email by clicking on link ...</h1><a href=http://localhost:8084/GPSWebApp/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a></body></html>","text/html");
             }else{
-                message.setContent("<h1>Hello " + name + " " + surname + ", please confirm your email by clicking on link ...</h1><a href=http://gps.kpi.fei.tuke.sk/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a>","text/html");
+                message.setContent("<html><head><meta charset=\"Windows-1250\"></head><body><h1>Hello " + name + " " + surname + ", please confirm your email by clicking on link ...</h1><a href=http://gps.kpi.fei.tuke.sk/TryToAcceptUser.jsp?token=" + userToken + "&email=" + email + ">LINK</a></body></html>","text/html");
             }
 
             Transport.send(message);
@@ -120,7 +120,7 @@ public class EmailSender {
                 message.setSubject("Your password to GPSWebApp server!!!");
                 //message.setText(userToken);
                 message.setSubject("Your password to GPSWebApp server!!!");
-                message.setContent("<h1>Hello " + name + " " + surname + ", your paassword to access GPSWebApp server is " + results.get(5) + ". We are sorry for forgetting your password. Please take note that you can change it in your settings. Have a pleasant day.</h1>", "text/html");
+                message.setContent("<html><head><meta charset=\"Windows-1250\"></head><body><h1>Hello " + name + " " + surname + ",</h1><br>your paassword to access GPSWebApp server is <b>" + results.get(5) + "</b>. <br>Please take note that you can change it in your settings. Have a pleasant day.</body></html>", "text/html");
 
                 Transport.send(message);
                 

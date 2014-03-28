@@ -650,6 +650,88 @@ public class GPXParser {
         }
     }
     
+    public void createGPXFile(String trackDesc){
+        if (gpxFile != null && destFolder != null) {
+            if (destFolder.getAbsolutePath().toLowerCase().endsWith(".gpx")) {
+                path = destFolder.getAbsolutePath();
+            }
+            if (!destFolder.getAbsolutePath().toLowerCase().endsWith(".gpx")) {
+                path = destFolder.getAbsolutePath() + ".gpx";
+            }
+
+            File f = new File(path);
+
+            if (f.exists()) {
+                try {
+                    f.delete();
+                    f.createNewFile();
+                } catch (IOException ex) {
+                    System.out.println("Error: Cannot create *.gpx file!!!");
+                }
+            }
+
+            if (!f.exists()) {
+                try {
+                    f.createNewFile();
+                } catch (IOException ex) {
+                    System.out.println("Error: Cannot create *.gpx file!!!");
+                }
+            }
+            try {
+                DocumentBuilderFactory DBF1 = DocumentBuilderFactory.newInstance();
+                DocumentBuilder DB1 = DBF1.newDocumentBuilder();
+                org.w3c.dom.Document document = DB1.newDocument();
+                org.w3c.dom.Element rootElement = document.createElement("gpx");
+                rootElement.setAttribute("version", "1.0");
+                document.appendChild(rootElement);
+                org.w3c.dom.Element trkElement = document.createElement("trk");
+                rootElement.appendChild(trkElement);
+                org.w3c.dom.Element nameElement = document.createElement("name");
+                nameElement.setTextContent(trackDBUser + "/" + trackDBName);
+                trkElement.appendChild(nameElement);
+                org.w3c.dom.Element descrElement = document.createElement("desc");
+                descrElement.setTextContent(trackDesc);
+                trkElement.appendChild(descrElement);
+                org.w3c.dom.Element trksegElement = document.createElement("trkseg");
+                trkElement.appendChild(trksegElement);
+
+                for (int i = 0; i < track.size(); i++) {
+                    org.w3c.dom.Element trkptElement = document.createElement("trkpt");
+                    trkptElement.setAttribute("lat", String.valueOf(track.get(i).getLatitude()));
+                    trkptElement.setAttribute("lon", String.valueOf(track.get(i).getLongitude()));
+                    trksegElement.appendChild(trkptElement);
+                    
+                    if (isLoadedElevationsFromServer == true) {
+                        org.w3c.dom.Element elevationElement = document.createElement("ele");
+                        elevationElement.appendChild(document.createTextNode(serverElevation.get(i)));
+                        trkptElement.appendChild(elevationElement);
+                    } else{
+                        org.w3c.dom.Element elevationElement = document.createElement("ele");
+                        elevationElement.appendChild(document.createTextNode("0"));
+                        trkptElement.appendChild(elevationElement);
+                    }
+
+                    org.w3c.dom.Element timeElement = document.createElement("time");
+                    timeElement.appendChild(document.createTextNode(Double.toString(track.get(i).getLongitude())));
+                    trkptElement.appendChild(timeElement);
+                    
+                }
+                
+                TransformerFactory TF = TransformerFactory.newInstance();
+                Transformer T = TF.newTransformer();
+                DOMSource source = new DOMSource(document);
+                StreamResult result = new StreamResult(f);
+                T.transform(source, result);
+                
+                DB1.reset();
+
+            } catch (Exception ex) {
+                System.out.println("Error: Cannot generate *.gpx file!!!");
+                ex.printStackTrace();
+            }
+        }
+    }
+    
     public void searchForMultimediaFiles(String searchFolder){
         TimezoneLoader gmt = new TimezoneLoader(getTrack());
         gmt.correctTimeZone();

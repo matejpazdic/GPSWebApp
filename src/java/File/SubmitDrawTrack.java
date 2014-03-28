@@ -140,6 +140,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly founded multimedia files in STEP 3 for track " + trackName + " .");
             parser.parseFromTrackPoints(trackActivity, trackDescr);
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly parsed GPX file in STEP 3 for track " + trackName + " .");
+            parser.createGPXFile(trackDescr);
+            FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly generated GPX file in STEP 3 for track " + trackName + " .");
 
             
             
