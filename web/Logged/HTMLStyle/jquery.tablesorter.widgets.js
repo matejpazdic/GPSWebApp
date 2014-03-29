@@ -1532,4 +1532,4 @@ ts.addWidget({
 	}
 });
 
-});
+})(jQuery);

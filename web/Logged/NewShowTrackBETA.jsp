@@ -86,19 +86,14 @@
                     var isPresented = false;
                     var index = 0;
                     var a = 0;
-                    var isActualMultimediaEnd = false;
-                    var infowindow;
-                    var contentString;
                     var marker;
-                    var newWidth = 50;
                     var chart;
 
+                    var leadMarker;
                     
                     var polylineCoordinatesListFinal = [];
                     var isPolylineAlreadyCreated = false;
-                    
-//                    var graphDataFinal = [];
-//                    var graphEx = [];
+
                     var options;
                     
                     var isAlreadyMark = false;
@@ -119,6 +114,8 @@
                     
                     var polyLineColor = '#3300FF';
                     var polyLinePresentationColor = '#FF0000';
+                    var strokeWeight = 2;
+                    var strokeOpacity = 1.0;
                     
                     var emptyGraph = false;
                     
@@ -128,7 +125,8 @@
                     var isDeviceElevations = false;
                     var isElevationsOnMap = false;
                     
-                    
+                    var image = 'HTMLStyle/TrackPointIcon/pinBlue.png';
+                    var image1 = 'HTMLStyle/TrackPointIcon/pinRed.png';
                     
                     
                     /////////////////////////////////////
@@ -494,15 +492,15 @@
                     path: polylineCoordinatesList,
                             strokeColor: polyLineColor,
                             geodesic: true,
-                            strokeOpacity: 1.0,
-                            strokeWeight: 2,
+                            strokeOpacity: strokeOpacity,
+                            strokeWeight: strokeWeight,
                             editable: false
                     });
                     
                     polylineOK.setMap(map);
                     map.fitBounds(bounds);    
-                    if (!emptyGraph) {
-                    drawChart(); }
+                  
+                    drawChart();
                     
             }
 
@@ -518,7 +516,6 @@
                     document.getElementById("stop").disabled = false;
                     
                     isPresented = true;
-                    //graphDataFinal = google.visualization.arrayToDataTable(gData);    ZAKOMENTOVANE POZOR
                     
                       if (marker) {    
                         marker.setMap(null);
@@ -529,7 +526,8 @@
                     if(isPolylineAlreadyCreated == false){
                         
                         if (isAlreadyMark == true) {
-                        mark.setMap(null); }
+                            mark.setMap(null); 
+                        }
                         
                     polylineOK.setPath([]);
                     polylineOK.setMap(null);
@@ -541,13 +539,22 @@
                          path: polylineCoordinatesListFinal,
                          strokeColor: polyLinePresentationColor,
                          geodesic: true,
-                         strokeOpacity: 1.0,
-                         strokeWeight: 2,
+                         strokeOpacity: strokeOpacity,
+                         strokeWeight: strokeWeight,
                          editable: false
                          });
                      isEnd = false;    
+                     
+                     leadMarker = new google.maps.Marker({
+                                                position: polylineCoordinatesList[a],
+                                                map: map,
+                                                icon: image1,
+
+                                             });
+                     
+                     isPolylineAlreadyCreated = true;
                      }
-                    isPolylineAlreadyCreated = true;
+                    
                     function drawingMap() {
 
                             clearTimeout(presentTimeout); //  SKUSKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
@@ -555,6 +562,10 @@
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
+                           
+                            
+                                leadMarker.setPosition(polylineCoordinatesList[a])         
+                                leadMarker.setMap(map);
                             
                             //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
                                 
@@ -580,7 +591,7 @@
                                             marker = new google.maps.Marker({
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
-//                                              icon: iconF,
+                                                icon: image,
                                                 title: ''
                                              });
                                 
@@ -606,7 +617,7 @@
                                              marker = new google.maps.Marker({
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
-//                                              icon: iconF,
+                                                icon: image,
                                                 title: ''
                                              });
                                 
@@ -705,9 +716,7 @@
             google.maps.event.addDomListener(window, 'load', initialize); 
 
             function drawChart() {
-   
-                
-                    
+
                     chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                     
                     function selectHandler() {
@@ -765,6 +774,10 @@
                      presentationSpeed = Math.abs(tempSpeed - 145);
                      pictureShowingTime = $('#ex2').data('slider').getValue()*1000;
                      
+                     strokeWeight = $('#ex3').data('slider').getValue();
+                     strokeOpacity = $('#ex4').data('slider').getValue()/10;
+                     
+                     
                      if (document.getElementById("lstPict").checked) {
                          lastPictureStayShowed = true;
                      } else {
@@ -817,7 +830,7 @@
                          
                      }
 
-                     drawChart();
+//                     drawChart();
                      
                      $(function () {
                         $('#myTab a:first').tab('show')
@@ -872,9 +885,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search" accept-charset="Windows-1250">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search" name="finderText" accept-charset="Windows-1250">
+                                    <input type="text" class="form-control home-search" name="finderText" >
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
@@ -1099,21 +1112,7 @@
                                           <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5" style="width:360px;"/>
                                         <br>
                                         <br>
-                                        
-                                        <script> $('#ex1').slider({
-                                                    formater: function(value) {
-                                                    return 'Current speed: ' + value;
-                                                    }
-                                                 }); 
-                                                 
-                                                 $('#ex2').slider({
-                                                    formater: function(value) {
-                                                    return value + ' seconds';
-                                                    }
-                                                 }); 
-                                                 
-                                        </script>
-                                        
+
                                         <div class="checkbox">
                                             <input id ="lstPict" type="checkbox" value="">
                                             <label>
@@ -1135,7 +1134,7 @@
                                                     <option value="#F10066">Pink</option>
                                                 </select>
                                         <br>
-                                        <br>
+                                       
                                         <label for="polylineColorPresent">Polyline color in presentation</label>
                                         
                                         <select id="polColorPres" name="polColorPres" class="form-control" >
@@ -1148,6 +1147,46 @@
                                                     <option value="#00E000">Green</option>
                                                     <option value="#F10066">Pink</option>
                                                 </select>
+                                        <br>
+                                        
+                                         <label for="strokeWeight">Stroke weight</label>
+                                        <br>
+                                                            
+                                        <input id="ex3" data-slider-id='ex3Slider' type="text" data-slider-min="1" data-slider-max="5" data-slider-step="1" data-slider-value="2" style="width:360px;"/>
+                                  
+                                        <br>
+                                        <br>
+                                         <label for="strokeOpacity">Stroke opacity</label>
+                                        <br>
+                                                            
+                                        <input id="ex4" data-slider-id='ex4Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10" style="width:360px;"/>
+                                  
+                                        <br>
+                                        
+                                        <script> $('#ex1').slider({
+                                                    formater: function(value) {
+                                                    return 'Current speed: ' + value;
+                                                    }
+                                                 }); 
+                                                 
+                                                 $('#ex2').slider({
+                                                    formater: function(value) {
+                                                    return value + ' seconds';
+                                                    }
+                                                 }); 
+                                                 
+                                                 $('#ex3').slider({
+                                                    formater: function(value) {
+                                                    return value;
+                                                    }
+                                                 });
+                                                 
+                                                 $('#ex4').slider({
+                                                    formater: function(value) {
+                                                    return (value*10) + '%';
+                                                    }
+                                                 });
+                                        </script>
                                         <br>
                                         
                                         <label for="GraphOptions">Chart options</label>
@@ -1166,8 +1205,9 @@
                                                 Show customized chart
                                             </label>
                                         </div>
-                                        <br>
+                                       
                                         <div id="checks" style="display:none">
+                                            <br>
                                         <div class="radio" >
                                             <label>
                                                 <input type="radio" name="optionsRadio" value="optionsRadio1" disabled id="firstCheck">

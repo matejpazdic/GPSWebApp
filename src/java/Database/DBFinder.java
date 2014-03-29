@@ -37,7 +37,7 @@ public class DBFinder {
     public ArrayList<Integer> findStringAll(String find){
         ArrayList<Integer> results = new ArrayList<Integer>();
         try {  
-            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS FULL JOIN USERS ON USER_ID=TRACK_USER_ID where TRACK_ACCESS='Public' AND (USER_EMAIL like '%" + find + "%' OR TRACK_NAME like '%" + find + "%' OR TRACK_DESCRIPTION like '%" + find + "%' OR TRACK_ACTIVITY like '%" + find + "%' OR TRACK_START_ADDRESS like '%" + find + "%' OR TRACK_END_ADDRESS like '%" + find + "%')");
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS FULL JOIN USERS ON USER_ID=TRACK_USER_ID where TRACK_ACCESS='Public' AND (USER_EMAIL like '%" + find + "%' OR TRACK_NAME like '%" + find + "%' OR TRACK_DESCRIPTION like '%" + find + "%' OR TRACK_ACTIVITY like '%" + find + "%' OR TRACK_STARTDATE like '%" + find + "%' OR TRACK_ENDDATE like '%" + find + "%' OR TRACK_START_ADDRESS like '%" + find + "%' OR TRACK_END_ADDRESS like '%" + find + "%')");
             resultSet = statement.executeQuery();
             System.out.println("SELECT * from TRACKS where TRACK_ACCESS='Public' AND (TRACK_NAME like '%" + find + "%' OR TRACK_DESCRIPTION like '%" + find + "%' OR TRACK_ACTIVITY like '%" + find + "%' OR TRACK_START_ADDRESS like '%" + find + "%' OR TRACK_END_ADDRESS like '%" + find + "%')");
             while(resultSet.next()){

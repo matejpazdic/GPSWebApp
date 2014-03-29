@@ -58,14 +58,8 @@
                     };
                     
                 var map = new google.maps.Map(document.getElementById('map_canvas'),mapOptions);
-
-
-                google.maps.event.addListener(map, 'click', function(e) {
-
-                if (isPolyCr == false) {
-                    //alert("som tu");
-                    isPolyCr = true;
-                    polylineOK = new google.maps.Polyline({
+                
+                polylineOK = new google.maps.Polyline({
                          path: list,
                          strokeColor: '#FF0000',
                          geodesic: true,
@@ -73,21 +67,21 @@
                          strokeWeight: 2,
                          editable: true
                          });
-                }
+                polylineOK.setMap(map);
+
+                google.maps.event.addListener(map, 'click', function(e) {
+
+                
                 placeMarker(e.latLng, map);
                 });
             }
 
            function placeMarker(position, map) {
-//                var marker = new google.maps.Marker({
-//                position: position,
-//                map: map
-//                });
+
                 list = polylineOK.getPath();
                 map.panTo(position);
                 list.push(position);
-                polylineOK.setPath(list);
-                polylineOK.setMap(map);
+ 
                 
                 if (list.length > 1) {
                     document.getElementById("nextStep").disabled = false;

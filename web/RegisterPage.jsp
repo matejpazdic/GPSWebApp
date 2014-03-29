@@ -101,13 +101,18 @@ and open the template in the editor.
         <select name="Activity" class="form-control">
             <option value=" " disabled selected>Select your Activity</option>
             <option value="Hiking">Hiking</option>
-            <option value="Cycling">Cycling</option>
-            <option value="Paragliding">Paragliding</option>
+            <option value="Climbing">Climbing</option>
+            <option value="Moto cycling">Moto cycling</option>
             <option value="Road tripping">Road tripping</option>
-            <option value="Skiing">Skiing</option>
-            <option value="Canoeing">Canoeing</option>
+            <option value="Road cycling">Road cycling</option>
+            <option value="Mountain biking">Mountain biking</option>
             <option value="Sailing">Sailing</option>
-            <option value="Flying">Flying</option>
+            <option value="Canoeing">Canoeing</option>
+            <option value="Windsurfing">Windsurfing</option>
+            <option value="Kiteboarding">Kiteboarding</option>
+            <option value="Paragliding">Paragliding</option>
+            <option value="Flying">Flying</option> 
+            <option value="Other">Other</option>
         </select>
         <br>
         <div id="1" name = "1" ng-class="{'has-error': !form.Pass.$valid,  'has-success': form.Pass.$valid}">

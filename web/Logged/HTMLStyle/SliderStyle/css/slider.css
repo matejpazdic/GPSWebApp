@@ -11,11 +11,15 @@
 	background: #BABABA;
 }
 
-#ex1Slider .slider.slider-horizontal {
-	width: 100%;
+#ex2Slider .slider-selection {
+	background: #BABABA;
 }
 
-#ex2Slider .slider-selection {
+#ex3Slider .slider-selection {
+	background: #BABABA;
+}
+
+#ex4Slider .slider-selection {
 	background: #BABABA;
 }
 .slider {

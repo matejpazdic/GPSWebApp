@@ -7,14 +7,14 @@
 <%@page import="dbfindskuska.DBFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    session.removeAttribute("trackFilename");
-    session.removeAttribute("trackName");
-    session.removeAttribute("trackDescr");
-    session.removeAttribute("trackActivity");
-    session.removeAttribute("access");
-    session.removeAttribute("trackNameExist");
-    session.removeAttribute("isMultimedia");
-    session.removeAttribute("userEmail");
+//    session.removeAttribute("trackFilename");
+//    session.removeAttribute("trackName");
+//    session.removeAttribute("trackDescr");
+//    session.removeAttribute("trackActivity");
+//    session.removeAttribute("access");
+//    session.removeAttribute("trackNameExist");
+//    session.removeAttribute("isMultimedia");
+//    session.removeAttribute("userEmail");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,37 +23,19 @@
         <title>Home page</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-        <link rel="stylesheet" href="HTMLStyle/theme.bootstrap.css">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <!--<link href="HTMLStyle/theme.bootstrap.css" rel="stylesheet">-->
+
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <!--<link href="HTMLStyle/bootstrap.min.tmp.css" rel="stylesheet">-->
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        
-        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.js"></script>
-        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.widgets.js"></script>
-        
-        <script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter({ 
-        
-            theme: 'boostrap',
-    headerTemplate: '{content}{icon}',
-    initWidgets: true,
-    widgets: ['uitheme', 'zebra', 'columns'],
-    widgetOptions: {
-        stickyHeaders: "tablesorter-stickyHeader"
-    }
-        
-        });
-    });
-        </script>
+
+      
     </head>
 
     <body>
@@ -254,7 +236,7 @@ $(document).ready(function()
                                     if (results.size() == 0) {
                                             out.print("<div class=\"alert alert-danger\">Sorry, system does not contains any tracks at this time...</div>");
                                         } else {
-                                            out.println("<table id=\"myTable\" class= \"table\"><thead><tr><th>#</th><th>Creation date</th><th>Track owner</th><th>Track name</th><th>Track Access</th><th></th></tr></thead><tbody>");
+                                            out.println("<table id=\"myTable\" class= \"table \"><thead><tr><th>#</th><th>Uploaded</th><th>Track owner</th><th>Track name</th><th>Track access</th><th></th></tr></thead><tbody>");
 
                                             for (int i = 0; i < results.size(); i++) {
 
@@ -268,11 +250,11 @@ $(document).ready(function()
                                                 modifiedDate.toGMTString();
 
                                                 //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
-                                                out.println("<tr><td>" + (i + 1) + "</td><td>" + modifiedDate + "</td><td>" + userName + "</td><td>" + track + "</td><td>" + trackAccess + "</td><td>"); 
+                                                out.println("<tr><td style=\"word-wrap: break-word;padding-top:12px;padding-bottom:12px;\">" + (i + 1) + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + modifiedDate + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + userName + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + track + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + trackAccess + "</td>"); 
                                                 if(trackAccess.equalsIgnoreCase("Public") || userName.equalsIgnoreCase(session.getAttribute("username").toString())){
-                                                    out.print("<a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>");
+                                                    out.print("<td class=\"text-center\"><a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a>");
                                                 }
-                                                out.print("</td></tr>");
+                                                out.print("<td class=\"text-center\"></td></tr>");
 
                                             }
                                             out.println("</tbody></table>");
@@ -290,13 +272,13 @@ $(document).ready(function()
                                 
                                 <ul>
                                     <li>
-                                        more then 10Gb space for user files
+                                        up to 10Gb space for user files
                                     </li>
                                     <li>
                                         adding tracks from GPS device
                                     </li>
                                     <li>
-                                        adding a lot formats multimedia files
+                                        adding a lot formats multimedia files (picture, video)
                                     </li>
                                     <li>
                                         drawing tracks on high quality map

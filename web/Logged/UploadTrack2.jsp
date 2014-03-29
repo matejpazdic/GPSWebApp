@@ -152,6 +152,7 @@
                                                     <option value="Wtr-Kiteboarding">Kiteboarding</option>
                                                     <option value="Air-Paragliding">Paragliding</option>
                                                     <option value="Air-Flying">Flying</option>
+                                                    <option value="Air-Other">Other</option>
                                                     </select>                                                    
                                                 </div>
                                                     

@@ -1,3 +1,4 @@
+<%@page import="java.util.Locale"%>
 <%@page import="dbfindskuska.DBFinder"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -33,10 +34,57 @@
         <meta name="author" content="">
 
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="HTMLStyle/theme.bootstrap.css">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
 
+        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.js"></script>
+        <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.widgets.js"></script>
+        
+        <script> 
+            $(function() {
+
+                $.extend($.tablesorter.themes.bootstrap, {
+                  // these classes are added to the table. To see other table classes available,
+                  // look here: http://twitter.github.com/bootstrap/base-css.html#tables
+               
+                  icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                  sortNone   : 'bootstrap-icon-unsorted',
+                  sortAsc    : 'icon-chevron-up glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
+                  sortDesc   : 'icon-chevron-down glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                  
+                   table: 'table table-bordered',
+                    footerRow  : '',
+                    footerCells: '',
+
+                    active: '', // applied when column is sorted
+                    hover: '', // use custom css here - bootstrap class may not override it
+                 filterRow: '', // filter row class
+                     even: '', // odd row zebra striping
+                     odd: '' // even row zebra striping
+                });
+
+                $("#myTable").tablesorter({
+      
+                  theme : "bootstrap",
+                  headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                  widgets : [ "uitheme" ],
+                  
+                  headers: { 
+            // assign the secound column (we start counting zero) 
+            
+            3: { sorter: "shortDate", dateFormat: "ddmmyyyy" }, 
+            5: { sorter: "shortDate", dateFormat: "ddmmyyyy" }, 
+            6: { 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+            }, 
+            
+        }
+                });
+              });
+        </script>
 
     </head>
 
@@ -165,8 +213,9 @@
                         DBLoginFinder loginFinder = new DBLoginFinder();
                         
                         if (results.size() == 0) {
-                            out.print("<div class=\"alert alert-danger\">Sorry, we can't find any track...</div>");
-                        }
+                            out.print("<div class=\"alert alert-danger\">Sorry, you don't have any uploaded tracks...</div>");
+                        }  else {
+                            out.println("<table id=\"myTable\" class= \"tablesorter \"><thead><tr><th>Track name</th><th>Owner</th><th>Activity</th><th>Uploaded</th><th>Length</th><th>Start</th><th>&nbsp;</th></tr></thead><tbody>");
                         
                         for(int i = 0; i < results.size(); i++){
                             
@@ -177,43 +226,79 @@
                             
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date modifiedDate = df.parse(trackFinder.getChangeDate(results.get(i)).substring(0,19));
-                            modifiedDate.toGMTString(); 
-                                                       
+                            DateFormat df1 = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                            String finalDate = df1.format(modifiedDate);
                             
+                            DateFormat df2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+                            Date startDate = df2.parse(trackFinder.getTrackStartDate(results.get(i)));
+                            DateFormat df3 = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                            String finalStartDate = df3.format(startDate);
                             
-                            //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
-     
-                            
-                            out.print("<div class=\"panel-group\" id=\"panel-297555\">");
-                                                        
-                            out.print("<div class=\"panel panel-default\">");
-                            out.print("<div class=\"panel-heading\">");
-                            out.println("<a class=\"panel-title collapsed\" data-toggle=\"collapse\" data-parent=\"#panel-297555\" href=\"#panel-element-" + i + "\">"+ userName + " / " + track + "</a>");
-                            out.print("</div>");
-                            out.print("<div id=\"panel-element-" + i + "\" class=\"panel-collapse collapse\">");
-                            out.print("<div class=\"panel-body\">\n");
-                            
-                 
-                            out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
-                            
-                            out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(results.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
-                                    + "<h5>" + trackFinder.getTrackActivity(results.get(i)).substring(4) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(results.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(results.get(i)) + " </h5> </div><div class=\"col-md-5 column\">"); 
+                            out.println("<tr><td style=\"word-wrap: break-word;padding-top:12px;\">" + track + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + userName + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + trackFinder.getTrackActivity(results.get(i)).substring(4) + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + finalDate + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + trackFinder.getTrackLengthKm(results.get(i)) + "</td>"); 
                             
                             if(trackFinder.getTrackCreationType(results.get(i)).equalsIgnoreCase("Parsed")) {
-                                out.print("<label for=\"TrackSD\">Start:</label><h5>" + trackFinder.getTrackStartDate(results.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(results.get(i)) + "</h5>");
+                                out.print("<td style=\"word-wrap: break-word;padding-top:12px;\">" + finalStartDate + "</td>");
                             } else {
-                                out.print("<label for=\"TrackSD\">Start:</label><h5>None</h5><label for=\"TrackED\">End:</label><h5>None</h5>");
+                                out.print("<td style=\"word-wrap: break-word;padding-top:12px;\"> NONE </td>");
                             }
                             
-                            out.print("<label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(results.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
-                                    + " <a href=DeleteTrack.jsp?trkID=" + results.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
-
-                            
-                            out.print("</div>");
-                            out.print("</div>");
-                            out.print("</div>");
-                            
+                          
+                            out.print("<td class=\"text-center\"><a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a></td>");
+                            out.print("</tr>");
                         }
+                        out.println("</tbody></table>");
+                        }
+                        
+//                        if (results.size() == 0) {
+//                            out.print("<div class=\"alert alert-danger\">Sorry, we can't find any track...</div>");
+//                        }
+//                        
+//                        for(int i = 0; i < results.size(); i++){
+//                            
+//                            String track = trackFinder.getTrackFileName(results.get(i));
+//                            String trackFile = trackFinder.getTrackFilePath(results.get(i));
+//                            
+//                            String userName = loginFinder.getUserEmail(trackFinder.getTrackUserID(results.get(i)));
+//                            
+//                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                            Date modifiedDate = df.parse(trackFinder.getChangeDate(results.get(i)).substring(0,19));
+//                            modifiedDate.toGMTString(); 
+//                                                       
+//                            
+//                            
+//                            //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
+//     
+//                            
+//                            out.print("<div class=\"panel-group\" id=\"panel-297555\">");
+//                                                        
+//                            out.print("<div class=\"panel panel-default\">");
+//                            out.print("<div class=\"panel-heading\">");
+//                            out.println("<a class=\"panel-title collapsed\" data-toggle=\"collapse\" data-parent=\"#panel-297555\" href=\"#panel-element-" + i + "\">"+ userName + " / " + track + "</a>");
+//                            out.print("</div>");
+//                            out.print("<div id=\"panel-element-" + i + "\" class=\"panel-collapse collapse\">");
+//                            out.print("<div class=\"panel-body\">\n");
+//                            
+//                 
+//                            out.print("<div style=\"word-wrap: break-word\" class=\"col-md-5 column\">");
+//                            
+//                            out.print("<label for=\"TrackDesc\">Track description:</label><h5>" + trackFinder.getTrackDescription(results.get(i)) + " </h5> <label for=\"TrackActivity\">Track activity:</label> "
+//                                    + "<h5>" + trackFinder.getTrackActivity(results.get(i)).substring(4) + "</h5> <label for=\"TrackUpl\">Uploaded:</label><h5>" + trackFinder.getUploadedDate(results.get(i)) + " </h5> <label for=\"TrackUpl\">Start place:</label><h5>" + trackFinder.getStartAddress(results.get(i)) + " </h5> </div><div class=\"col-md-5 column\">"); 
+//                            
+//                            if(trackFinder.getTrackCreationType(results.get(i)).equalsIgnoreCase("Parsed")) {
+//                                out.print("<label for=\"TrackSD\">Start:</label><h5>" + trackFinder.getTrackStartDate(results.get(i)) + "</h5><label for=\"TrackED\">End:</label><h5> " + trackFinder.getTrackEndDate(results.get(i)) + "</h5>");
+//                            } else {
+//                                out.print("<label for=\"TrackSD\">Start:</label><h5>None</h5><label for=\"TrackED\">End:</label><h5>None</h5>");
+//                            }
+//                            
+//                            out.print("<label for=\"TrackMod\">Modified:</label><h5>" + modifiedDate + " </h5> <label for=\"TrackUpl\">End place:</label><h5>" + trackFinder.getEndAddress(results.get(i)) + " </h5></div></div> <a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm pull-right\">Show</a>"
+//                                    + " <a href=DeleteTrack.jsp?trkID=" + results.get(i) +  "  class=\"btn btn-danger btn-sm pull-right\">Delete</a>"); 
+//
+//                            
+//                            out.print("</div>");
+//                            out.print("</div>");
+//                            out.print("</div>");
+                            
+                        
                     %>   
                     <br>
                 </div>
