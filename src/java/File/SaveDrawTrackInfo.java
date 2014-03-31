@@ -75,13 +75,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("access", access);
 
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //newPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //String pathToMultimedia = pathToFile + "Multimedia\\";
-
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    newPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    newPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     String pathToMultimedia = pathToFile + "Multimedia\\";
+
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //newPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String pathToMultimedia = pathToFile + "Multimedia\\";
                     
                     File newFile = new File(pathToFile);
                     
@@ -90,13 +90,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                             System.out.println("Warning: Mam tempFile a vymazujem!!!");
                             FileLogger.getInstance().createNewLog("Warning: Found old temp file in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
                             File tempFile = new File(pathToFile + "Temp.txt");
-                            tempFile.delete();
+                            //tempFile.delete();
                             FileUtils.forceDelete(tempFile);
                         }
                     } else if (newFile.exists()) {
                         System.out.println("Warning: Mam temp a vymazujem!!!");
                         FileLogger.getInstance().createNewLog("Warning: Found old temp folder in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
-                        newFile.delete();
+                        //newFile.delete();
                         FileUtils.forceDelete(newFile);
                     }
 
@@ -129,12 +129,12 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                             System.out.println("Warning: Mam tempFile a vymazujem!!!");
                             FileLogger.getInstance().createNewLog("Warning: Found old temp file in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
                             File tempFile = new File(pathToFile + "Temp.txt");
-                            tempFile.delete();
+                            //tempFile.delete();
                             FileUtils.forceDelete(tempFile);
                         } else if(newFile.exists()){
                             System.out.println("Warning: Mam temp a vymazujem!!!");
                             FileLogger.getInstance().createNewLog("Warning: Found old temp folder in SaveDrawTrackInfo which belongs to " + session.getAttribute("username") + " !!! Successfuly delete the old temp.");
-                            newFile.delete();
+                            //newFile.delete();
                             FileUtils.forceDelete(newFile);
                         }
                     }

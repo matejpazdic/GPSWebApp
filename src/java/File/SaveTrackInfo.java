@@ -76,11 +76,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
                 if (system.startsWith("Windows")) {
-                   //String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                   // pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                   String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                   pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     
-                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     
@@ -95,7 +95,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                         String pathToMultimedia = oldPathToFile + "Multimedia\\";
                         File f = new File(pathToMultimedia);
                         if(f.exists()){
-                            f.delete();
                             FileUtils.forceDelete(f);
                         }
                     }
@@ -118,7 +117,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                         String pathToMultimedia = oldPathToFile + "Multimedia/";
                         File f = new File(pathToMultimedia);
                         if (f.exists()) {
-                            f.delete();
+                            //f.delete();
                             FileUtils.forceDelete(f);
                         }
                     }
