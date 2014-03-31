@@ -108,6 +108,8 @@
                     
                     ///////////////////////////////////// OPTIONS
                     
+                    var dynamicMode = false;
+                    
                     var presentationSpeed = 40;
                     var pictureShowingTime = 5000;
                     var lastPictureStayShowed = false;
@@ -548,12 +550,16 @@
                      leadMarker = new google.maps.Marker({
                                                 position: polylineCoordinatesList[a],
                                                 map: map,
-                                                icon: image1,
-
+                                                icon: image1
                                              });
                      
                      isPolylineAlreadyCreated = true;
-                     }
+                     
+                     if (dynamicMode == true) {
+                        map.setZoom(16);
+                        //map.setOptions({zoomControl: false,scrollwheel: false});
+                        }
+                    }
                     
                     function drawingMap() {
 
@@ -562,10 +568,13 @@
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
                             polylineOK.setMap(map);
-                           
                             
-                                leadMarker.setPosition(polylineCoordinatesList[a])         
+                            if (dynamicMode == true) {
+                                map.panTo(polylineCoordinatesList[a]);
+                            } else {
+                                leadMarker.setPosition(polylineCoordinatesList[a]);         
                                 leadMarker.setMap(map);
+                            }
                             
                             //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
                                 
@@ -770,8 +779,15 @@
                 }
                 
                 function saveOptions() {
+                    
+                     if (document.getElementById("optionsRadios11").checked) {
+                         dynamicMode = false;
+                     } else {
+                         dynamicMode = true;
+                     }
+                    
                      var tempSpeed = $('#ex1').data('slider').getValue();
-                     presentationSpeed = Math.abs(tempSpeed - 145);
+                     presentationSpeed = Math.abs(tempSpeed - 250);
                      pictureShowingTime = $('#ex2').data('slider').getValue()*1000;
                      
                      strokeWeight = $('#ex3').data('slider').getValue();
@@ -1098,11 +1114,28 @@
                                         <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            
+
+                                        <label for="Presentation mode">Presentation mode</label>
+                                        
+                                        <br>
+
+                                        <div id="presMode" class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios1" id="optionsRadios11" value="static" checked>
+                                                Static mode
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios1" id="optionsRadios12" value="dynamic">
+                                                Dynamic mode
+                                            </label>
+                                        </div>
+                                            <br>
                                         <label for="presentationSpeed">Presentation speed</label>
                                         <br>
                                                             
-                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="5" data-slider-max="150" data-slider-step="1" data-slider-value="105" style="width:360px;"/>
+                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="5" data-slider-max="255" data-slider-step="1" data-slider-value="210" style="width:360px;"/>
                                   
                                         <br>
                                         <br>
