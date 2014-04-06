@@ -127,8 +127,9 @@
                     var isDeviceElevations = false;
                     var isElevationsOnMap = false;
                     
-                    var image = 'HTMLStyle/TrackPointIcon/pinBlue.png';
-                    var image1 = 'HTMLStyle/TrackPointIcon/pinRed.png';
+                    var image = 'HTMLStyle/TrackPointIcon/BluePin1.png';
+                    var image1 = 'HTMLStyle/TrackPointIcon/RedPin1.png';
+                    var image2 = 'HTMLStyle/TrackPointIcon/GreenPin1.png';
                     
                     
                     /////////////////////////////////////
@@ -745,7 +746,7 @@
                                 mark = new google.maps.Marker({
                                                 position: polylineCoordinatesList[value],
                                                 map: map,
-//                                              icon: iconF,
+                                                icon: image2,
                                                 animation: google.maps.Animation.DROP,
                                                 title: ''
                                              });

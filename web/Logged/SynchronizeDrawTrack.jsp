@@ -146,6 +146,9 @@
                     var markersArray = [];
                     var indeX;
                     
+                    var image = 'HTMLStyle/TrackPointIcon/BluePin1.png';
+               
+                    
             <%
                 out.print("var polylineCoordinatesList = [\n");
                 for (int i = 0; i < merger.getTrackPoints().size(); i++) {
@@ -279,7 +282,7 @@
                             marker = new google.maps.Marker({
                                                     position: polylineCoordinatesList[filesPoints[i]],
                                                     map: map,
-    //                                              icon: iconF,
+                                                    icon: image,
                                                     title: ''
                                                  });
 
@@ -332,7 +335,7 @@
                                                     position: polylineCoordinatesList[filesPoints[index]],
                                                     map: map,
                                                     draggable:true,
-    //                                              icon: iconF,
+                                                    icon: image,
                                                     title: ''
                                                  });
 
@@ -413,7 +416,7 @@
                                                     position: polylineCoordinatesList[0],
                                                     map: map,
                                                     draggable:true,
-    //                                              icon: iconF,
+                                                    icon: image,
                                                     title: ''
                                                  });
 

@@ -122,12 +122,16 @@
                     var polylineOK = null;
                     var isEnd = false;
                     var isPresented = false;
+                    
+                    var syncStarted = false;
+                    
                     var index = 0;
                     var a = 0;
                     var isActualMultimediaEnd = false;
                     var infowindow;
                     var contentString;
                     var marker;
+                    var actualMarker;
                     var newWidth = 50;
                     var chart;
 
@@ -144,6 +148,9 @@
                     
                     var markersArray = [];
                     var indeX;
+                    
+                    var image = 'HTMLStyle/TrackPointIcon/BluePin1.png';
+                    var image1 = 'HTMLStyle/TrackPointIcon/RedPin1.png';
                     
             <%
                 out.print("var polylineCoordinatesList = [\n");
@@ -240,6 +247,12 @@
                 
             %>
                 
+                var filesPointsUnique = [];
+                $.each(filesPoints, function(i, el){
+                    if($.inArray(el, filesPointsUnique) === -1) filesPointsUnique.push(el);
+                });
+                
+                
     
                 function clearOverlays() {
                     for (var i = 0; i < markersArray.length; i++ ) {
@@ -273,41 +286,79 @@
 
                         polylineOK.setMap(map);
                         map.fitBounds(bounds);
+                        
+//                        marker = new google.maps.Marker({
+//                                                    position: polylineCoordinatesList[filesPoints[0]],
+//                                                    map: map,
+//                                                    icon: image,
+//                                                    title: ''
+//                                                 });
+//
+//                                                 marker.setMap(map);
+//                                                 markersArray.push(marker);
+//                        
+//
+//                        for (i=1; i<filesPath.length; i++) {
+//                            if (filesPoints[i] !== 0) {
+//                            marker = new google.maps.Marker({
+//                                                    position: polylineCoordinatesList[filesPoints[i]],
+//                                                    map: map,
+//                                                    icon: image1,
+//                                                    title: ''
+//                                                 });
+//
+//                                                 marker.setMap(map);
+//                                                 markersArray.push(marker);
+//                        }}
 
-                        for (i=0; i<filesPath.length; i++) {
-                            marker = new google.maps.Marker({
-                                                    position: polylineCoordinatesList[filesPoints[i]],
+                }
+            
+                function startSync (){
+                    
+                    syncStarted = true;
+
+                    if (marker) {    
+                            clearOverlays();
+                       }
+                    document.getElementById("inp").disabled = true;
+                    
+                    Galleria.ready(function(options) {
+                        syncImg(this.getIndex());
+                    });
+
+                }
+                
+                function showImg (index){
+                    
+                    clearOverlays();
+                                                
+                            for (i=0; i<filesPointsUnique.length; i++) {
+                                
+                                if (filesPointsUnique[i]!== filesPoints[index]) {
+                                marker = new google.maps.Marker({
+                                                    position: polylineCoordinatesList[filesPointsUnique[i]],
                                                     map: map,
-    //                                              icon: iconF,
+                                                    icon: image1,
                                                     title: ''
                                                  });
 
                                                  marker.setMap(map);
                                                  markersArray.push(marker);
-                        }
+                            }}
+                            
+                            marker = new google.maps.Marker({
+                                                    position: polylineCoordinatesList[filesPoints[index]],
+                                                    map: map,
+                                                    icon: image,
+                                                    title: ''
+                                                 });
 
-                }
-            
-                function startSync (){
-
-                    if (marker) {    
-                            clearOverlays();
-                          }
-                    document.getElementById("inp").disabled = true;
-                  
-                    
-                    Galleria.on('image', function(e) {
-                        syncImg(this.getIndex());
-                    });
-                    
-                    Galleria.ready(function(options) {
-                        syncImg(this.getIndex());
-                    });        
-                
+                                                 marker.setMap(map);
+                                                 markersArray.push(marker);      
                 }
 
                 function syncImg (index){
-                        
+
                         if (marker) {    
                             marker.setMap(null);
                           }
@@ -331,7 +382,7 @@
                                                     position: polylineCoordinatesList[filesPoints[index]],
                                                     map: map,
                                                     draggable:true,
-    //                                              icon: iconF,
+                                                    icon: image,
                                                     title: ''
                                                  });
 
@@ -412,7 +463,7 @@
                                                     position: polylineCoordinatesList[0],
                                                     map: map,
                                                     draggable:true,
-    //                                              icon: iconF,
+                                                    icon: image,
                                                     title: ''
                                                  });
 
@@ -596,6 +647,15 @@
                                                     height: 320,
                                                     width: 'auto'
                                                 });
+                                                
+                                                Galleria.on('image', function(e) {
+                                                    if (syncStarted == true) {
+                                                        syncImg(this.getIndex());
+                                                       } else {
+                                                        showImg(this.getIndex());
+                                                       }
+                                                });
+//                                                
                                             });
                                         </script>
                                         
