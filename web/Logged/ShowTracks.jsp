@@ -1,3 +1,4 @@
+<%@page import="Logger.FileLogger"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -16,6 +17,7 @@
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
+    FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in site SHOW TRACKS, and name of track is " + session.getAttribute("trackName"));
 %>
 <!DOCTYPE html>
 <html lang="en">

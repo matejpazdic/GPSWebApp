@@ -4,6 +4,7 @@
     Author     : Lubinko
 --%>
 
+<%@page import="Logger.FileLogger"%>
 <%@page import="Parser.Utilities.MultimediaSearcher"%>
 <%@page import="File.Video.YouTubeAgent"%>
 <%@page import="Parser.Utilities.MultimediaFilesMerger"%>
@@ -19,6 +20,7 @@
 <!DOCTYPE html>
 
 <%
+    FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in site SYNCHRONIZE TRACK, and name of track is " + session.getAttribute("trackName"));
     session.removeAttribute("trackNameExist");
     
     String trackName = session.getAttribute("trackName").toString();

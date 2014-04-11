@@ -1,3 +1,4 @@
+<%@page import="Logger.FileLogger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session.removeAttribute("trackFilename");
@@ -7,7 +8,7 @@
     session.removeAttribute("access");
     session.removeAttribute("trackNameExist");
     session.removeAttribute("isMultimedia");
-  
+    FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in site UPLOAD TRACKLOG FILE, and name of track is " + session.getAttribute("trackName"));
 %>
 <!DOCTYPE html>
 <html lang="en">

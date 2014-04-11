@@ -946,6 +946,9 @@
                                         <li>
 						<a href="#tabs-3" data-toggle="tab">Track options</a>
 					</li>
+                                        <li>
+						<a href="#tabs-4" data-toggle="tab">Track publications</a>
+					</li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="tabs-1">
@@ -1294,6 +1297,35 @@
                                         </div>
                                         </div>
 			</div>
+                                            <div class="tab-pane" id="tabs-4">
+                                                
+                                                                                          
+                                                <h3>Track publications</h3>
+                                                
+                                                 <div class="col-md-4 column"></div>
+                                                 <div class="col-md-4 column">
+                                                     <br>
+                                                     
+                                                     <%
+                                                        String url = null;
+                                                        if(system.startsWith("Windows")){
+                                                            url = "http://localhost:8084/GPSWebApp/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
+                                                        }else{
+                                                            url = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
+                                                        }
+                                                     %>
+                                                     
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".pdf");%>">Download PDF file from track</a>
+                                                     <br>
+                                                     <br>
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".gpx");%>">Download GPX file from track</a>
+                                                     
+                                                     
+                                                     
+                                                     
+                                                 </div>
+                                                   <div class="col-md-4 column"></div>
+                                            </div>
                     </div>
                 </div>
             </div>

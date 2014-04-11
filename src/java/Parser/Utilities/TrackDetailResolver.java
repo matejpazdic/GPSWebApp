@@ -148,10 +148,19 @@ public class TrackDetailResolver {
         if(track.size() > 0){
             for(int i = 0; i < track.size() - 1; i++){
                 if(!isDrawed){
-                    double deltaTime = (track.get(i + 1).getTime().getTime() - track.get(i).getTime().getTime()) / 1000;
+                    double deltaTime = (track.get(i + 1).getTime().getTime() - track.get(i).getTime().getTime()) / (double)1000;
                     double kms = trackLengths.get(i + 1) / deltaTime;
-                    double kmh = kms * 3600;
-
+                    Double kmh = kms * (double)3600;
+                    System.out.println("MAM SPEED: " + deltaTime + " " + kms + " " + kmh);
+                    if(!(String.valueOf(kmh).matches(".*\\d+.*"))){
+                        if(i > 0){
+                            kmh = trackSpeed.get(i-1);
+                        }else{
+                            kmh = 0.0;
+                        }
+                            
+                    }
+                    
                     trackSpeed.add(kmh);
                 }else{
                     trackSpeed.add(0.0);

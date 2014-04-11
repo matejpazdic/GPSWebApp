@@ -1,19 +1,22 @@
-package File;
-
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import Parser.GPXParser;
+package File;
+
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
 import Logger.FileLogger;
+import Parser.GPXParser;
+import Parser.Utilities.MultimediaSearcher;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,13 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.tomcat.jni.OS;
 
 /**
  *
@@ -42,29 +39,39 @@ public class SaveTrackInfo extends HttpServlet {
     private String access;
     private String system = System.getProperty("os.name");
     
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-    List<FileItem> items = null;
-        try {
-            items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-        } catch (FileUploadException e) {
-            throw new ServletException("Cannot parse multipart request.", e);
-        }
-        for (FileItem item : items) {
-            if (item.isFormField()) {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
                 // Process regular form fields here the same way as request.getParameter().
                 // You can get parameter name by item.getFieldName();
                 // You can get parameter value by item.getString();
                 //System.out.println(items.size());
-                trackName = items.get(0).getString();
-
-                trackDescr = items.get(1).getString();
-                trackActivity = items.get(2).getString();
-                access = items.get(3).getString();
+                trackName = request.getParameter("trkName").toString();
+                
+                if(request.getParameter("descr") != null){
+                    trackDescr = request.getParameter("descr").toString();
+                }else{
+                    trackDescr = "";
+                }
+                
+                trackActivity = request.getParameter("Activity").toString();
+                access = request.getParameter("Access").toString();
                
                 String filename;
                 HttpSession session = request.getSession();
+                
+                FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in servlet SaveTrackInfo, and name of track is " + session.getAttribute("trackName"));
+                
                 session.setAttribute("trackNameExist", "False");
                 filename = session.getAttribute("trackFilename").toString();
                 String foldername =filename.substring(0, filename.lastIndexOf(".gpx"));
@@ -76,11 +83,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
                 if (system.startsWith("Windows")) {
-                   //String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                   //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                   String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                   pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     
-                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     
@@ -124,18 +131,50 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 }
 
                 //System.out.println(items.get(0).getString());
-            } else {
-                try {
-                    // Process uploaded fields here.
-                } catch (Exception ex) {
-                   System.out.println("Cannot create a file!!!");
-                   FileLogger.getInstance().createNewLog("ERROR: For user " + request.getSession().getAttribute("username") + " cannot create gpx file in STEP 2!!!");
-                }
-            }
-        }
         // Show result page.
         request.getRequestDispatcher("UploadTrack3.jsp").forward(request, response);
         return;
     }
-}
+        
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+
+    }
 

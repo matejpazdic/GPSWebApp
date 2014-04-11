@@ -3,7 +3,7 @@
 <%@page import="org.apache.tomcat.util.codec.binary.StringUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<%FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in site SAVE TRACK INFO, and name of track is " + session.getAttribute("trackName"));%>
 <html lang="en">
     <head>
         <meta charset="Windows-1250">
@@ -120,7 +120,7 @@
                                     <div class="row clearfix">
                                         <div class="col-md-4 column"></div>
                                         <div class="col-md-4 column">
-                                            <form action="SaveTrackInfo" method="post" enctype="multipart/form-data">
+                                            <form action="SaveTrackInfo" method="post">
                                                 <div class="form-group">
                                                     
                                                     <label for="TrackName">Track name</label><input id="trackName" name="trkName" type="text" value="<%out.print(session.getAttribute("trackFilename").toString().substring(0, 
@@ -158,7 +158,7 @@
                                                     
                                                 <div class="form-group">
                                                     <label for="TrackAccess">Access</label> 
-                                                    <select name="Activity" class="form-control">
+                                                    <select name="Access" class="form-control">
                                                     <option value="Private">Private</option>
                                                     <option value="Public">Public</option>
                                                    

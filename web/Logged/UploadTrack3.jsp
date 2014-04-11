@@ -1,9 +1,11 @@
+<%@page import="Logger.FileLogger"%>
 <%@page import="org.apache.commons.io.FileUtils"%>
 <%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <%
+        FileLogger.getInstance().createNewLog("User " + session.getAttribute("username") + "is in site UPLOAD MULTIMEDIA FILES, and name of track is " + session.getAttribute("trackName"));
         session.removeAttribute("isMultimedia");
         
         String os = System.getProperty("os.name");
