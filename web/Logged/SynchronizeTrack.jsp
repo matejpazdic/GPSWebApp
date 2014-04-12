@@ -115,9 +115,15 @@
                          }
                          out.println("var isMultimedia = \"" + isMultimedia + "\"");
                     %>
+                        
+                    $( document ) .ready(function() {                              // povodne 680 Resize dorobeny
+                    var height = ((screen.height.toString())/100)*60;                    // bolo 65
+                    var heightSring = Math.round(height) + "px";
+                    document.getElementById('map_canvas').style.height=heightSring;
+                    });
                                            
                     var map_options = {
-                    mapTypeId: google.maps.MapTypeId.HYBRID
+                    mapTypeId: google.maps.MapTypeId.ROAD
                     };
                     
                     var map;
@@ -646,7 +652,7 @@
                                                     wait: true
                                                 });
                                                 Galleria.run('.galleria', {
-                                                    height: 320,
+                                                    height: Math.round((screen.height.toString())/3.3),    // bolo 320
                                                     width: 'auto'
                                                 });
                                                 

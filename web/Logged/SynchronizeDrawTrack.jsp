@@ -109,14 +109,14 @@
 
 
                  $( document ) .ready(function() {                              // povodne 680 Resize dorobeny
-                 var height = ((screen.height.toString())/100)*65;
+                 var height = ((screen.height.toString())/100)*60;            // bolo 65
                  var heightSring = Math.round(height) + "px";
                  document.getElementById('map_canvas').style.height=heightSring;
                  });
 
 
                     var map_options = {
-                    mapTypeId: google.maps.MapTypeId.HYBRID
+                    mapTypeId: google.maps.MapTypeId.ROAD
                     };
                     
                     var map;

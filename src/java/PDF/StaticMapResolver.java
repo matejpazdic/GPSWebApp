@@ -26,7 +26,7 @@ public class StaticMapResolver {
     
     public String getStaticMapTrackURL(int lineWeight, String color, int width, int height, int scale){
         if (getLoader() != null) {
-            if (getLoader().getTrackPoints().size() < 40) {
+            if (getLoader().getTrackPoints().size() < 35) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(startURL);
 
@@ -64,7 +64,7 @@ public class StaticMapResolver {
 
                 return builder.toString();
             }else{
-                int addition = getLoader().getTrackPoints().size() / 40;
+                int addition = getLoader().getTrackPoints().size() / 35;
                 
                 StringBuilder builder = new StringBuilder();
                 builder.append(startURL);
@@ -109,7 +109,7 @@ public class StaticMapResolver {
     
     public String getStaticMapTrackURLWithMultimedia(int lineWeight, String color, int width, int height, int scale){
         if (getLoader() != null) {
-            if (getLoader().getTrackPoints().size() < 40) { // 35 je optimum odskusane!!!!
+            if (getLoader().getTrackPoints().size() < 35) { // 35 je optimum odskusane!!!!
                 StringBuilder builder = new StringBuilder();
                 builder.append(startURL);
 
@@ -161,7 +161,7 @@ public class StaticMapResolver {
 
                 return builder.toString();
             }else{
-                int addition = getLoader().getTrackPoints().size() / 40;
+                int addition = getLoader().getTrackPoints().size() / 35;
                 addition++;
                 
                 StringBuilder builder = new StringBuilder();

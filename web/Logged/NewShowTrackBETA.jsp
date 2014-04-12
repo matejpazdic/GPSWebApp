@@ -148,6 +148,7 @@
                                     rel: "0",
                                     showinfo: "0",
                                     iv_load_policy: "3",
+                                    //origin: "http://gps.kpi.fei.tuke.sk",
                                     videoId: "M7lc1UVf-VE",
                                     theme: "light"
                                   },
@@ -980,7 +981,7 @@
                                         <div id="empty_div"> </div>
                                             <p style="line-height: 20px; text-align: center;">
                                                 <!--<div class="btn-group">-->
-                                                    <button id="play" type="button" class="btn btn-sm btn-primary" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
+                                                <button id="play" type="button" class="btn btn-sm btn-primary" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
                                                     <button id="pause" type="button" class="btn btn-sm btn-primary" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
                                                     <button id="next" type="button" class="btn btn-sm btn-primary" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
                                                     <button id="stop" type="button" class="btn btn-sm btn-primary" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
@@ -1300,25 +1301,28 @@
                                             <div class="tab-pane" id="tabs-4">
                                                 
                                                                                           
-                                                <h3>Track publications</h3>
-                                                
+                                                <h3>Track publication</h3>
+                                                <br>
                                                  <div class="col-md-4 column"></div>
-                                                 <div class="col-md-4 column">
+                                                 <div class="col-md-4 column text-center">
                                                      <br>
                                                      
                                                      <%
                                                         String url = null;
                                                         if(system.startsWith("Windows")){
-                                                            url = "http://localhost:8084/GPSWebApp/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
+                                                            url = "http://localhost:8080/GPSWebApp/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
                                                         }else{
                                                             url = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
                                                         }
                                                      %>
-                                                     
-                                                     <a class="btn btn-primary" href="<%out.print(url + ".pdf");%>">Download PDF file from track</a>
+                                                     <p class="help-block">You can download pdf file with presentation of track clicking button below</p>
+                                                     <br>
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".pdf");%>" download>Download PDF file from track</a>
                                                      <br>
                                                      <br>
-                                                     <a class="btn btn-primary" href="<%out.print(url + ".gpx");%>">Download GPX file from track</a>
+                                                     <p class="help-block">You can download gpx file with tracklog clicking button below</p>
+                                                     <br>
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".gpx");%>" download>Download GPX file from track</a>
                                                      
                                                      
                                                      
