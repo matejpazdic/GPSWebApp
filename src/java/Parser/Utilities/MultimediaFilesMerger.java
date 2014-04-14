@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
- * @author matej_000
+ * Trieda MultimediaFilesMerger slúži na priradenie multimediálnych 
+ * súborov k jednotlivým bodom trasy. Je to pomocná trieda pre potreby 
+ * manuálnej synchronizácie trasy s multimediálnymi súbormi.
+ * @author Matej Pazdič
  */
 public class MultimediaFilesMerger {
     
@@ -23,12 +25,19 @@ public class MultimediaFilesMerger {
     private ArrayList<TrackPointImpl> track = null;
     private ArrayList<FileImpl> multimediaFiles = null;
     
+    /**
+     * Konštruktor triedy MultimediaFilesMerger.
+     * @param parser - objekt triedy GPXParser v ktorom sa nachádzajú větky potrebné informácie o načítanej trase
+     */
     public MultimediaFilesMerger(GPXParser parser){
         this.parser = parser;
         this.track = parser.getTrack();
         this.multimediaFiles = parser.getFiles();
     }
     
+    /**
+     * Metóda locateMultimediaFilesWithTrack slúži na samostatné priradenie multimediálnych súborov k trase, a taktiež na vytvorenie poľa isFiles, ktoré hovorí o tom v ktorom bode sa budú prezentovať nejaké multimediálne súbory.
+     */
     public void locateMultimediaFilesWithTrack(){
         isFiles = new boolean[getTrackPoints().size()];
                     for(int i = 0 ; i < getTrackPoints().size() ; i++){
@@ -83,21 +92,21 @@ public class MultimediaFilesMerger {
     }
 
     /**
-     * @return the isFiles
+     * @return Návratová hodnota je pole pravdivostných hodnôt, ktoré udáva na ktorom bode sa budú prezentovať multimediálne súbory.
      */
     public boolean[] getIsFiles() {
         return isFiles;
     }
 
     /**
-     * @return the track
+     * @return Návratová hodnota je zoznam traťových bodov zapísaných pomocou údajovej šttruktúry "TrackPointImpl".
      */
     public ArrayList<TrackPointImpl> getTrackPoints() {
         return track;
     }
 
     /**
-     * @return the multimediaFiles
+     * @return  Návratová hodnota je zoznam priradených multimediálnych súborov zapísaných pomocou údajovej šttruktúry "FilesImpl".
      */
     public ArrayList<FileImpl> getMultimediaFiles() {
         return multimediaFiles;

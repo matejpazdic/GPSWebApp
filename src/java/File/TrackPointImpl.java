@@ -7,7 +7,9 @@ package File;
 import java.util.Date;
 
 /**
- * Pomocná trieda určená na reprezentáciu GPS záznamu tzv. trackpointu
+ * Trieda TrackPointImpl je určená na reprezentáciu tracťového 
+ * bodu a jeho detailov. Je využítá pri vytváraní zoznamu 
+ * traťových bodov trasy.
  * @author Matej Pazdič
  */
 public class TrackPointImpl {
@@ -19,14 +21,14 @@ public class TrackPointImpl {
     private String speed;
     
     /**
-     * Základný konštruktor triedy TrackPointImpl
+     * Základný konštruktor triedy TrackPointImpl.
      */
     public TrackPointImpl(){
         
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      */
@@ -36,7 +38,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -48,7 +50,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -62,7 +64,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -76,7 +78,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -92,7 +94,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia

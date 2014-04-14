@@ -1,3 +1,4 @@
+<%@page import="Database.DBLoginFinder"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -1309,10 +1310,13 @@
                                                      
                                                      <%
                                                         String url = null;
+                                                        int userID = trackFinder.getTrackUserID(Integer.parseInt(request.getParameter("trkID")));
+                                                        DBLoginFinder loginFinder = new DBLoginFinder();
+                                                        String user = loginFinder.getUserEmail(userID);
                                                         if(system.startsWith("Windows")){
-                                                            url = "http://localhost:8080/GPSWebApp/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
+                                                            url = "http://localhost:8080/GPSWebApp/Logged/uploaded_from_server/" + user + "/" + file + "/" + file;
                                                         }else{
-                                                            url = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + file + "/" + file;
+                                                            url = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/" + user + "/" + file + "/" + file;
                                                         }
                                                      %>
                                                      <p class="help-block">You can download pdf file with presentation of track clicking button below</p>

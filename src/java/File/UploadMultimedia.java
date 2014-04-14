@@ -26,16 +26,29 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- *
- * @author matej_000
+ * Trieda UploadMultimedia je Servlet, ktorý obsluhuje ukladanie a 
+ * úpravu odovzdávaných multimediálnych súborov pri obidvoch typoch 
+ * vytvorenia novej trasy. Tento servlet je volaný pri odovzdávaní 
+ * multimediálnych súboroch v kroku 3 pri vytváraní novej trasy pomocou 
+ * vstupného tracklogu ako aj pri vytváraní novej trasy pomocou 
+ * zakreslenia do mapy.
+ * @author Matej Pazdič
  */
 public class UploadMultimedia extends HttpServlet {
     
 
     private String system = System.getProperty("os.name");
     private String path;
-    
-@Override
+
+    /**
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
        
         List<FileItem> items = null;
@@ -59,8 +72,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.setAttribute("isMultimedia", "True");
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        //path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
-                        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        //path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
                     }else{
                         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/" + "Multimedia" + "/";
                     }

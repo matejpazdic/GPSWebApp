@@ -10,20 +10,32 @@ import Parser.GPXParser;
 import Parser.TLVLoader;
 
 /**
- *
- * @author matej_000
+ * Trieda StaticMapResolver je určená na vytvorenie URL linky na načítanie mapy a trasy na mape ako obrázok.
+ * @author Ľubomír Petrus
  */
 public class StaticMapResolver {
 
-    //private GPXParser parser = null;
     private TLVLoader loader = null;
     private final String startURL = "http://maps.googleapis.com/maps/api/staticmap?center=";
     private final String endURL = "&sensor=false";
 
+    /**
+     * Konštruktor triedy StaticMApResolver.
+     * @param loader - objekt triedy TLVLoader z ktorého sa získavajú dôležité detaily trasy
+     */
     public StaticMapResolver(TLVLoader loader) {
         this.loader = loader;
     }
     
+    /**
+     * Metóda getStaticMapTrackURL získava link na mapu a trasu bez traťových bodov, kde sú uložené obrázky.
+     * @param lineWeight - hrúbka čiary trasy na mape
+     * @param color - farba trasovej čiary
+     * @param width - šírka mapy
+     * @param height - výška čiary
+     * @param scale - škálovacia konštanta (n x rozmery mapy)
+     * @return Vracia URL adresu podľa ktorej sa dá získať obrázok mapy s trasou.
+     */
     public String getStaticMapTrackURL(int lineWeight, String color, int width, int height, int scale){
         if (getLoader() != null) {
             if (getLoader().getTrackPoints().size() < 35) {
@@ -107,6 +119,15 @@ public class StaticMapResolver {
         }
     }
     
+    /**
+     * Metóda getStaticMapTrackURLWithMultimedia získava link na mapu a trasu s vyznacením traťových bodov, kde sú uložené obrázky.
+     * @param lineWeight - hrúbka čiary trasy na mape
+     * @param color - farba trasovej čiary
+     * @param width - šírka mapy
+     * @param height - výška čiary
+     * @param scale - škálovacia konštanta (n x rozmery mapy)
+     * @return Vracia URL adresu podľa ktorej sa dá získať obrázok mapy s trasou.
+     */
     public String getStaticMapTrackURLWithMultimedia(int lineWeight, String color, int width, int height, int scale){
         if (getLoader() != null) {
             if (getLoader().getTrackPoints().size() < 35) { // 35 je optimum odskusane!!!!
@@ -231,14 +252,14 @@ public class StaticMapResolver {
     }
 
     /**
-     * @return the loader
+     * @return Vracia objekt triedy TLVLoader, z ktorého sa získavajú dôležité detaily danej trasy.
      */
     public TLVLoader getLoader() {
         return loader;
     }
 
     /**
-     * @param loader the loader to set
+     * @param loader - objekt triedy TLVLoader z ktorého sa získavajú dôležité detaily trasy
      */
     public void setLoader(TLVLoader loader) {
         this.loader = loader;

@@ -28,8 +28,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda PDFTrackGenerator slúži na generovanie publikácií vytvorených 
+ * trás vo formáte PDF. Na vytváranie PDF súborov je využitý balíček 
+ * iText, ktorý je dostupný na adrese http://sourceforge.net/projects/itext/.
+ * @author Ľubomír Petrus
  */
 public class PDFTrackGenerator {
     
@@ -37,12 +39,30 @@ public class PDFTrackGenerator {
     private String fileName = null;
     private TLVLoader loader = null;
     
+    /**
+     * Konštruktor triedy PDFTrackGenerator.
+     * @param loader - objekt TLVLoadera, z ktorého sa ziskávajú dôležité detaily trasy
+     * @param path - cesta ku stromovej štruktúre danej trasy
+     * @param fileName - názov danej trasy
+     */
     public PDFTrackGenerator(TLVLoader loader, String path, String fileName){
         this.loader = loader;
         this.path = path;
         this.fileName = fileName;
     }
     
+    /**
+     * Metóda generateTrackPDFA4 slúži na samotné vygenerovanie PDF dokumentu trasy na formát A4.
+     * @param lineWeight - hrúbka čiary trasy na mape
+     * @param color - farba čiary trasy na mape
+     * @param width - šírka mapy
+     * @param height - výška mapy
+     * @param scale - škálovacia konštanta mapy (n x rozlíšenie mapy)
+     * @param startDate - dátum a čas prvého bodu trasy
+     * @param endDate - dátum a čas posledného bodu trasy
+     * @param activity - aktivita trasy
+     * @param user - používateľ (majiteľ) trasy
+     */
     public void generateTrackPDFA4(int lineWeight, String color, int width, int height, int scale, String startDate, String endDate, String activity, String user){
         try {
             Document doc = new Document();

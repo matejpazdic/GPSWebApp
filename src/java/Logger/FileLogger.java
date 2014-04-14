@@ -21,8 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda FileLogger predstavuje implementáciu zapisovača činnosti a chýb portálu do logovacieho súboru. 
+ * @author Matej Pazdič
  */
 public class FileLogger {
     
@@ -32,6 +32,9 @@ public class FileLogger {
     private String path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/";
     private File logFile;
     
+    /**
+     * Konštrukttor triedy FileLogger.
+     */
     protected FileLogger(){
         if(system.startsWith("Windows XP")){
             path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\";
@@ -41,6 +44,10 @@ public class FileLogger {
         logFile = new File(path, fileName);
     }
     
+    /**
+     * Metóda getInstance predstavuje implementáciu Konštruktora triedy FileLOgger ako singleton.
+     * @return Návratová hodnota je objekt triedy FileLogger.
+     */
     public static FileLogger getInstance(){
         if(logger == null){
             logger = new FileLogger();
@@ -59,6 +66,10 @@ public class FileLogger {
         }
     }
     
+    /**
+     * Metóda createNewLog je určená na zápis novej správy do logovacieho súboru.
+     * @param message - reťazec znakov predstavujúci samotnú správu
+     */
     public void createNewLog(String message){
         this.checkLogFileIsCreated();
         this.checkNewDay();
@@ -149,6 +160,9 @@ public class FileLogger {
         }
     }
     
+    /**
+     * Metóda resetLogFile je určená na vymazanie obsahu logovacieho súboru.
+     */
     public void resetLogFile(){
         if(logFile.exists()){
             logFile.delete();

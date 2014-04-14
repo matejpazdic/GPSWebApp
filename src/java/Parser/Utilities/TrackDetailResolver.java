@@ -17,8 +17,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
- * @author matej_000
+ * Trieda TrackDetailResolver je určená na načítanie a výpočet
+ * jednotlivých detailov trás akými sú napríklad minimálna a maximálna 
+ * nadmorská výška, výškové prevýšenie, priemerné rýchlosti 
+ * jednotlivých bodov atď.
+ * @author Matej Pazdič
  */
 public class TrackDetailResolver {
     
@@ -29,14 +32,24 @@ public class TrackDetailResolver {
     
     private final double d2r = Math.PI / 180;
     
+    /**
+     * Konštruktor triedy TrackDetailResolver.
+     * @param track - zoznam traových bodov zapísaných pomocou triedy "TrackPointImpl"
+     * @param trackType - typ trasy
+     * @param internetElevation - zoznam jednotlivých nadmorských výšok načítaných z webvého servera pre nadmorské výšky google.com
+     * @param isDrawed - údaj o nakreslení trasy
+     */
     public TrackDetailResolver(ArrayList<TrackPointImpl> track, String trackType, ArrayList<String> internetElevation, boolean isDrawed){
         this.track = track;
         this.trackType = trackType;
         this.internetElevation = internetElevation;
         this.isDrawed = isDrawed;
-        System.out.println("som " + isDrawed);
     }
     
+    /**
+     * Metóda resolveTrackLength slúži na výpočet dĺžky trasy v kilometroch.
+     * @return Návratová hodnota je číslo vyjadrujúce počet prejdených kilometrov na danej trase.
+     */
     public double resolveTrackLength(){
         double trackLength = 0;
         if(track.size() > 0){
@@ -71,12 +84,12 @@ public class TrackDetailResolver {
         return trackLengths;
     }
     
+    /**
+     * Metóda resolveMaxElevation slúži na výpočet maximálnej nadmorskej vyšky trasy.
+     * @return Návratová hodnota je maximálna nadmorká výška trasy, alebo hodnota 0 ak nastala chyba.
+     */
     public int resolveMaxElevation(){
-        int maxElevation = -1000;
-        
-        System.out.println("Je prazdne + velkost" + internetElevation.isEmpty() + internetElevation.size());
-         System.out.println("velkost bodov" + track.size());
-        
+        int maxElevation = -1000;  
         
         if (track.size() > 0) {
             if ((trackType.startsWith("Wtr") || trackType.startsWith("Lnd") || isDrawed) && track.size() == internetElevation.size()) {
@@ -86,14 +99,12 @@ public class TrackDetailResolver {
                         maxElevation = temp;
                     }
                 }
-                System.out.println("Loadujem z internetu");
             }else{
                 for (int i = 0; i < track.size(); i++) {
                     if (maxElevation < track.get(i).getDeviceElevation()) {
                         maxElevation = track.get(i).getDeviceElevation();
                     }
                 }
-                System.out.println("Loadujem zo zariadenia");
                 
             }
         }
@@ -103,6 +114,10 @@ public class TrackDetailResolver {
         return maxElevation;
     }
     
+    /**
+     * Metóda resolveMinElevation slúži na výpočet minimálnej nadmorskej vyšky trasy.
+     * @return Návratová hodnota je minimálna nadmorká výška trasy, alebo hodnota 0 ak nastala chyba.
+     */
     public int resolveMinElevation() {
         int minElevation = 1000000;
 
@@ -130,6 +145,10 @@ public class TrackDetailResolver {
         return minElevation;
     }
     
+    /**
+     * Metóda resolveTrackHeightDiff slúži na výpočet výškového prevyšenia na danej trase, pričom využívate metódy resolveMinElevation a resolveMaxElevation
+     * @return Návratová hodnota je celkové výškové prevýšenie trasy.
+     */
     public int resolveTrackHeightDiff(){
         int minElevation = resolveMinElevation();
         int maxElevation = resolveMaxElevation();
@@ -139,6 +158,10 @@ public class TrackDetailResolver {
         return diff;
     }
     
+    /**
+     * Metóda resolveTrackSpeed je určená na výpočet priemerných rýchlostí jednotlivých traťových bodov trasy.
+     * @return Návratová hodnota je zoznam priemerných rýchlostí jednotlivých traťových bodov.
+     */
     public ArrayList<Double> resolveTrackSpeed(){
         ArrayList<Double> trackLengths;
         ArrayList<Double> trackSpeed = new ArrayList<Double>();
@@ -151,7 +174,6 @@ public class TrackDetailResolver {
                     double deltaTime = (track.get(i + 1).getTime().getTime() - track.get(i).getTime().getTime()) / (double)1000;
                     double kms = trackLengths.get(i + 1) / deltaTime;
                     Double kmh = kms * (double)3600;
-                    System.out.println("MAM SPEED: " + deltaTime + " " + kms + " " + kmh);
                     if(!(String.valueOf(kmh).matches(".*\\d+.*"))){
                         if(i > 0){
                             kmh = trackSpeed.get(i-1);
@@ -172,6 +194,10 @@ public class TrackDetailResolver {
         return trackSpeed;
     }
     
+    /**
+     * Metóda resolveTrackDuration slúži na výpočet dĺžky trvania danej trasy.
+     * @return Návratová hodnota je reťazec znakov reprezentujúci trvanie danej trasy. Ak nastane chyba, návratová hodnota bude "N/A".
+     */
     public String resolveTrackDuration() {
         if (track.size() > 0) {
             Date date1 = track.get(0).getTime();

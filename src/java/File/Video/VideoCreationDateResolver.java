@@ -16,14 +16,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda VideoCreationDateResolver slúži na získavanie dátumu a času 
+ * vytvorenia multimediálnych video súborov z priložených meta-údajov. 
+ * Pre svoj beh potrebuje v systéme nainštalovaný nástroj s názvom 
+ * "ffprobe", ktorý je dostupný na www adrese www.ffmpeg.org.
+ * @author Matej Pazdič
  */
 public class VideoCreationDateResolver {
+
+    /**
+     * Konštruktor triedy VIdeoCreationDateResolver.
+     */
     public VideoCreationDateResolver(){
         
     }
     
+    /**
+     * Metóda resolveCreationDate slúži na samotné získanie dátumu a času vytvorenia daného video multimediálneho súboru.
+     * @param videoFilePath - cesta k danému video súboru
+     * @param lat - GPS zemepisná šírka daného súboru
+     * @param lon - GPS zemepisná dĺžka daného súboru
+     * @return Návratová hodnota je dátum a čas vytvorenia daného video multimediálneho súboru.
+     */
     public Date resolveCreationDate(String videoFilePath, double lat, double lon){  
          try {
 

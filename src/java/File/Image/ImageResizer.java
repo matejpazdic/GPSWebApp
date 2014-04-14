@@ -18,8 +18,11 @@ import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Mode;
 
 /**
- *
- * @author matej_000
+ * Trieda ImageResizer je určerná na vytváranie zmenšenín (Thumbnail) z 
+ * obrázkových multimediálnych súborov, ktoré sú odovzdávané do 
+ * systému pri vytváraní trás. Táto metóda využíva pri vytváraní obrázkových
+ * ukážok balíćek služieb imgscalr-lib-4.2.jar.
+ * @author Matej Pazdič
  */
 public class ImageResizer {
     
@@ -27,17 +30,32 @@ public class ImageResizer {
     private int width = -1;
     private int height = -1;
     
+    /**
+     * Konštruktor (Kompletný) triedy ImageResizer.
+     * @param files - zoznam ciest k obrázkovým multimediálym súborom
+     * @param width - cieľová šírka ukážky
+     * @param height - cieľová výška ukážky
+     */
     public ImageResizer(ArrayList<FileImpl> files, int width, int height){
         this.files = files;
         this.width = width;
         this.height = height;
     }
     
+    /**
+     * Preťažený konštruktor triedy ImageResizer.
+     * @param width - cieľová šírka ukážky
+     * @param height - cieľová výška ukážky
+     */
     public ImageResizer(int width, int height){
         this.width = width;
         this.height = height;
     }
     
+    /**
+     * Metóda resizeImagesWithTempThubnails je určená na samotné vytváranie ukážok z obrázkový multimedialnych súborov, ktoré sú vložené do zonamu files.
+     * @throws ThumbnailException Výnimka sa vyhodí pri problémoch s vytvorením ukážky
+     */
     public void resizeImagesWithTempThubnails() throws ThumbnailException{
         try {
             for(int i = 0; i < files.size(); i++){
@@ -57,6 +75,11 @@ public class ImageResizer {
         }
     }
     
+    /**
+     * Metóda resizeImmaeWithTempThubnails je určeny na vytorenie obrázkovej ukáźky k danému obrazkoveho multimediálnemu súboru.
+     * @param pathToImage - cesta k súboru, z ktorého sa má vytvoriť obrázková ukážka
+     * @throws ThumbnailException Výnimka sa vyhodí pri problémoch s vytvorením ukážky
+     */
     public void resizeImageWithTempThubnails(String pathToImage) throws ThumbnailException{
         try {
                 String originalPath = pathToImage;
@@ -75,21 +98,21 @@ public class ImageResizer {
     }
 
     /**
-     * @return the files
+     * @return Navrátová hodnota je zoznam ciest k multimediálnym súborom, reprezentovaných reťazcami znakov.
      */
     public ArrayList<FileImpl> getFiles() {
         return files;
     }
 
     /**
-     * @return the width
+     * @return Navrátová hodnota predstavuje požadovanú šírku vytváraných ukážok.
      */
     public int getWidth() {
         return width;
     }
 
     /**
-     * @return the height
+     * @return Navrátová hodnota predstavuje požadovanú výšku vytváraných ukážok.
      */
     public int getHeight() {
         return height;

@@ -21,8 +21,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 
 /**
- *
- * @author matej_000
+ * Trieda TimezoneLoader slúži na vykonávanie tzv. automatickej 
+ * časovej korekcie dátumu a času jednotlivých traťových bodov. 
+ * Samotná korekcia sa načítava z mapového servera google.com.
+ * @author Matej Pazdič
  */
 public class TimezoneLoader {
     
@@ -30,14 +32,25 @@ public class TimezoneLoader {
     String baseURL = "https://maps.googleapis.com/maps/api/timezone/xml?location=";
     String endURL = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
     
+    /**
+     * Konštruktor triedy TimezoneLoader.
+     * @param track - trasa zapísaná prostredníctvom tridy "TimezoneLoader"
+     */
     public TimezoneLoader(ArrayList<TrackPointImpl> track){
         this.track = track;
     }
     
+    /**
+     * Preťažený (prázdny) konštruktor triedy TimezoneLoader.
+     */
     public TimezoneLoader(){
         
     }
     
+    /**
+     * Metóda correctTimeZone slúži na samotnú automatickú časovú korekciu trasy.
+     * @return Návratová hodnota je zoznam traťových bodov zapísaných pomocou údajovej štruktúry "TrackPointImpl"
+     */
     public ArrayList<TrackPointImpl> correctTimeZone(){
         try {
             String tempStr = String.valueOf(track.get(0).getTime().getTime()).substring(0, String.valueOf(track.get(0).getTime().getTime()).length() - 3);
@@ -69,6 +82,13 @@ public class TimezoneLoader {
         return track;
     }
     
+    /**
+     * Metóda correctTimeZone slúži na časovú korekciu jeného traťového bodu.
+     * @param date - dátum a čas vytvorenia daného traťového bodu
+     * @param lat - GPS zemepisná šírka
+     * @param lon - GPS zemepisná dĺžka
+     * @return Návratová hodnota je dátum a čas po vykonaní časovej korekcie.
+     */
     public Date correctTimeZone(Date date, double lat, double lon){
         try {
             String tempStr = String.valueOf(date.getTime()).substring(0, String.valueOf(date.getTime()).length() - 3);

@@ -23,13 +23,20 @@ import java.io.File;
 import java.net.URL;
 
 /**
- *
- * @author matej_000
+ * Trieda YouTubeAgent slúži na odovzdávanie, mazanie a správu video 
+ * multimediálnych súborov vo webovej službe YouTube 
+ * na www adrese www.youtube.com. 
+ * @author Matej Pazdič
  */
 public class YouTubeAgent {
     
     private YouTubeService service;
     
+    /**
+     * Konštruktor triedyy YouTubeAgent.
+     * @param userName - prihlasovacie meno do webovej služby YouTube
+     * @param Password - heslo do webovej služby YouTube
+     */
     public YouTubeAgent(String userName, String Password){
         try {
             service = new YouTubeService("YouTubeAgent for GPSWebApp", "AI39si4T3ipzbmmskeC0gh9sl094LAw1aJZFf3OtA82N2tyfpnAyUxBxkHoQYu1WgCyuqFSPlrWokd8I7-B4wtTimBU2dIHLHA");
@@ -39,6 +46,15 @@ public class YouTubeAgent {
         }
     }
     
+    /**
+     * Metóda uploadVideo slúži na odovzdanie multimediálneho video a súboru na server YouTube. Taktiež priradzuje k videu aj  detaily o videosúbore a detaily o serveri s kadiaľ je odovzdávaný.
+     * @param file - video multimediálny súbor, zapísaný v štruktúre FileImpl
+     * @param user - používateľ (majiteľ), ktorý daný video multimediálnych súbor odovzdáva z potálu
+     * @param name - názov vytváranej trasy ku ktorej daný súbor patrí
+     * @param ID - poradove číslo multimediálneho súboru v danej trase
+     * @return Navratová hodnota je ID daného odovzdaneho multimedialneho súboru, pomocou ktoreho sa ten da vyvolať na serveri YouTube
+     * @throws YouTubeAgentException je vyhodená ppri problemoch s odovzdaním video multimediálneho súboru
+     */
     public String uploadVideo (FileImpl file, String user, String name, String ID) throws YouTubeAgentException{
         try {
             VideoEntry newEntry = new VideoEntry();
@@ -77,6 +93,11 @@ public class YouTubeAgent {
         }
     }
     
+    /**
+     * Metóda deleteVideo slúži na vymazanie odovzdaného video multimediálneho súboru zo servera YouTube.
+     * @param videoID - ID daného video multimediálneho súboru odovzdaného na portály YOuTube
+     * @throws YouTubeAgentException je vyhodená pri problémoch s vymazaním videa zo serveru YouTube
+     */
     public void deleteVideo(String videoID) throws YouTubeAgentException{
         try {
             String videoEntryUrl = "http://gdata.youtube.com/feeds/api/users/default/uploads/" + videoID;

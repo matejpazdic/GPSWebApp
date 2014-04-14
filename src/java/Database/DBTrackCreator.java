@@ -17,8 +17,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- *
- * @author matej_000
+ * Trieda DBTrackCreator slúži na vytváranie zázanmov o novo pridaných trasách do databázy trás.
+ * @author Matej Pazdič
  */
 public class DBTrackCreator {
     
@@ -27,6 +27,10 @@ public class DBTrackCreator {
     private ResultSet resultSet = null;
     private String system = System.getProperty("os.name");
 
+    /**
+     * Konštruktor triedy DBTrackCreator.
+     * @throws Exception
+     */
     public DBTrackCreator() throws Exception {
         try {
 
@@ -39,6 +43,25 @@ public class DBTrackCreator {
         }
     }
     
+    /**
+     * Metóda createNewTrack slúži na samotné vytvorenie záznamu o novo vytváranej trase v databáze trás, pričom sa zapisujú aj všetky detaily o danej trase.
+     * @param trackName - názov trasy
+     * @param trackDescr - popis trasy
+     * @param trackActivity - aktivita, ktorá je prevažne vykonávaná na danej trase
+     * @param trackPath - cesta ku súborom danej trasy v stromovej štruktúre trás
+     * @param userID - ID daného používateľa (vlastníka trasy)
+     * @param startDate - dátum a čas začiatočného bodu trasy
+     * @param endDate - dátum a čas posledného bodu trasy
+     * @param access - prístup k danej trase ("Public" alebo "Private")
+     * @param startAddress - Adresa začiatočného bodu trasy
+     * @param endAddress - Adresa konečného bodu trasy
+     * @param length - dĺžka trasy
+     * @param minElevation - minimálna nadmorská výška danej trasy
+     * @param maxElevation - maximálna nadmorská výška danej trasy
+     * @param heightDiff - prevýšenie na nadej trase
+     * @param duration - doba trvania danej trasy
+     * @param creationType - príznak vytvorenia trasy ("Parsed" alebo "Drawed")
+     */
     public void createNewTrack(String trackName, String trackDescr, String trackActivity, String trackPath, int userID, String startDate, String endDate, String access, String startAddress, String endAddress, String length, String minElevation, String maxElevation, String heightDiff, String duration, String creationType){
         try {
             statement =  connect.createStatement();

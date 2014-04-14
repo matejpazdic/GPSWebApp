@@ -16,15 +16,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda DBTrackFinder slúži na nájdenie záznamu o trase v tabuľke trás a na ziskávanie detailov trás.
+ * @author Matej Pazdič
  */
 public class DBTrackFinder {
     private Connection connect = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
-    
-    
+
+    /**
+     * Konštruktor triedy DBTrackFinder.
+     * @throws Exception
+     */
     public DBTrackFinder() throws Exception {
     try {
 
@@ -47,7 +50,10 @@ public class DBTrackFinder {
 
   }
 
-  public void close() {
+    /**
+     * Metóda close je určená na ukončenie pripojenia k databázovému serveru.
+     */
+    public void close() {
     try {
       if (resultSet != null) {
         resultSet.close();
@@ -62,8 +68,13 @@ public class DBTrackFinder {
 
     }
   }
-  
-  public ArrayList getUserTracks(int userID){
+
+    /**
+     * Metóda getUserTrack slúži na vyhľadanie všetkých záznamov trás daného používateľa.
+     * @param userID - ID daného používateľa
+     * @return Návratová hodnota je zoznam názvov trás, ktoré patria danému používateľovi.
+     */
+    public ArrayList getUserTracks(int userID){
       ArrayList<String> tracks = new ArrayList<String>();
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_USER_ID = " + userID);
@@ -81,8 +92,13 @@ public class DBTrackFinder {
         //close();
         return tracks;
   }
-  
-  public ArrayList getUserTracksFiles(int userID){
+
+    /**
+     * Metóda getUserTrackFiles je určená na vyhľadanie a vrátenie zoznamu ciest k trasám pre daného používateľa.
+     * @param userID - ID daného používateľa
+     * @return Návratová hodnota je zoznam ciest k trasám daného používateľa.
+     */
+    public ArrayList getUserTracksFiles(int userID){
       ArrayList<String> trackFiles = new ArrayList<String>();
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_USER_ID = " + userID);
@@ -99,8 +115,13 @@ public class DBTrackFinder {
         //close();
         return trackFiles;
   }
-  
-  public ArrayList getTracksIDs(int userID){
+
+    /**
+     * Metóda getTracksIDs je určená na vyhľadanie a návrat zoznamu ID (primárny identifikátor) trás, ktoré patria danému používateľovi.
+     * @param userID - ID daného používateľa
+     * @return Návratová hodnota je zoznam ID trás, ktoré patria danému používateľovi.
+     */
+    public ArrayList getTracksIDs(int userID){
       ArrayList<Integer> trackFiles = new ArrayList<Integer>();
         try {
             //System.out.println(userID);
@@ -118,8 +139,13 @@ public class DBTrackFinder {
         //close();
         return trackFiles;
   }
-  
-  public Integer getTrackUserID(int trackID){
+
+    /**
+     * Metóda getTrackUserID je určená na zistenie vlastníka trasy, presnejšie na určenie ID používateľa.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je ID daného používateľa (vlastníka trasy).
+     */
+    public Integer getTrackUserID(int trackID){
       Integer id = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -132,8 +158,13 @@ public class DBTrackFinder {
         }
         return id;
   }
-  
-  public String getTrackFilePath(int trackID){
+
+    /**
+     * Metóda getTrackFilePath slúži na zistenie cesty k adresárovej štruktúre danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je raťazec znakov, ktorý predstavuje adresu k adresárovej štruktúre danej trasy.
+     */
+    public String getTrackFilePath(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -146,8 +177,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-  public String getTrackFileName(int trackID){
+
+    /**
+     * Metóda getTrackFileName je určená na získanie názvu trasy, resp. názvu tracklog súboru.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je zeťazec znakov predstavujúci názov trasy a taktiež aj názov tracklog súborov priliehajúcich k danej trase.
+     */
+    public String getTrackFileName(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -160,8 +196,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-  public String getTrackDescription(int trackID){
+
+    /**
+     * Metóda getTrackDescription slúži na zistenie popisu danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je popis danej trasy.
+     */
+    public String getTrackDescription(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -174,8 +215,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-  public String getTrackActivity(int trackID){
+
+    /**
+     * Metóda getTrackActivity je určená na získanie prevažujúcej aktivity na danej trase.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je reťazec znakov, ktorý predstavuje aktivitu vykonávanú na danej trase.
+     */
+    public String getTrackActivity(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -188,8 +234,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-  public String getTrackStartDate(int trackID){
+
+    /**
+     * Metóda getTrackStartDate je určená na získanie dátumu a času prvého bodu trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je dátum a čas prvého bodu danej trasy, ktorý je vo formáte reťazca znakov.
+     */
+    public String getTrackStartDate(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -202,8 +253,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-  public String getTrackEndDate(int trackID){
+
+    /**
+     * Metóda getTrackEndDate slúži na zistenie dátumu a času posledného bodu danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je dátum a čas posledného bodu danej trasy, ktorý je vo formáte reťazca znakov.
+     */
+    public String getTrackEndDate(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -216,8 +272,13 @@ public class DBTrackFinder {
         }
         return str;
   }
-  
-   public String getUploadedDate(int trackID){
+
+    /**
+     * Metóda getUploadedDate slúži na získanie dátumu a času, kedy bola daná trasa vytvorená v databáze trás.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je dátum a čas kedy bola daná trasa vytvorená v tabuľke trás.
+     */
+    public String getUploadedDate(int trackID){
       String str = null;
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS where TRACK_ID = " + trackID);
@@ -231,6 +292,11 @@ public class DBTrackFinder {
         return str;
   }
    
+    /**
+     * Metóda getChangeDate je určená na zistenie dátumu a času, kedy bola daná trasa zmenená (upravená) v tabuľke trás.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je dátum a čas poslednej úpravy danej trasy, ktorý je vo formáte zeťazca znakov.
+     */
     public String getChangeDate(int trackID){
       String str = null;
         try {
@@ -245,6 +311,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getStartAddress je určená na získanie adresy prvého bodu danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Navratová hodnota je adresa prvého bodu danej trasy, ktorá predstavuje reťazec znakov.
+     */
     public String getStartAddress(int trackID){
       String str = null;
         try {
@@ -259,6 +330,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getEndAddress je určená na získanie adresy posledného bodu danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je reťazec znakov, ktorý predstavuje adresu posledného bodu danej trasy.
+     */
     public String getEndAddress(int trackID){
       String str = null;
         try {
@@ -273,6 +349,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getAccess slúži na zistenie či je daná trasa určená k voľnému sledovaniu, alebo je súkromná ("Public" alebo "Private").
+     * @param trackID - ID danej trasy
+     * @return Návratová adresa je "Public" ak je daná trasa verejná, alebo "Private" ak je daná trasa určena iba na zobrazenie pre jej majiteľa.
+     */
     public String getAccess(int trackID){
       String str = null;
         try {
@@ -287,6 +368,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getTrackLengthKm slúži na návrat počtu prejdených kilometrov na danej trase.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je počet kilometrov danej trasy, ktorý je vo formáte reťazca znakov.
+     */
     public String getTrackLengthKm(int trackID){
       String str = null;
         try {
@@ -301,6 +387,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getMinElevation slúži na získanie minimálnej nadmorskej výšky danej trasy.
+     * @param trackID - ID danej tarsy
+     * @return Návratová hodnota je minimálna nadmorská výška, ktorá je reprezentovaná reťazcom znakov. 
+     */
     public String getMinElevation(int trackID){
       String str = null;
         try {
@@ -315,6 +406,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getMaxElevation je určená na zistenie maximálnej nadmorskej výšky danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je maximálna nadmorská výška danje trasy, ktorá je vo formáte reťazca znakov.
+     */
     public String getMaxElevation(int trackID){
       String str = null;
         try {
@@ -329,6 +425,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getHeightDifference je určená na získanie prevýšenia danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je prevýšenie danej trasy, ktoré je reprezentované ako reťazec znakov.
+     */
     public String getHeightDifference(int trackID){
       String str = null;
         try {
@@ -343,6 +444,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getTrackDuration slúži na získanie doby trvania danej trasy.
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je reťazec znakov, ktorý reprezentuje dobu trvania danej trasy.
+     */
     public String getTrackDuration(int trackID){
       String str = null;
         try {
@@ -357,6 +463,11 @@ public class DBTrackFinder {
         return str;
   }
     
+    /**
+     * Metóda getTrackCreationType je určená na zistenie príznakuu vytvorenia danej trasy ("Drawed" alebo "Parsed").
+     * @param trackID - ID danej trasy
+     * @return Návratová hodnota je buď "Parsed" ak bola daná trasa vytvorená pomocou vstupného tracklog súboru, alebo "Drawed" ak bola vytvorená nakreslením.
+     */
     public String getTrackCreationType(int trackID){
       String str = null;
         try {

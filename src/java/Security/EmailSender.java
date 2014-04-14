@@ -22,8 +22,8 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
- *
- * @author matej_000
+ * Trieda EmailSender slúži na posielanie automaticky generovaných emailov používateľovi.
+ * @author Matej Pazdič
  */
 public class EmailSender {
     
@@ -32,12 +32,25 @@ public class EmailSender {
     private String password = null;
     private final String system = System.getProperty("os.name");
 
+    /**
+     * Konštruktor triedy EmailSender.
+     * @param smtpHost - adresa servera odchádzjúch správ
+     * @param userName - prihlasovacie meno na emailový server
+     * @param password - heslo na emailový server
+     */
     public EmailSender(String smtpHost, String userName, String password){
         this.server = smtpHost;
         this.userName = userName;
         this.password = password;
     }
     
+    /**
+     * Metóda sendUerAuthEmail slúži na generovanie a zaslanie potvrdzovacieho emailu, ktorý slúži na overenie zadaného emailu používateĺa, novo registrovanému používateľovi.
+     * @param email - emailová adresa používateľa, ktorému bude zalaný email
+     * @param userToken - jedinečný 32 znakový identifikátor registrácie používateľa
+     * @param firstName - krstné meno používateľa
+     * @param lastName - priezvisko používateľa
+     */
     public void sendUserAuthEmail(String email, String userToken, String firstName, String lastName){
         String name = "NONE";
         String surname = "NONE";
@@ -85,6 +98,10 @@ public class EmailSender {
         
     }
     
+    /**
+     * Metóda sendUserPasswordRecoveryEmail je určená na generovbanie a zaslanie používateľovi email s obnovením jeho zabudnutého hesla.
+     * @param email - používateľský email
+     */
     public void sendUserPasswordRecoveryEmail(String email){
         try {
             DBLoginFinder finder = new DBLoginFinder();
@@ -134,6 +151,10 @@ public class EmailSender {
         }
     }
     
+    /**
+     * Metóda getNewUserToken je pomocná metóda určená na generovanie jedinečného 32 znakového identifikátora registrácie používateľa, ktorý je určený na overenie správnosti zadaného emalu používateľom.
+     * @return Návratová adresa je 32 znakový jedinečný identifikátor.
+     */
     public String getNewUserToken(){
         return RandomStringUtils.randomAlphanumeric(32);
     }

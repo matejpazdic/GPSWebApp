@@ -37,8 +37,10 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 
 /**
- *
- * @author matej_000
+ * Trieda GPXParser slúži na komplené načítanie vstupného tracklogu, korekciu 
+ * údajov, vyhľadanie a priradenie multimediálnych súborov a vytvorenie 
+ * výstupného tracklog súboru vo formáte TLV.
+ * @author Matej Pazdič
  */
 public class GPXParser {
     
@@ -73,6 +75,13 @@ public class GPXParser {
     
     private boolean isDrawed = false;
     
+    /**
+     * Konštruktor triedy GPXParser.
+     * @param pathToFiles - cesta k adreárovej štruktúre danej trasy
+     * @param sourceFile - názov danej trasy, resp. názov vstupného tracklog súboru
+     * @param trackUser - používateľ, ktorý danú trasu vytvára (majiteľ trasy)
+     * @param trackName - názov novovytváranej trasy
+     */
     public GPXParser(String pathToFiles, String sourceFile, String trackUser, String trackName){
         trackDBUser = trackUser;
         trackDBName = trackName;
@@ -85,6 +94,9 @@ public class GPXParser {
         //this.readGpx();
     }
     
+    /**
+     * Metóda readGpx slúži na kompletné načítanie dát trasy zo vstupného tracklog súboru vo formáte GPX.
+     */
     public void readGpx() {
         latitude.clear();
         longitude.clear();
@@ -146,6 +158,11 @@ public class GPXParser {
         }
     }
     
+    /**
+     * Metóda parseGpx slúži na vytvorenie výstupného tracklog súboru vo formáte TLV, pričom ú v nej zahrnuté aj volania metód, ktoré upravujú dáta trasy a vyhľadávajú a priradzujú multimediálne súbory.
+     * @param trackType - typ trasy
+     * @param trackDescr - popi trasy
+     */
     public void parseGpx(String trackType, String trackDescr) {
         if (gpxFile != null && destFolder != null) {
             if (destFolder.getAbsolutePath().toLowerCase().endsWith(".tlv")) {
@@ -365,6 +382,12 @@ public class GPXParser {
         }
     }
     
+    /**
+     * Metóda readFromTrackPoints je určená na načítanie trasy zo vstupného ttep súboru, ktorý sa vytvára pri procese nakreslenia trasy po kroku číslo 2.
+     * @param pathToTemp - cesta ku temp súboru trasy
+     * @param trackType - typ trasy
+     * @param trackDescr - popis trasy
+     */
     public void readFromTrackPoints(String pathToTemp, String trackType, String trackDescr){
         latitude.clear();
         longitude.clear();
@@ -387,7 +410,6 @@ public class GPXParser {
                 String temp0 = tempStr1.replaceAll("[)]", "");
                 String temp = temp0.replaceAll("[(]", "");
                 
-                //String temp = tempStr1.substring(1);
                 String ttt[] = temp.split(",");
                 
                 System.out.println("MAM LAT A LNG: " + ttt[0] + ">>>" + ttt[1]);
@@ -406,14 +428,8 @@ public class GPXParser {
                 point.setTime(date);
                 time.add(date);
                 deviceElevation.add("0");
-                //System.out.println("TOTO TU JE: " + point.getLatitude());
-                //System.out.println("TOTO TU JE: " + point.getLongitude());
-                //System.out.println("TOTO TU JE: " + point.getTime());
                 track.add(point);
-                
-                //System.out.println("Po zmene casu: " + track.get(i-1).getTime().toString() + "::::" + time.get(i-1).toString());
             }   
-            //System.out.println("TOTO TU JE: " + track.size());
             
         } catch (Exception ex) {
             Logger.getLogger(GPXParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -426,6 +442,11 @@ public class GPXParser {
         }
     }
     
+    /**
+     * Metóda parseFromTrackPoints je určená na vytvorenie výstupného tracklog súboru, ktorý sa používa pri procese vytvorenia trasy pomocou zakreslenia do mapy.
+     * @param trackType - typ trasy
+     * @param trackDescr - popis trasy
+     */
     public void parseFromTrackPoints(String trackType, String trackDescr){
          if (gpxFile != null && destFolder != null) {
             if (destFolder.getAbsolutePath().toLowerCase().endsWith(".tlv")) {
@@ -650,6 +671,10 @@ public class GPXParser {
         }
     }
     
+    /**
+     * Metóda createGPFile slúži na vytvorenie GPX súboru pri procese vytvorenia trasy pomocou zakreslenia trasy do mapy. Táto metóda je využitá pre potreby stiahnutia GPX úboru používateľom do GPS zariadenia na účely navigácie.
+     * @param trackDesc - popis trasy
+     */
     public void createGPXFile(String trackDesc){
         if (gpxFile != null && destFolder != null) {
             if (destFolder.getAbsolutePath().toLowerCase().endsWith(".gpx")) {
@@ -732,6 +757,10 @@ public class GPXParser {
         }
     }
     
+    /**
+     * Metóda searchForMultimediaFiles je pomocnou metódou, ktorá vykonáva časovú korekciu jednotlivých bodov a zároveň vyhľadáva relevantné multimediálne súbory, ktoré priradzuje k trase.
+     * @param searchFolder - cesta k stromovej štruktúre danej trasy
+     */
     public void searchForMultimediaFiles(String searchFolder){
         TimezoneLoader gmt = new TimezoneLoader(getTrack());
         gmt.correctTimeZone();
@@ -739,11 +768,19 @@ public class GPXParser {
         files = searcher.startSearchWithBadFiles();
     }
     
+    /**
+     * Metóda searchForMultimediaFiles je pomocnou metódou, ktorá vyhľadáva relevantné multimediálne súbory, ktoré priradzuje k trase.
+     * @param searchFolder - cesta k stromovej štruktúre danej trasy
+     */
     public void searchForMultimediaFilesWithoutCorrection(String searchFolder){
         MultimediaSearcher searcher = new MultimediaSearcher(destFolder.getPath(), searchFolder, getTrack());
         files = searcher.startSearchWithBadFiles();
     }
     
+    /**
+     * Metóda getStartAndEndDate slúži na zistenie času a dátumu prvého a posledného traťového bodu.
+     * @return Návratová hodnota je zoznam (tále o 2 hodnotách) dátumu a času prvého a posledného traťového bodu trasy.
+     */
     public List getStartAndEndDate() {
         ArrayList<Date> times = new ArrayList<Date>();
         times.add(time.get(0));
@@ -752,77 +789,77 @@ public class GPXParser {
     }
 
     /**
-     * @return the startAddress
+     * @return Návratová hodnota je adresa prvého bodu danej trasy.
      */
     public String getStartAddress() {
-                return startAddress;
+        return startAddress;
     }
 
     /**
-     * @return the endAddress
+     * @return Navratová hodnota je adresa posledného bodu danej trasy.
      */
     public String getEndAddress() {
         return endAddress;
     }
 
     /**
-     * @return the trackDuration
+     * @return Návratová hodnota je trvanie danej trasy vo formáte reťazca znakov.
      */
     public String getTrackDuration() {
         return trackDuration;
     }
 
     /**
-     * @return the trackMaxElevation
+     * @return Návratová hodnota je maximálna nadmorská výška danej trasy.
      */
     public String getTrackMaxElevation() {
         return trackMaxElevation;
     }
 
     /**
-     * @return the trackMinElevation
+     * @return Návratová hodnota je minimálna nadmorská výška danej trasy.
      */
     public String getTrackMinElevation() {
         return trackMinElevation;
     }
 
     /**
-     * @return the trackLengthKm
+     * @return Návratová hodnota je vzdialenošt danej trasy v kilometroch.
      */
     public String getTrackLengthKm() {
         return trackLengthKm;
     }
 
     /**
-     * @return the trackHeightDiff
+     * @return Návratová hodnota je výškové prevýšenie na danej trase.
      */
     public String getTrackHeightDiff() {
         return trackHeightDiff;
     }
 
     /**
-     * @return the files
+     * @return Návratová hodnota je zoznam priradených multimediálnych súborov k trase.
      */
     public ArrayList<FileImpl> getFiles() {
         return files;
     }
 
     /**
-     * @return the track
+     * @return Návratová hodnota je zoznam údajových štruktúr traťových bodov danej trasy.
      */
     public ArrayList<TrackPointImpl> getTrack() {
         return track;
     }
 
     /**
-     * @param track the track to set
+     * @param track  - zoznam údajových štruktúr "TrackPointImpl" (trasa)
      */
     public void setTrack(ArrayList<TrackPointImpl> track) {
         this.track = track;
     }
 
     /**
-     * @return the isDrawed
+     * @return Návratová hodnota predstavuje príznak či bola daná trasa nakreslená. Vracia "True" ak áno, a "False" ak nebola nakresená.
      */
     public boolean isDrawed() {
         return isDrawed;

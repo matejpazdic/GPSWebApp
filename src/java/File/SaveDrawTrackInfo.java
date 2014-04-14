@@ -30,8 +30,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.tomcat.jni.OS;
 
 /**
- *
- * @author matej_000
+ * Trieda SaveDrawTrackInfo je Servlet, ktorý obsluhuje 
+ * uloženie zadaných detailov trasy pri procese vytvorenia 
+ * novej trasy pomocou zakreslenia na mape medzi krokmi číslo 1 a 2.
+ * @author Matej Pazdič
  */
 public class SaveDrawTrackInfo extends HttpServlet {
     
@@ -42,8 +44,16 @@ public class SaveDrawTrackInfo extends HttpServlet {
     private String trackActivity;
     private String access;
     private String system = System.getProperty("os.name");
-    
-@Override
+
+    /**
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
     List<FileItem> items = null;
@@ -75,13 +85,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("access", access);
 
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //newPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //String pathToMultimedia = pathToFile + "Multimedia\\";
-
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    newPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    newPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     String pathToMultimedia = pathToFile + "Multimedia\\";
+
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //newPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String pathToMultimedia = pathToFile + "Multimedia\\";
                     
                     File newFile = new File(pathToFile);
                     

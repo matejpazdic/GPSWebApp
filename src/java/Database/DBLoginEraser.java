@@ -16,8 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda DBLoginEraser slúži na výmaz záznamov o používateľovi z databázy používateľov.
+ * @author Matej Pazdič
  */
 public class DBLoginEraser {
     
@@ -25,6 +25,9 @@ public class DBLoginEraser {
     private Statement statement = null;
     private ResultSet resultSet = null;
     
+    /**
+     * Konštrruktor triedy DBLoginEraser.
+     */
     public DBLoginEraser() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -35,6 +38,11 @@ public class DBLoginEraser {
         }
     }
     
+    /**
+     * Metóda eraseUser slúži na samotný výmaz daného používateľa z databázy používateľov.
+     * @param userID - ID daného používateľa
+     * @return Návratová hodnota je buď "True" ak bolo vymazanie úspešné, alebo "False" ak úspešné nebolo.
+     */
     public boolean eraseUser(int userID){
         try {
             statement =  connect.createStatement();

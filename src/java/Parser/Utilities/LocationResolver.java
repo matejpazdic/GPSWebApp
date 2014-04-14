@@ -17,8 +17,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 
 /**
- *
- * @author matej_000
+ * Trieda LocationResolver slúži na načítanie adresy podľa GPS súradníc prostredníctvom mapového servera google.com.
+ * @author Matej Pazdič
  */
 public class LocationResolver {
     
@@ -26,14 +26,27 @@ public class LocationResolver {
     String baseURL = "https://maps.googleapis.com/maps/api/geocode/xml?latlng=";
     String endURL = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
     
+    /**
+     * Konštruktor triedy LocationResolver.
+     * @param track - samotná trasa zapísaná ako zoznam pomocou údajovej štruktúry "TrackPointImpl"
+     */
     public LocationResolver(ArrayList<TrackPointImpl> track){
         this.track = track;
     }
     
+    /**
+     * Preťažený (čistý) konštruktor triedy LocationResolver.
+     */
     public LocationResolver(){
         
     }
     
+    /**
+     * Metóda getAddressFromCoordinates slúži na nájdenie adresy pomocou 2 GPS úradníc.
+     * @param lat - GPS zemepisná šírka
+     * @param lon - GPS zemepiná dĺžka
+     * @return Návratová hodnota je reťazec znakov, ktorý predstavuje adresu GPS bodu.
+     */
     public String getAddressFromCoordinates(double lat, double lon){
         try {
             String stringUrl = baseURL + lat + "," + lon + endURL;
@@ -52,6 +65,11 @@ public class LocationResolver {
         }
     }
     
+    /**
+     * Metóda getAddressFromCoordinates slúži na nájdenie adresy pomocou prvého bodu trasy.
+     * @param track - samotná trasa zapísaná ako zoznam pomocou údajovej štruktúry "TrackPointImpl"
+     * @return Návratová hodnota je reťazec znakov, ktorý predstavuje adresu prvého GPS bodu.
+     */
     public String getAddressFromTrackPoints(ArrayList<TrackPointImpl> track){
         try {
             String stringUrl = baseURL + track.get(0).getLatitude() + "," + track.get(0).getLongitude()+ endURL;
@@ -70,6 +88,11 @@ public class LocationResolver {
         }
     }
     
+    /**
+     * Metóda getAddressFromCoordinates slúži na nájdenie adresy prvého a posledného bodu trasy.
+     * @param track - samotná trasa zapísaná ako zoznam pomocou údajovej štruktúry "TrackPointImpl"
+     * @return Návratová hodnota je zoznam 2 reťazecov znakov, ktorý predstavuje adresu prvého a posledného GPS bodu trasy.
+     */
     public ArrayList<String> getStartEndAddressFromTrack(ArrayList<TrackPointImpl> track){
         try {
             String stringUrl1 = baseURL + track.get(0).getLatitude() + "," + track.get(0).getLongitude() + endURL;

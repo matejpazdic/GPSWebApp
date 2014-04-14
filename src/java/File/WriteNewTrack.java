@@ -27,8 +27,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 
 /**
- *
- * @author matej_000
+ * Trieda WriteNewTrack je Servlet, ktorý slúži na výber nakreslených 
+ * traťových bodov z mapy a ich naśledný zapis do Temp súboru pre 
+ * neskoršie spracovávanie. Tento servlet je volaný po medzi 2. a 3. 
+ * krokom v procese vytvorenia novej trasy pomocou zakreslenia 
+ * trasy do mapy.
+ * @author Matej Pazdič
  */
 public class WriteNewTrack extends HttpServlet {
     
@@ -38,11 +42,10 @@ public class WriteNewTrack extends HttpServlet {
     
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     * Metóda processRequest je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -77,10 +80,10 @@ public class WriteNewTrack extends HttpServlet {
 //        }
         
         if (system.startsWith("Windows")) {
-           //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-           //pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
-           pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-           pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
+           pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
+           //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           //pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
         } else {
             pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
             pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/Multimedia/";
@@ -127,12 +130,12 @@ public class WriteNewTrack extends HttpServlet {
                 
                 String filename = trackName + ".gpx";
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //pathToTempFile = pathToFile + "Temp.txt";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                     pathToTempFile = pathToFile + "Temp.txt";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToTempFile = pathToFile + "Temp.txt";
                     pathToMultimediaFiles = pathToFile + "Multimedia" + "\\";
 //                    File fTemp = new File(pathToMultimediaFiles);
 //                    if(!fTemp.exists()){
@@ -189,10 +192,10 @@ public class WriteNewTrack extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     * Metóda doGet je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -203,10 +206,10 @@ public class WriteNewTrack extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -217,9 +220,8 @@ public class WriteNewTrack extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
+     * Vracia krátky popis čo vykonáva tento servlet.
+     * @return Návratová hodnota je reťazec znakov s popisom daného servletu.
      */
     @Override
     public String getServletInfo() {

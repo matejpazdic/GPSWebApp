@@ -18,8 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda DBLoginUpdater slúži na obnovovanie a zmenu používateľských detailov v tabuľke používateľov.
+ * @author Matej Pazdič
  */
 public class DBLoginUpdater {
     
@@ -27,6 +27,9 @@ public class DBLoginUpdater {
     private Statement statement = null;
     private ResultSet resultSet = null;
     
+    /**
+     * Konštruktor triedy DBLoginUpdater.
+     */
     public DBLoginUpdater(){
         try {
 
@@ -54,6 +57,18 @@ public class DBLoginUpdater {
     }
   }
     
+    /**
+     * Metóda updateUserData slúži na zmenu detailov daného používateľa.
+     * @param currentEmail - pôvodný používateľský email
+     * @param newEmail - nový email daného používateľa
+     * @param firstName - nové krstné meno daného používateľa
+     * @param lastName - nové priezvisko daného používateľa
+     * @param activity - nová preferovaná aktivita daného používateľa
+     * @param oldPassword - pôvodné heslo daného používateľa
+     * @param newPassword - nové heslo daného používateľa
+     * @param age - nový vek daneho používateľa
+     * @return Navratová hodnota je "0" ak zmena údaajov prebehla v poriadku. "1" ak používateľ zadal ako nový email už existujúci email. "2" ak používateľ zadal zlé heslo od svojho účtu. "-1" ak nastala chyba komunikácie s databázov.
+     */
     public int updateUserData(String currentEmail, String newEmail, String firstName, String lastName, String activity,String oldPassword, String newPassword, int age){
         try {
             DBLoginFinder finder = new DBLoginFinder();
@@ -89,6 +104,12 @@ public class DBLoginUpdater {
         }
     }
     
+    /**
+     * Metóda acceptUser slúži na potvrdenie používateľa po úspešnej registrácii.
+     * @param email - používateľský email
+     * @param token - jedinečný  používateľský token
+     * @return Návratovou hodnotou je "True" ak daný používateľ je úspešne potvrdený, alebo "False" ak nie.
+     */
     public boolean acceptUser(String email, String token){
         try {
             DBLoginFinder finder = new DBLoginFinder();

@@ -14,19 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author matej_000
+ * Trieda ClearFileLog je Servlet, ktorý je určený na vymazanie obsahu 
+ * logovacieho súboru. Táto možnosť je určená iba pre 
+ * používateľov s rolou "Administrator".
+ * @author Matej Pazdič
  */
 public class ClearFileLog extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Metóda processRequest je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,10 +40,10 @@ public class ClearFileLog extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     * Metóda doGet je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -53,10 +54,10 @@ public class ClearFileLog extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     *Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -67,9 +68,9 @@ public class ClearFileLog extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Metóda getServletInfo je urćená na zistenie popisu činnosti daného servletu.
      *
-     * @return a String containing servlet description
+     * @return Návratová hodnota je je reťazec znakov predstavujúci popis činnosti servletu.
      */
     @Override
     public String getServletInfo() {

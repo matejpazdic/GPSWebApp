@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * Trieda určená na načítavanie nadmorských výšok z mapového servera
+ * Trieda určená na načítavanie nadmorských výšok z mapového servera.
  * @author Matej Pazdič
  */
 public class ElevationLoader extends Thread {
@@ -30,11 +30,17 @@ public class ElevationLoader extends Thread {
     private final String endUrlString = "&sensor=false&key=AIzaSyAJEy1EPr4qN9sY6ElEcQGo32BAMDaavnc";
     //private final String endUrlString = "&sensor=false&key=AIzaSyCS9e5QiCD4PyIDgawyTnVCe2EXRttn7sM";
 
-
+    /**
+     * Konťruktor triedy ElevationLoader.
+     */
     public ElevationLoader() {
     }
 
-
+    /**
+     * Metóda reclaimElevation slúži na samotné načítanie nadmorských výšok z mapového servera google.com. Pričom sa vytvárajú potupne požiadavky na server s 50 traťovými bodmi, kôli zrýchleniu celkového procesu načítavania.
+     * @param lats - zoznam traťových bodov zapísaných v údajovej štruktúre "TrackPointImpl"
+     * @return Návratová hodnota je zoznam reťazcov znakov, ktoré predstavujú jednotlivé nadmorské výšky.
+     */
     public ArrayList<String> reclaimElevation(ArrayList<TrackPointImpl> lats) {
         ArrayList<String> internetElevations = new ArrayList<String>();
         

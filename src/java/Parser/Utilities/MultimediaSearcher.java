@@ -94,6 +94,10 @@ public class MultimediaSearcher {
         this.searchFolder = searchFolder;
     }
     
+    /**
+     * Metóda určená na samotné vyhľadávanie multimediálnych súborov, bez kontroly či patria k trase.
+     * @return Vracia zoznam všetkyćh nájdených podporovaných multimediálnych súborov.
+     */
     public String[] startSearchWithoutTrack(){
         String os = System.getProperty("os.name");
 
@@ -143,8 +147,8 @@ public class MultimediaSearcher {
     }
 
     /**
-     * Metóda určená na vyhľadávanie relevantných multimediálnych súborov
-     * @return Vracia zoznam relevantných multimediálnych súborov
+     * Metóda určená na vyhľadávanie relevantných multimediálnych súborov.
+     * @return Vracia zoznam relevantných multimediálnych súborov.
      */
     public ArrayList<FileImpl> startSearch() {
 
@@ -378,9 +382,9 @@ public class MultimediaSearcher {
         return goodFiles;
     }
     
-        /**
-     * Metóda určená na vyhľadávanie relevantných multimediálnych súborov
-     * @return Vracia zoznam relevantných multimediálnych súborov
+    /**
+     * Metóda určená na vyhľadávanie relevantných multimediálnych súborov, pričom sa na koniec zoznamu pridajú súbory, ktoré nepatria k trase aby mohli byť neskôr priradené manuálne.
+     * @return Vracia zoznam relevantných multimediálnych súborov.
      */
     public ArrayList<FileImpl> startSearchWithBadFiles() {
 
@@ -651,7 +655,7 @@ public class MultimediaSearcher {
     }
 
     /**
-     * @param track - Zoznam jednotlivých trackpointov danej terasy
+     * @param track - Zoznam jednotlivých trackpointov danej trasy zapísaných pomocou údajovej štruktúry "TrackPointImpl".
      */
     public void setTrackPoints(ArrayList<TrackPointImpl> track) {
         this.track = track;

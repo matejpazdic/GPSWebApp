@@ -27,8 +27,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 
 /**
- *
- * @author matej_000
+ * Trieda SaveTrackInfo je Servlet, ktorý 
+ * slúži na uchovanie zadaných detailov trasy v procese 
+ * vytvorenia novej trasy pomocou vstupného tracklog 
+ * súboru medzi ktorkmi 2 a 3.
+ * @author Matej Pazdič
  */
 public class SaveTrackInfo extends HttpServlet {
     
@@ -41,13 +44,12 @@ public class SaveTrackInfo extends HttpServlet {
     
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Metóda processRequest je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -83,11 +85,11 @@ public class SaveTrackInfo extends HttpServlet {
 
 
                 if (system.startsWith("Windows")) {
-                   //String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                   //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                   String oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                   pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     
-                    String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                     File oldFile = new File(oldPathToFile);
                     File newFile = new File(pathToFile);
                     
@@ -138,10 +140,10 @@ public class SaveTrackInfo extends HttpServlet {
         
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
+     * Metóda doGet je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -152,12 +154,12 @@ public class SaveTrackInfo extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -166,13 +168,12 @@ public class SaveTrackInfo extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
+     * Vracia krátky popis čo vykonáva tento servlet.
+     * @return Návratová hodnota je reťazec znakov s popisom daného servletu.
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Trieda SaveTrackInfo je Servlet, ktorý slúži na uchovanie zadaných detailov trasy v procese vytvorenia novej trasy pomocou vstupného tracklog súboru medzi ktorkmi 2 a 3.";
     }// </editor-fold>
 
 

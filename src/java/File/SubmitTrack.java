@@ -34,8 +34,13 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.tomcat.jni.OS;
 
 /**
- *
- * @author matej_000
+ * Trieda SubmitTrack je Servlet, ktorý vykonáva 
+ * vyparsovanie a záverečné vytvorenie danej trasy v systéme, pri 
+ * porocese vytvorenia novej trasy pomocou vstupného tracklog súboru. 
+ * Tento servlet je volaný po kroku číslo 4 pri zadaní multimediálnych 
+ * súborov, alebo po kroku číslo 3 ak neboli pridané žiadné 
+ * multimediálne súbory.
+ * @author Matej Pazdič
  */
 public class SubmitTrack extends HttpServlet {
     
@@ -47,14 +52,17 @@ public class SubmitTrack extends HttpServlet {
     private String access;
     private String trackActivity;
     private String system = System.getProperty("os.name");
-    
 
-protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * Metóda processRequest je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Process regular form fields here the same way as request.getParameter().
-            // You can get parameter name by item.getFieldName();
-            // You can get parameter value by item.getString();
-            //System.out.println(items.size());
             
             YouTubeAgent uploader = new YouTubeAgent("skuska.api.3", "skuskaapi3");
             
@@ -91,10 +99,10 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
                 
-                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                //oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                 
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 
@@ -187,12 +195,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Metóda doGet je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -201,12 +209,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -215,9 +223,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     }
 
     /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
+     * Vracia krátky popis čo vykonáva tento servlet.
+     * @return Návratová hodnota je reťazec znakov s popisom daného servletu.
      */
     @Override
     public String getServletInfo() {

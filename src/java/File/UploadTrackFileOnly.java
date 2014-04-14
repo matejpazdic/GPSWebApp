@@ -22,15 +22,25 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 
 /**
- *
- * @author matej_000
+ * Trieda UploadTrackFileOnly je Servlet, ktorý zabezpečuje uloženie 
+ * vstupného tracklog súboru v 1. kroku vytvorenia novej trasy pomocu 
+ * vstupného tracklog súboru.
+ * @author Matej Pazdič
  */
 public class UploadTrackFileOnly extends HttpServlet {
     
     private String pathToFile;
     private String system = System.getProperty("os.name");
-    
-@Override
+
+    /**
+     * Metóda doPost je obslužná metóda, ktorá sa volá po vyvolaní daného servletu na strane používateľa. 
+     * Pričom sa servlet vykonáva na strane servera.
+     * @param request - objekt požiadavky, ktorý sa prenáša zo strany klienta na stranu servera
+     * @param response - objekt odozvy servera, ktorý sa prenáša zo strany servera na stranu klienta
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
         request.setCharacterEncoding("UTF-8");
@@ -59,8 +69,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     
                     session.setAttribute("trackNameExist", "False");
                     if (system.startsWith("Windows")) {
-                        //String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-                        String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        String tempPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        //String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                         File tempFile = new File(tempPath);
                         if (tempFile.exists()) {
                             System.out.println("Mam temp a vymazujem!");
@@ -86,8 +96,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-                        pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                     }else{
                         pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
                     }

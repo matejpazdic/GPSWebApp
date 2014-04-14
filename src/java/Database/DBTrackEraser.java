@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
- * @author matej_000
+ * Trieda BDTrackEraser je určená na vymazávanie zázanmov trás z tabuľky trás.
+ * @author Matej Pazdič
  */
 public class DBTrackEraser {
     
@@ -21,6 +21,10 @@ public class DBTrackEraser {
     private Statement statement = null;
     private ResultSet resultSet = null;
 
+    /**
+     * KKnštruktor triedy DBTrackEraser.
+     * @throws Exception
+     */
     public DBTrackEraser() throws Exception {
         try {
 
@@ -32,6 +36,10 @@ public class DBTrackEraser {
         }
     }
     
+    /**
+     * Metóda eraseTrack slúži na samotné vymazanie zázamu o trase, ktorý je uložený v tabuľke trás.
+     * @param trackID - ID danej trasy, ktorú chceme vymazať
+     */
     public void eraseTrack(int trackID){
         try {
             statement =  connect.createStatement();

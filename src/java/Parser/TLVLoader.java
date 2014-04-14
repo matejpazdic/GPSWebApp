@@ -22,8 +22,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- *
- * @author matej_000
+ * Trieda TLVLoader slúži na kompletné načítanie trasy a správu 
+ * priradených multimediálnych súborov danej trasy zo výtupného 
+ * tracklog súboru vo formáte TLV.
+ * @author Matej Pazdič
  */
 public class TLVLoader {
     
@@ -41,10 +43,18 @@ public class TLVLoader {
     private String heightDiff;
     private String duration;
   
+    /**
+     *Konštruktor triedy TLVLoader. Všetky parametre sa nastavujú príslušnými settermi.
+     */
     public TLVLoader(){
         
     }
     
+    /**
+     * Metóda readTLVFile sĺuži na kompletné načítanie výstupného tracklog súboru vo formáte TLV do údajových štruktúr a taktiež na načítanie vštekých multimediálnych súborov.
+     * @param path - cesta k adresárovej štruktúre danej trasy
+     * @param file - názov danej trasy
+     */
     public void readTLVFile(String path, String file){
             track.clear();
             multimediaFiles.clear();
@@ -268,91 +278,91 @@ public class TLVLoader {
             }
     }
      /**
-     * @return the track
+     * @return Návratová hodnota je zoznam traťových bodov  danej trasy zapísaný v údajovej štruktúre "TrackPointImpl".
      */
     public ArrayList<TrackPointImpl> getTrackPoints() {
         return track;
     }
 
     /**
-     * @return the multimediaFiles
+     * @return Návratová hodnota je zoznam priradených multimediálnych súborov zapísaných v štruktúre "FileImpl".
      */
     public ArrayList<FileImpl> getMultimediaFiles() {
         return multimediaFiles;
     }
 
     /**
-     * @return the isFiles
+     * @return Návratová hodnota je pole pravdivostných hodnôt v ktorom je pre každý traťový bod zapísaná informácia či sa na danom trasovom bode nachádza aspoň jeden multimedálny súbor.
      */
     public boolean[] getIsFiles() {
         return isFiles;
     }
 
     /**
-     * @return the trackType
+     * @return Návratová hodnota je typ trasy.
      */
     public String getTrackType() {
         return trackType;
     }
 
     /**
-     * @return the elevationsType
+     * @return Návratová hodnota je buď "INTERNET" ak boli nadmorské výšky načítavané z internetu, alebo "DEVICE" ak boli nadmorské výšky použité z GPS zariadenia.
      */
     public String getElevationsType() {
         return elevationsType;
     }
     
     /**
-     * @return the elevationsType
+     * @return Návratová hodnota je popis trasy.
      */
     public String getTrackDescription() {
         return trackDescr;
     }
 
     /**
-     * @return the startAddress
+     * @return Návratová hodnota je adresa prvého bodu trasy, zapísaná ako reťazec znakov.
      */
     public String getStartAddress() {
         return startAddress;
     }
 
     /**
-     * @return the endAddress
+     * @return Návratová hodnota je adresa posledného bodu trasy, zapísaná ako reťazec znakov.
      */
     public String getEndAddress() {
         return endAddress;
     }
 
     /**
-     * @return the length
+     * @return Návratová hodnota je dĺžka danej trasy.
      */
     public String getLength() {
         return length;
     }
 
     /**
-     * @return the minElevation
+     * @return Návratová hodnota predsatvuje minimálnu nadmorskú výšku danej trasy.
      */
     public String getMinElevation() {
         return minElevation;
     }
 
     /**
-     * @return the maxElevation
+     * @return Návratová hodnota predsatvuje maximálnu nadmorskú výšku danej trasy.
      */
     public String getMaxElevation() {
         return maxElevation;
     }
 
     /**
-     * @return the heightDiff
+     * @return the Návratová hodnota predsatvuje výškové prevýšenie danej trasy.
      */
     public String getHeightDiff() {
         return heightDiff;
     }
 
     /**
-     * @return the duration
+     * @return Návratová hodnota predsatvuje trvanie danej trasy.
      */
     public String getDuration() {
         return duration;

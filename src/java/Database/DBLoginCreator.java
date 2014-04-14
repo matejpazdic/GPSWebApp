@@ -15,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda DBLoginCreator slúži na vytváranie nových záznamov o používateľoch.
+ * @author Matej Pazdič
  */
 public class DBLoginCreator {
     
@@ -24,6 +24,10 @@ public class DBLoginCreator {
     private Statement statement = null;
     private ResultSet resultSet = null;
 
+    /**
+     * Konštruktor triedy DBLoginCreator.
+     * @throws Exception
+     */
     public DBLoginCreator() throws Exception {
         try {
 
@@ -47,6 +51,12 @@ public class DBLoginCreator {
 
     }
     
+    /**
+     * Metóda createNewLogin slúži na vytvorenie nového používateľa v databáze používateľov.
+     * @param email - požívateľský email
+     * @param password - heslo používateľa
+     * @param userToken - jedinečný používateľský token, ktorý je vytváraný pomocu triedy EmailSender v balíku Security
+     */
     public void createNewLogin(String email, String password, String userToken){
         try {
             statement =  connect.createStatement();
@@ -63,6 +73,16 @@ public class DBLoginCreator {
         }
     }
     
+    /**
+     * Metóda createNewLogin slúži na vytvorenie nového používateľa v databáze používateľov.
+     * @param email - Používateľský email
+     * @param firstName - Krstné meno používateľa
+     * @param lastName - Priezvisko používateľa
+     * @param age - Vek používateľa
+     * @param activity - Oblúbená aktivita používateľa
+     * @param password - Heslo používateľa
+     * @param userToken - jedinečný používateľský token, ktorý je vytváraný pomocu triedy EmailSender v balíku Security
+     */
     public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password, String userToken){
         try {
             if(age.isEmpty()){

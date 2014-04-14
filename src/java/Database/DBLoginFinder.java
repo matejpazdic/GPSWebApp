@@ -14,12 +14,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Trieda DBLoginFinder slúži na samotný výber záznamu používateľa z tabuľky používateľov a získanie detailov o používateľovi.
+ * @author Matej Pazdič
+ */
 public class DBLoginFinder {
   private Connection connect = null;
   private Statement statement = null;
   private ResultSet resultSet = null;
 
-  public DBLoginFinder() throws Exception {
+    /**
+     * Konštruktor triedy DBLoginFinder
+     * @throws Exception
+     */
+    public DBLoginFinder() throws Exception {
     try {
 
       Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -60,8 +68,15 @@ public class DBLoginFinder {
 
     }
   }
-  
-  public boolean isCorrectLogin(String username, String userpass) throws Exception{
+
+    /**
+     * Metóda isCorrectLogin slúži na zistenie či daný používateľ zadal správne heslo pri prihlásení.
+     * @param username - email používateľa potrebný na prihlásenie
+     * @param userpass - zadané heslo od používateľa
+     * @return Návratová hodnota je buď "True", ak je prihlásenie správne, alebo "False" ak nieje správne.
+     * @throws Exception
+     */
+    public boolean isCorrectLogin(String username, String userpass) throws Exception{
      
       while (resultSet.next()) {
         String email = resultSet.getString("user_email");
@@ -77,6 +92,12 @@ public class DBLoginFinder {
       return false;
   }
   
+    /**
+     * Metóda isExistingLogin slúži na zistenie či daný používateľský email patrí niejakému používateľovi z tabuľky používateľov.
+     * @param username - používateĺský email
+     * @return Návratová hodnota je buď "True" ak existuje, alebo "False" ak daný používateľ sa nenachádza v tabuľke používateľov.
+     * @throws Exception
+     */
     public boolean isExistingLogin(String username) throws Exception {
         while (resultSet.next()) {
             String email = resultSet.getString("user_email");
@@ -91,6 +112,12 @@ public class DBLoginFinder {
         return false;
     }
     
+    /**
+     * Metóda isExistingLoginNonLog slúži na zistenie či daný používateľský email patrí niejakému používateľovi z tabuľky používateľov, ale nezapiše stav do Log súboru.
+     * @param username - používateĺský email
+     * @return Návratová hodnota je buď "True" ak existuje, alebo "False" ak daný používateľ sa nenachádza v tabuľke používateľov.
+     * @throws Exception
+     */
     public boolean isExistingLoginNonLog(String username) throws Exception {
         while (resultSet.next()) {
             String email = resultSet.getString("user_email");
@@ -105,6 +132,12 @@ public class DBLoginFinder {
         return false;
     }
 
+    /**
+     * Metóda getUserId slúži na vrátenie ID daného používateľa, podľa jeho emailu.
+     * @param username - používateľský email
+     * @return Návratová hodnota je používateľovo ID uložené v tabuľke používateľov, alebo "-1" ak sa daný používateľ nenašiel.
+     * @throws SQLException
+     */
     public int getUserId(String username) throws SQLException {
         while (resultSet.next()) {
             String email = resultSet.getString("user_email");
@@ -120,6 +153,12 @@ public class DBLoginFinder {
         return -1;
     }
     
+    /**
+     * Metóda isUserStatus slúži na zistenie či je daný používateľ zapísaný ako rola "USER".
+     * @param username - používateľský email
+     * @return Návratová hodnota je "True" ak je daný používateľ "USER", alebo "False" ak inak.
+     * @throws Exception
+     */
     public boolean isUserStatus(String username) throws Exception {
         boolean condition = true;
         try {
@@ -146,6 +185,12 @@ public class DBLoginFinder {
         }
     }
     
+    /**
+     * Metóda getUserInformation slúži na ziskávanie kompletných detailov daného používateľa.
+     * @param username - používateľský email
+     * @return Návratová hodnota je zoznam detailov o danom používateľovi, pričom jej veľkosť je stále 7.
+     * @throws Exception
+     */
     public ArrayList<String> getUserInformation(String username) throws Exception {
         ArrayList<String> information = new ArrayList<String>();
         try {
@@ -174,6 +219,11 @@ public class DBLoginFinder {
         }
     }
     
+    /**
+     * Metóda getUserToken slúži na získanie jedinečného 32 znakového identifikátora používateľa, potrebného pre overenie registrácie paužívateľa.
+     * @param username - používateľský email
+     * @return Návratová hodnota je 32 znakový reťazec.
+     */
     public String getUserToken(String username){
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -195,6 +245,11 @@ public class DBLoginFinder {
         }
     }
     
+    /**
+     * Metóda isUserAccepted slúži na zistenie, či je daný používateľ už overený na prihlásenie alebo nie.
+     * @param username - používateľský email
+     * @return Návratová hodnota je "True" ak daný používateľ je overený, alebo "False" ak daný používateľ nieje overený.
+     */
     public boolean isUserAccepted(String username){
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -220,6 +275,12 @@ public class DBLoginFinder {
         }
     }
     
+    /**
+     * Metóda getUserEmail slúži na zistenie používateľského emailu podľa jeho ID.
+     * @param userID - používateľské ID
+     * @return Návratová hodnota je reťazec znakov, ktorý predstavuje email daného používateľa.
+     * @throws Exception
+     */
     public String getUserEmail(int userID) throws Exception {
         boolean condition = true;
         try {
