@@ -1,5 +1,5 @@
 <%@page import="java.util.Locale"%>
-<%@page import="dbfindskuska.DBFinder"%>
+<%@page import="Database.DBFinder"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>

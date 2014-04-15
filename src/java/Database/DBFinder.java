@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package dbfindskuska;
+package Database;
 
 import java.sql.Statement;
 import java.sql.Connection;

@@ -544,6 +544,7 @@
                          path: polylineCoordinatesListFinal,
                          strokeColor: polyLinePresentationColor,
                          geodesic: true,
+                         map: map,                      //zmenil som to
                          strokeOpacity: strokeOpacity,
                          strokeWeight: strokeWeight,
                          editable: false
@@ -570,13 +571,13 @@
                             
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
-                            polylineOK.setMap(map);
+                            //polylineOK.setMap(map);                                   //zmenil som to
                             
                             if (dynamicMode == true) {
                                 map.panTo(polylineCoordinatesList[a]);
                             } else {
                                 leadMarker.setPosition(polylineCoordinatesList[a]);         
-                                leadMarker.setMap(map);
+                                //leadMarker.setMap(map);                               //zmenil som to
                             }
                             
                             //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
