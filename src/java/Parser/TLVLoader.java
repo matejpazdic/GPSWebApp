@@ -47,6 +47,7 @@ public class TLVLoader {
      *Konštruktor triedy TLVLoader. Všetky parametre sa nastavujú príslušnými settermi.
      */
     public TLVLoader(){
+        System.out.println("SOM V TLVLOADERI!!!");
     }
     
     /**
@@ -261,10 +262,10 @@ public class TLVLoader {
                                     //break;
                                 }
                             }
-                            Date prevTrackPointDate1 = track.get(j-1).getTime();
-                            prevTrackPointDate1.setSeconds(track.get(j-1).getTime().getSeconds()+1);
-                            Date nextTrackPointDate1 = track.get(j).getTime();
-                            nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
+                                Date prevTrackPointDate1 = track.get(j - 1).getTime();
+                                prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
+                                Date nextTrackPointDate1 = track.get(j).getTime();
+                                nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
                         }
                         }
                     }

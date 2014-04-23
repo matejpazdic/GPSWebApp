@@ -99,6 +99,7 @@ public class MultimediaSearcher {
      * @return Vracia zoznam všetkyćh nájdených podporovaných multimediálnych súborov.
      */
     public String[] startSearchWithoutTrack(){
+        System.out.println("Som v startSearchWithoutTrack");
         String os = System.getProperty("os.name");
 
         DirectoryScanner scanner = new DirectoryScanner();
@@ -151,7 +152,7 @@ public class MultimediaSearcher {
      * @return Vracia zoznam relevantných multimediálnych súborov.
      */
     public ArrayList<FileImpl> startSearch() {
-
+        System.out.println("Som v startSearch");
         ArrayList<FileImpl> files = new ArrayList<FileImpl>();
         String os = System.getProperty("os.name");
 
@@ -387,6 +388,7 @@ public class MultimediaSearcher {
      * @return Vracia zoznam relevantných multimediálnych súborov.
      */
     public ArrayList<FileImpl> startSearchWithBadFiles() {
+        System.out.println("Som v startSearchWithBadFiles");
 
         ArrayList<FileImpl> files = new ArrayList<FileImpl>();
         ArrayList<FileImpl> badFiles = new ArrayList<FileImpl>();
@@ -530,9 +532,13 @@ public class MultimediaSearcher {
                 System.out.println("Searching file: " + temp + " " + tempFiles.length);
                 
                 Date first = new Date(track.get(0).getTime().getTime());
+                System.out.println("FIRST DATE: " + first);
                 first.setSeconds(first.getSeconds() - 1);
+                System.out.println("FIRST DATE: " + first);
                 Date last = new Date(track.get(track.size() - 1).getTime().getTime());
+                System.out.println("LAST DATE: " + first);
                 last.setSeconds(last.getSeconds() + 1);
+                System.out.println("LAST DATE: " + first);
                 if (track != null) {
                     File file = new File(temp);
                     if (temp.toLowerCase().endsWith(".jpg") || temp.toLowerCase().endsWith(".jpeg")) {
@@ -645,12 +651,17 @@ public class MultimediaSearcher {
         System.out.println("kolko je multimedii" + goodFiles.size() + " " + badFiles.size());
         goodFiles.addAll(badFiles);
         System.out.println("kolko je multimedii dokopy" + goodFiles.size());
-        
+        Date first1 = null;
+        Date last1 = null;
+        if(OS.startsWith("Windows")){
         Date first = track.get(0).getTime();
         first.setSeconds(first.getSeconds() + 1);
+        first1 = first;
         Date last = track.get(track.size() - 1).getTime();
         last.setSeconds(last.getSeconds() - 1);
-        
+        last1 = last;
+        }
+        System.out.println("FIRST DATE " + first1 + ". LAST DATE " + last1);
         return goodFiles;
     }
 

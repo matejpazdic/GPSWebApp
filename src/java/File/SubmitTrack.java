@@ -99,10 +99,10 @@ public class SubmitTrack extends HttpServlet {
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
                 
-                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                //oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                 
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 
@@ -180,7 +180,7 @@ public class SubmitTrack extends HttpServlet {
             TLVLoader loader = new TLVLoader();
             loader.readTLVFile(pathToFile, trackName);
             PDFTrackGenerator generator = new PDFTrackGenerator(loader, pathToFile, trackName);
-            generator.generateTrackPDFA4(4, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
+            generator.generateTrackPDFA4(2, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
             
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
         } catch (Exception ex) {

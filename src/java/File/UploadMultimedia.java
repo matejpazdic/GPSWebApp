@@ -72,15 +72,16 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.setAttribute("isMultimedia", "True");
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        //path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
-                        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        //path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
                     }else{
                         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/" + "Multimedia" + "/";
                     }
                     new File(path).mkdirs();
                     String tmpFileName = Normalizer.normalize(item.getName(), Normalizer.Form.NFD);
-                    String fileName = tmpFileName.replaceAll("[^\\x00-\\x7F]", "");
-                    //System.out.println("SUBORIK: "  + fileName);
+                    String fileNameTMP = tmpFileName.replaceAll("[^\\x00-\\x7F]", "");
+                    String fileName = fileNameTMP.replaceAll("[,|;]", "");
+                    System.out.println("SUBORIK: "  + fileName);
                     item.write(new File(path, fileName));
                     FileLogger.getInstance().createNewLog("Successfuly uploaded multimedia file " + fileName + " in user's " + session.getAttribute("username") + " track " + trackName + " .");
                     if(item.getName().toLowerCase().endsWith(".jpg") || item.getName().toLowerCase().endsWith(".jpeg")){

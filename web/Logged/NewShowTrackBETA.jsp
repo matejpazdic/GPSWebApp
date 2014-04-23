@@ -118,7 +118,7 @@
                     var pictureShowingTime = 5000;
                     var lastPictureStayShowed = false;
                     
-                    var polyLineColor = '#3300FF';
+                    var polyLineColor = '#FF0000';
                     var polyLinePresentationColor = '#FF0000';
                     var strokeWeight = 2;
                     var strokeOpacity = 1.0;
@@ -529,7 +529,7 @@
                                 multimediaMarker = new google.maps.Marker({
                                                     position: polylineCoordinatesList[filesPointsUnique[i]],
                                                     map: map,
-                                                    icon: image,
+                                                    icon: image1,
                                                     title: ''
                                                  });
 
@@ -622,8 +622,10 @@
                             } else if (Mode == 3) {
                                 leadMarker.setPosition(polylineCoordinatesList[a]); 
                                 if (!map.getBounds().contains(polylineCoordinatesList[a])) {
-                                     boundsForMode.extend(polylineCoordinatesList[a+1]);               // UVIDIME CI TO TU NECHAME
-                                     boundsForMode.extend(polylineCoordinatesList[a+2]);                
+                                    if(a >= (polylineCoordinatesList.length - 3)){
+                                    boundsForMode.extend(polylineCoordinatesList[a+1]);               // UVIDIME CI TO TU NECHAME
+                                    boundsForMode.extend(polylineCoordinatesList[a+2]);
+                                 }
                                      map.panToBounds(boundsForMode);
                                      boundsForMode = new google.maps.LatLngBounds();
                                 }
@@ -1237,8 +1239,8 @@
                                         <label for="polylineColorState">Polyline color</label>
                                         
                                         <select id="polColor" name="polColor" class="form-control" >
-                                                    <option value="#3300FF" selected>Blue</option>
-                                                    <option value="#FF0000">Red</option>
+                                                    <option value="#3300FF">Blue</option>
+                                                    <option value="#FF0000" selected>Red</option>
                                                     <option value="#FF6600">Orange</option>
                                                     <option value="#000000">Black</option>
                                                     <option value="#FFFFFF">White</option>
@@ -1395,12 +1397,12 @@
                                                      %>
                                                      <p class="help-block">You can download pdf file with presentation of track clicking button below</p>
                                                      <br>
-                                                     <a class="btn btn-primary" href="<%out.print(url + ".pdf");%>" download>Download PDF file from track</a>
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".pdf");%>" download title="This button will launch dowload with generated publication from this track. This publication will contains a selection of your multimedia files and track with track details.">Download PDF file from track</a>
                                                      <br>
                                                      <br>
                                                      <p class="help-block">You can download gpx file with tracklog clicking button below</p>
                                                      <br>
-                                                     <a class="btn btn-primary" href="<%out.print(url + ".gpx");%>" download>Download GPX file from track</a>
+                                                     <a class="btn btn-primary" href="<%out.print(url + ".gpx");%>" download title="This button will launch download GPX tracklog file. This file can be uploaded to GPS device for navigation purpose.">Download GPX file from track</a>
                                                      
                                                      
                                                      

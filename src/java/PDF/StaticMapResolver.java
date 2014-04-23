@@ -38,7 +38,7 @@ public class StaticMapResolver {
      */
     public String getStaticMapTrackURL(int lineWeight, String color, int width, int height, int scale){
         if (getLoader() != null) {
-            if (getLoader().getTrackPoints().size() < 35) {
+            if (getLoader().getTrackPoints().size() < 24) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(startURL);
 
@@ -76,7 +76,7 @@ public class StaticMapResolver {
 
                 return builder.toString();
             }else{
-                int addition = getLoader().getTrackPoints().size() / 35;
+                int addition = getLoader().getTrackPoints().size() / 25;
                 
                 StringBuilder builder = new StringBuilder();
                 builder.append(startURL);
@@ -242,6 +242,12 @@ public class StaticMapResolver {
 
                 builder.append("&maptype=roadmap");
                 builder.append(endURL);
+                
+                if(builder.length() > 2047){
+                    String newStr = getStaticMapTrackURL(lineWeight, color, width, height, scale);
+                    System.out.println("MAM BODDOV " + newStr.length());
+                    return newStr;
+                }
 
                 return builder.toString();
             }

@@ -9,7 +9,9 @@ package File;
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
 import Logger.FileLogger;
+import PDF.PDFTrackGenerator;
 import Parser.GPXParser;
+import Parser.TLVLoader;
 import Parser.Utilities.MultimediaSearcher;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -80,10 +82,10 @@ public class WriteNewTrack extends HttpServlet {
 //        }
         
         if (system.startsWith("Windows")) {
-           //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-           //pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
-           pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
-           pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
+           pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           pathToMultimedia = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
+           //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+           //pathToMultimedia = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\Multimedia\\";
         } else {
             pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";
             pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/Multimedia/";
@@ -130,12 +132,12 @@ public class WriteNewTrack extends HttpServlet {
                 
                 String filename = trackName + ".gpx";
                 if (system.startsWith("Windows")) {
-                    //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    //pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    //pathToTempFile = pathToFile + "Temp.txt";
-                    pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                    pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                     pathToTempFile = pathToFile + "Temp.txt";
+                    //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    //pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    //pathToTempFile = pathToFile + "Temp.txt";
                     pathToMultimediaFiles = pathToFile + "Multimedia" + "\\";
 //                    File fTemp = new File(pathToMultimediaFiles);
 //                    if(!fTemp.exists()){
@@ -177,6 +179,11 @@ public class WriteNewTrack extends HttpServlet {
                 tCreator.createNewTrack(trackName, trackDescr, trackActivity, pathToFile, finder.getUserId(session.getAttribute("username").toString()),
                         parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), access, parser.getStartAddress(), parser.getEndAddress(), parser.getTrackLengthKm(), parser.getTrackMinElevation(), parser.getTrackMaxElevation(), parser.getTrackHeightDiff(), parser.getTrackDuration(), "Drawed");
                 
+                TLVLoader loader = new TLVLoader();
+                loader.readTLVFile(pathToFile, trackName);
+                PDFTrackGenerator generator = new PDFTrackGenerator(loader, pathToFile, trackName);
+                generator.generateTrackPDFA4(2, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
+
                 FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
                 
             } catch (Exception ex) {
