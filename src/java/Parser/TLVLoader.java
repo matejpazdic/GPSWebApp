@@ -47,7 +47,6 @@ public class TLVLoader {
      *Konštruktor triedy TLVLoader. Všetky parametre sa nastavujú príslušnými settermi.
      */
     public TLVLoader(){
-        
     }
     
     /**
@@ -270,11 +269,8 @@ public class TLVLoader {
                         }
                     }
             } catch (ParserConfigurationException ex) {
-                
             } catch (SAXException ex) {
-                
             } catch (IOException ex) {
-                
             }
     }
      /**

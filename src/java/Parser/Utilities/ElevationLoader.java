@@ -27,8 +27,8 @@ public class ElevationLoader extends Thread {
 
     private final String baseUrlString = "https://maps.googleapis.com/maps/api/elevation/xml?locations=";
     //private final String endUrlString = "&sensor=false&key=AIzaSyAaOYSaYYTKOpbuBXpPiWEvi8KcdxqgJec";
-    private final String endUrlString = "&sensor=false&key=AIzaSyAJEy1EPr4qN9sY6ElEcQGo32BAMDaavnc";
-    //private final String endUrlString = "&sensor=false&key=AIzaSyCS9e5QiCD4PyIDgawyTnVCe2EXRttn7sM";
+    //private final String endUrlString = "&sensor=false&key=AIzaSyAJEy1EPr4qN9sY6ElEcQGo32BAMDaavnc";
+    private final String endUrlString = "&sensor=false&key=AIzaSyCS9e5QiCD4PyIDgawyTnVCe2EXRttn7sM";
 
     /**
      * Konťruktor triedy ElevationLoader.

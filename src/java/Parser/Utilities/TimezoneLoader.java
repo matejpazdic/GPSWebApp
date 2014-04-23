@@ -91,10 +91,10 @@ public class TimezoneLoader {
      */
     public Date correctTimeZone(Date date, double lat, double lon){
         try {
+       
             String tempStr = String.valueOf(date.getTime()).substring(0, String.valueOf(date.getTime()).length() - 3);
-
             String UrlString = baseURL + lat + "," + lon + "&timestamp=" + tempStr + endURL;
-
+            
             URL url = new URL(UrlString);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

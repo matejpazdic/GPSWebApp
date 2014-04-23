@@ -57,14 +57,13 @@ public class VideoCreationDateResolver {
                     String stringDate = line.trim().substring(line.trim().indexOf(":") + 2);
  
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = format.parse(stringDate);
+                    Date date = format.parse(stringDate);  
                     
                     if (date.getYear() < 100 && (!System.getProperty("os.name").startsWith("Windows"))){
 
                         date.setYear(date.getYear()+ 66);
-                        System.out.println("upravenz datum> " + date);
                     }
-         
+                             
                     TimezoneLoader timezoneLoader = new TimezoneLoader();
                     Date newDate = timezoneLoader.correctTimeZone(date, lat, lon);
 

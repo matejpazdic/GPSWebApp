@@ -88,6 +88,9 @@
                     var index = 0;
                     var a = 0;
                     var marker;
+                    
+                    var multimediaMarker;
+                    
                     var chart;
 
                     var leadMarker;
@@ -109,9 +112,9 @@
                     
                     ///////////////////////////////////// OPTIONS
                     
-                    var dynamicMode = false;
+                    var Mode = 2;
                     
-                    var presentationSpeed = 40;
+                    var presentationSpeed = 35;
                     var pictureShowingTime = 5000;
                     var lastPictureStayShowed = false;
                     
@@ -131,6 +134,10 @@
                     var image = 'HTMLStyle/TrackPointIcon/BluePin1.png';
                     var image1 = 'HTMLStyle/TrackPointIcon/RedPin1.png';
                     var image2 = 'HTMLStyle/TrackPointIcon/GreenPin1.png';
+                    
+                    var boundsForMode;
+                    
+                    var markersArray = [];
                     
                     
                     /////////////////////////////////////
@@ -289,6 +296,18 @@
       
                 
             %>
+                
+                var filesPointsUnique = [];
+                $.each(filesPoints, function(i, el){
+                    if($.inArray(el, filesPointsUnique) === -1) filesPointsUnique.push(el);
+                });
+                
+                function clearOverlays() {
+                    for (var i = 0; i < markersArray.length; i++ ) {
+                        markersArray[i].setMap(null);
+                    }
+                        markersArray.length = 0;
+                }
                 
             //var graphData = google.visualization.arrayToDataTable(gData);
             graphData = new google.visualization.DataTable();
@@ -505,6 +524,20 @@
                     polylineOK.setMap(map);
                     map.fitBounds(bounds);    
                   
+                     for (i=0; i<filesPointsUnique.length; i++) {
+                                
+                                multimediaMarker = new google.maps.Marker({
+                                                    position: polylineCoordinatesList[filesPointsUnique[i]],
+                                                    map: map,
+                                                    icon: image,
+                                                    title: ''
+                                                 });
+
+                                                 multimediaMarker.setMap(map);
+                                                 markersArray.push(multimediaMarker);
+                                }
+                  
+                  
                     drawChart();
                     
             }
@@ -534,6 +567,10 @@
                             mark.setMap(null); 
                         }
                         
+                        if (markersArray.length != 0) {   
+                            clearOverlays();
+                       }
+                        
                     polylineOK.setPath([]);
                     polylineOK.setMap(null);
                     
@@ -558,27 +595,45 @@
                                              });
                      
                      isPolylineAlreadyCreated = true;
-                     
-                     if (dynamicMode == true) {
+                                        
+                     if (Mode == 1) {
                         map.setZoom(16);
                         //map.setOptions({zoomControl: false,scrollwheel: false});
                         }
+                        
+                        boundsForMode = new google.maps.LatLngBounds();
+
                     }
-                    
+  
                     function drawingMap() {
 
                             clearTimeout(presentTimeout); //  SKUSKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
                             
                             polylineCoordinatesListFinal.push(polylineCoordinatesList[a]);
                             polylineOK.setPath(polylineCoordinatesListFinal);
+                            
+                            boundsForMode.extend(polylineCoordinatesList[a]);
                             //polylineOK.setMap(map);                                   //zmenil som to
                             
-                            if (dynamicMode == true) {
+                            if (Mode == 1) {
                                 map.panTo(polylineCoordinatesList[a]);
-                            } else {
-                                leadMarker.setPosition(polylineCoordinatesList[a]);         
-                                //leadMarker.setMap(map);                               //zmenil som to
-                            }
+                            } else if (Mode == 2){
+                                leadMarker.setPosition(polylineCoordinatesList[a]); 
+                            } else if (Mode == 3) {
+                                leadMarker.setPosition(polylineCoordinatesList[a]); 
+                                if (!map.getBounds().contains(polylineCoordinatesList[a])) {
+                                     boundsForMode.extend(polylineCoordinatesList[a+1]);               // UVIDIME CI TO TU NECHAME
+                                     boundsForMode.extend(polylineCoordinatesList[a+2]);                
+                                     map.panToBounds(boundsForMode);
+                                     boundsForMode = new google.maps.LatLngBounds();
+                                }
+                             
+                            } else if (Mode == 4) {
+                                leadMarker.setPosition(polylineCoordinatesList[a]); 
+                                if (!map.getBounds().contains(polylineCoordinatesList[a])) {
+                                map.panTo(polylineCoordinatesList[a]);     
+                                }
+                            }   
                             
                             //graphEx = google.visualization.arrayToDataTable(graphDataFinal);
                                 
@@ -785,11 +840,15 @@
                 function saveOptions() {
                     
                      if (document.getElementById("optionsRadios11").checked) {
-                         dynamicMode = false;
+                         Mode = 2;
+                     } else if (document.getElementById("optionsRadios12").checked) {
+                         Mode = 1;
+                     } else if (document.getElementById("optionsRadios13").checked) {
+                         Mode = 3;
                      } else {
-                         dynamicMode = true;
+                         Mode = 4;
                      }
-                    
+   
                      var tempSpeed = $('#ex1').data('slider').getValue();
                      presentationSpeed = Math.abs(tempSpeed - 250);
                      pictureShowingTime = $('#ex2').data('slider').getValue()*1000;
@@ -983,10 +1042,10 @@
                                         <div id="empty_div"> </div>
                                             <p style="line-height: 20px; text-align: center;">
                                                 <!--<div class="btn-group">-->
-                                                <button id="play" type="button" class="btn btn-sm btn-primary" onclick="draw();" disabled> <span class="glyphicon glyphicon-play"></span></button>
-                                                    <button id="pause" type="button" class="btn btn-sm btn-primary" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
-                                                    <button id="next" type="button" class="btn btn-sm btn-primary" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
-                                                    <button id="stop" type="button" class="btn btn-sm btn-primary" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
+                                                <button id="play" title="Start presentation" type="button" class="btn btn-sm btn-primary" onclick="draw();"> <span class="glyphicon glyphicon-play"></span></button>
+                                                    <button id="pause" title="Pause presentation" type="button" class="btn btn-sm btn-primary" onclick="pause();" disabled> <span class="glyphicon glyphicon-pause"></span></button> 
+                                                    <button id="next" title="Skip multimedia file" type="button" class="btn btn-sm btn-primary" onclick="next();" disabled> <span class="glyphicon glyphicon-step-forward"></span></button>
+                                                    <button id="stop" title="Stop presentation" type="button" class="btn btn-sm btn-primary" onclick="clearmap();" disabled> <span class="glyphicon glyphicon-stop"></span></button>
                                                 <!--</div>-->
                                             </p>
                                             
@@ -1126,23 +1185,37 @@
                                         
                                         <br>
 
-                                        <div id="presMode" class="radio">
+                                        <div id="presMode1" class="radio">
                                             <label>
                                                 <input type="radio" name="optionsRadios1" id="optionsRadios11" value="static" checked>
                                                 Static mode
                                             </label>
                                         </div>
-                                        <div class="radio">
+                                        <div id="presMode2" class="radio">
                                             <label>
-                                                <input type="radio" name="optionsRadios1" id="optionsRadios12" value="dynamic">
+                                                <input type="radio" name="optionsRadios1" id="optionsRadios12" value="motion">
+                                                Motion  mode
+                                            </label>
+                                        </div>
+                                        <div id="presMode3" class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios1" id="optionsRadios13" value="dynamic">
                                                 Dynamic mode
                                             </label>
                                         </div>
+                                        <div id="presMode4" class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios1" id="optionsRadios14" value="centered dynamic">
+                                                Centered Dynamic mode
+                                            </label>
+                                        </div>
+                                        
+                                        
                                             <br>
                                         <label for="presentationSpeed">Presentation speed</label>
                                         <br>
                                                             
-                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="5" data-slider-max="255" data-slider-step="1" data-slider-value="210" style="width:360px;"/>
+                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="5" data-slider-max="255" data-slider-step="1" data-slider-value="215" style="width:360px;"/>
                                   
                                         <br>
                                         <br>

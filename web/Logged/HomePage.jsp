@@ -4,7 +4,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Database.DBTrackFinder"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dbfindskuska.DBFinder"%>
+<%@page import="Database.DBFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 //    session.removeAttribute("trackFilename");

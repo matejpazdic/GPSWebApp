@@ -242,6 +242,7 @@ public class StaticMapResolver {
 
                 builder.append("&maptype=roadmap");
                 builder.append(endURL);
+
                 return builder.toString();
             }
             

@@ -426,10 +426,16 @@ public class GPXParser {
                 date.setSeconds(iii + i);
                             
                 point.setTime(date);
+                
+                System.out.println("pridavam date" + date);
+                
                 time.add(date);
                 deviceElevation.add("0");
                 track.add(point);
             }   
+            for (int x=0; x < time.size(); x++) {
+                    System.out.println("som na " + x +  " a je tu " + time.get(x));
+                }
             
         } catch (Exception ex) {
             Logger.getLogger(GPXParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -644,6 +650,11 @@ public class GPXParser {
                     org.w3c.dom.Element em4 = document.createElement("Time");
                     StringBuilder str = new StringBuilder();
                     str = str.append(time.get(i).getTime());
+                    
+                    System.out.println("v time get i je " + time.get(i));
+                    
+                    System.out.println("v time get i get time je " + time.get(i).getTime());
+
                     String tempStr = str.toString();
                     em4.appendChild(document.createTextNode(tempStr));
                     em.appendChild(em4);

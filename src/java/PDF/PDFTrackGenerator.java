@@ -35,6 +35,8 @@ import java.util.logging.Logger;
  */
 public class PDFTrackGenerator {
     
+   
+    
     private String path = null;
     private String fileName = null;
     private TLVLoader loader = null;
@@ -49,6 +51,7 @@ public class PDFTrackGenerator {
         this.loader = loader;
         this.path = path;
         this.fileName = fileName;
+
     }
     
     /**
@@ -68,14 +71,22 @@ public class PDFTrackGenerator {
             Document doc = new Document();
             PdfWriter.getInstance(doc, new FileOutputStream(path + fileName + ".pdf"));
             doc.open();
+
             
             Font nadpisFont = new Font(Font.FontFamily.HELVETICA, 25, Font.BOLD);
+
             Font detailyFont = new Font(Font.FontFamily.HELVETICA, 9, Font.NORMAL);
+
             Paragraph nadpisPar = new Paragraph();
+
             nadpisPar.setAlignment(Element.ALIGN_CENTER);
+   
             Phrase nadpis = new Phrase(fileName, nadpisFont);
+ 
             nadpisPar.add(nadpis);
+     
             nadpisPar.add("");
+
             
             doc.add(nadpisPar);
             doc.add(Chunk.NEWLINE);
@@ -84,8 +95,11 @@ public class PDFTrackGenerator {
             tabulka.setWidthPercentage(100);
             float[] columnWidth = {6f,4f};
             tabulka.setWidths(columnWidth);
+
             StaticMapResolver res = new StaticMapResolver(loader);
+     
             String mapUrl = res.getStaticMapTrackURLWithMultimedia(lineWeight, color, width, height, scale);
+
             
             Image img = Image.getInstance(new URL(mapUrl));
             //img.scalePercent(50);
@@ -195,6 +209,7 @@ public class PDFTrackGenerator {
             doc.close();
         } catch (Exception ex) {
             FileLogger.getInstance().createNewLog("ERROR: Cannot CREATE PDF for track " + fileName + " for user " + user + " !!!");
+            System.out.println("pruser");
         }
         
     }

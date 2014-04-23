@@ -96,12 +96,12 @@ public class SubmitDrawTrack extends HttpServlet {
             
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
-                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                pathToTempFile = pathToFile + "Temp.txt";
-                pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
                 //pathToTempFile = pathToFile + "Temp.txt";
-                //pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                //pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                pathToTempFile = pathToFile + "Temp.txt";
+                pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 
                 File oldFile = new File(pathToTemp);
@@ -168,7 +168,7 @@ public class SubmitDrawTrack extends HttpServlet {
             loader.readTLVFile(pathToFile, trackName);
             PDFTrackGenerator generator = new PDFTrackGenerator(loader, pathToFile, trackName);
             generator.generateTrackPDFA4(4, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
-            
+
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
         } catch (Exception ex) {
             System.out.println("Error: Unable to create .tlv file!");
