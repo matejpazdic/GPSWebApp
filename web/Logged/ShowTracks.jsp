@@ -239,7 +239,7 @@
                             }
                             
                             out.print("<td class=\"text-center\"><a href=DeleteTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-danger btn-sm \">Delete</a> &nbsp; &nbsp;");
-                            out.print("<a href=NewShowTrackBETA.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm \">Show</a></td>");
+                            out.print("<a href=ShowTrack.jsp?trkID=" + trackIDs.get(i) +  " class=\"btn btn-success btn-sm \">Show</a></td>");
                             out.print("</tr>");
                         }
                         out.println("</tbody></table>");

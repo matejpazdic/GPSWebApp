@@ -252,7 +252,7 @@
                                                 //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
                                                 out.println("<tr><td style=\"word-wrap: break-word;padding-top:12px;padding-bottom:12px;\">" + (i + 1) + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + modifiedDate + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + userName + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + track + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + trackAccess + "</td>"); 
                                                 if(trackAccess.equalsIgnoreCase("Public") || userName.equalsIgnoreCase(session.getAttribute("username").toString())){
-                                                    out.print("<td class=\"text-center\"><a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a>");
+                                                    out.print("<td class=\"text-center\"><a href=ShowTrack.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a>");
                                                 }
                                                 out.print("<td class=\"text-center\"></td></tr>");
 

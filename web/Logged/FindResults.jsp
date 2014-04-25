@@ -243,7 +243,7 @@
                             }
                             
                           
-                            out.print("<td class=\"text-center\"><a href=NewShowTrackBETA.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a></td>");
+                            out.print("<td class=\"text-center\"><a href=ShowTrack.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a></td>");
                             out.print("</tr>");
                         }
                         out.println("</tbody></table>");
