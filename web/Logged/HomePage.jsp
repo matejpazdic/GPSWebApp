@@ -154,7 +154,7 @@
                                 <a href="#panel-234896" data-toggle="tab">Overview</a>
                             </li>
                             <li>
-                                <a href="#panel-42569" data-toggle="tab">Last added tracks</a>
+                                <a href="#panel-42569" data-toggle="tab">All added tracks</a>
                             </li>
                             <li>
                                 <a href="#panel-42556" data-toggle="tab">Services for our users</a>
@@ -222,13 +222,13 @@
                             <div class="tab-pane" id="panel-42569">
 
                                 <h1>
-				Last added tracks...
+				All added tracks...
                                 </h1>
                                 
                                 <br>
                                 <%
                                     DBFinder finder = new DBFinder();
-                                    ArrayList<Integer> results = finder.findNewNTracks(5);
+                                    ArrayList<Integer> results = finder.findNewNTracks(50);
 
                                     DBTrackFinder trackFinder = new DBTrackFinder();
                                     DBLoginFinder loginFinder = new DBLoginFinder();
@@ -275,13 +275,33 @@
                                         up to 10Gb space for user files
                                     </li>
                                     <li>
-                                        adding tracks from GPS device
+                                        adding tracklog from GPS device
                                     </li>
                                     <li>
-                                        adding a lot formats multimedia files (picture, video)
+                                        adding pictures (.jpeg, .jpg)
                                     </li>
                                     <li>
-                                        drawing tracks on high quality map
+                                        adding multiple video formats
+                                        <ul>
+                                            <li>
+                                            .mov
+                                            </li>
+                                            <li>
+                                            .3gp / .3gpp
+                                            </li>
+                                            <li>
+                                            .mp4
+                                            </li>
+                                            <li>
+                                            .avi
+                                            </li>
+                                            <li>
+                                            .mpg
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        drawing tracks on high quality map (Google Maps)
                                     </li>
                                     <li>
                                         drawing advanced altitude graph
@@ -307,7 +327,7 @@
                     </div>
 
                     <p>
-                        This website is developed as a practical Part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support.
+                        This website is developed as a practical Part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support.<b> Optimalized for <a href="http://chrome.google.com">Google Chrome</a> and <a href="http://www.opera.com">Opera</a> with <a href="http://get.adobe.com/flashplayer/">Adobe Flash plugin</a></b>
                     </p>
                 </div>
             </div>

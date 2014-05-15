@@ -137,7 +137,7 @@ public class DBFinder {
     public ArrayList<Integer> findNewNTracks(int rowCount){
         ArrayList<Integer> results = new ArrayList<Integer>();
         try {  
-            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS ORDER BY TRACK_DATE_UPDATED DESC LIMIT " + rowCount);
+            PreparedStatement statement = connect.prepareStatement("SELECT * from TRACKS WHERE TRACK_ACCESS='Public' ORDER BY TRACK_DATE_UPDATED DESC LIMIT " + rowCount);
             resultSet = statement.executeQuery();
             //System.out.println("SELECT * from TRACKS where TRACK_CREATION_TYPE='Drawed' AND (TRACK_NAME like '%" + find + "%' OR TRACK_DESCRIPTION like '%" + find + "%' OR TRACK_ACTIVITY like '%" + find + "%' OR TRACK_START_ADDRESS like '%" + find + "%' OR TRACK_END_ADDRESS like '%" + find + "%')");
             while(resultSet.next()){

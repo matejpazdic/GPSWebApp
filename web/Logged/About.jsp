@@ -125,7 +125,7 @@
                         
 
                                 <h3>
-                                    <b>GPSWebApp v. 0.77</b>
+                                    <b>GPSWebApp v. 1.00</b>
                                 </h3>
 
                                  <div class="row clearfix">
@@ -158,7 +158,7 @@
                         
                                  <br>
            
-                                    <h4>This website is developed as a practical Part of Ľubomír Petrus and Matej Pazdič thesis. 
+                                    <h4>This website is developed as a practical part of Ľubomír Petrus and Matej Pazdič thesis. 
                                         Take note of the copyrights owns Petrus, Pazdič and at last but not least Technical University of Košice, 
                                         Faculty of Electrical Engineering and Informatics.</h4>
                                     
@@ -166,7 +166,7 @@
                                     <div class="row clearfix">
                                         <div class="col-md-6 column">
                                                 <dl>
-                                                    <dt>Web design, Front-end functionality, Map services and showing, drawing and presentating tracks with related multimedia files: </dt>
+                                                    <dt>Web design, front-end functionality, map services and showing, drawing and presentating tracks with related multimedia files: </dt>
                                                         <dd><h5> <b>Thesis:</b> <br>Services for Publication a Presentation GPS Records with Multimedia Information </h5></dd>
                                                     
                                                     <dt>Author:</dt>
@@ -179,7 +179,7 @@
                                         <div class="col-md-6 column">
                                             <dl>
                                                     <dt>Back-end design, processing input files, generating output files, designing and managment of database: </dt>
-                                                        <dd><h5> <b>Thesis:</b> <br>Services for Processing and Storage GPS Records with related Multimedia Information </h5></dd>
+                                                        <dd><h5> <b>Thesis:</b> <br>Services for Processing and Storage GPS Records with Multimedia Information </h5></dd>
                                                     <dt>Author:</dt>
                                                     <dd><h5>Matej Pazdič</h5></dd>
                                                
@@ -206,21 +206,19 @@
                                     <div class="row clearfix">
                                         <div class="col-md-6 column">
                                             <h3>
-                                            <b>Whats new in v. 0.77 »</b>
+                                            <b>Whats new in v. 1.00 »</b>
                                         </h3>
                                                 <ul>
-                                                         <li>Edited registration - now with activation email</li>
-                                                         <li>Edited registration form</li>
-                                                         <li>Added new account type - Admin</li>
-                                                         <li>Added logger for entire application</li>
-                                                         <li>Added delete user function</li>
-                                                         <li>Added View account details page and function</li>
-                                                         <li>Added Edit account page and function</li>
-                                                         <li>Added About page, two different views, for Admin or User </li>
-                                                         <li>Completly new track display and presentation mode</li>
-                                                         <li>Finish auto presentation mode without the need of interaction with user</li>
-                                                         <li>Added new info about track - length, speed, max elevation, min elevation, duration, track height diff</li>
-                                                         <li>Added track delete protection (delete another user's track)</li>                                                    
+                                                         <li>Restore your forgotten password</li>
+                                                         <li>Generate publication in PDF fromat from your track</li>
+                                                         <li>Added dynamic presentation mode</li>
+                                                         <li>Added centered dynamic presentation mode</li>
+                                                         <li>Generate .gpx tracklog file from your track</li>
+                                                         <li>Added list of all tracks in application</li>
+                                                         <li>Added new hint popups for buttons</li>
+                                                         <li>Added track filtering in My Tracks page</li>
+                                                         <li>Fixed recognizing wrong characters in filenames</li>
+                                                         <li>Optimalized algorithm for track drawing</li>                                            
                                                          
                                                 </ul>
                                     </div>

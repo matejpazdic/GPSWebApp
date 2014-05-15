@@ -40,7 +40,14 @@
         
         <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.js"></script>
         <script type="text/javascript" src="HTMLStyle/jquery.tablesorter.widgets.js"></script>
- 
+        
+        <%
+            if(session.getAttribute("Limit") != null){
+                out.print("<script>alert(\"Sorry but unfortunately elevation profile from map server cannot be loaded. You can view your track without elevation profile from map server. If you want elevation profile from map server try add track again later.\");</script>");
+            }
+            session.removeAttribute("Limit");
+        %>
+        
          <script> 
             $(function() {
 

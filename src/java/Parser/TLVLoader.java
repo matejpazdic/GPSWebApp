@@ -47,7 +47,6 @@ public class TLVLoader {
      *Konštruktor triedy TLVLoader. Všetky parametre sa nastavujú príslušnými settermi.
      */
     public TLVLoader(){
-        System.out.println("SOM V TLVLOADERI!!!");
     }
     
     /**
@@ -211,10 +210,8 @@ public class TLVLoader {
                         if (fileDate.toString().equalsIgnoreCase(firstPointDate)) {
                             multimediaFiles.get(i).setTrackPointIndex(0);
                                     isFiles[0] = true;
-                                    System.out.println("Som v 0 bode!!!");
                                              
                         } else { 
-                            System.out.println("Som v >0 bode!!!");
                    
                         for(int j = 1; j < track.size(); j++){
 
@@ -222,27 +219,28 @@ public class TLVLoader {
                             prevTrackPointDate.setSeconds(track.get(j-1).getTime().getSeconds()-1);
                             Date nextTrackPointDate = track.get(j).getTime();
                             nextTrackPointDate.setSeconds(track.get(j).getTime().getSeconds()+1);
-                            if (multimediaFiles.get(i).getLongitude() != null && multimediaFiles.get(i).getLatitude() != null) {
-                                if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate)) || (fileDate.equals(prevTrackPointDate) || (fileDate.equals(nextTrackPointDate)))) {
-                                    double deltaLat1 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j - 1).getLatitude());
-                                    double deltaLon1 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j - 1).getLongitude());
-                                    double deltaLat2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j).getLatitude());
-                                    double deltaLon2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j).getLongitude());
-                                    
-                                    //if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
-                                        //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
-                                         multimediaFiles.get(i).setTrackPointIndex(j);
-                                         isFiles[j] = true;
-                                         
-                                    Date prevTrackPointDate1 = track.get(j - 1).getTime();
-                                    prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
-                                    Date nextTrackPointDate1 = track.get(j).getTime();
-                                    nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 1);
-                                         
-                                         break;
-                                    //}
-                                }
-                            } else { 
+                            //Bo nefungovalo priradzovanie.
+//                            if (multimediaFiles.get(i).getLongitude() != null && multimediaFiles.get(i).getLatitude() != null) {
+//                                if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate)) || (fileDate.equals(prevTrackPointDate) || (fileDate.equals(nextTrackPointDate)))) {
+//                                    double deltaLat1 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j - 1).getLatitude());
+//                                    double deltaLon1 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j - 1).getLongitude());
+//                                    double deltaLat2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLatitude()) - track.get(j).getLatitude());
+//                                    double deltaLon2 = Math.abs(Double.parseDouble(multimediaFiles.get(i).getLongitude()) - track.get(j).getLongitude());
+//                                    
+//                                    //if ((deltaLat1 <= 0.0007 && deltaLon1 <= 0.0007) || (deltaLat2 <= 0.0007 && deltaLon2 <= 0.0007)) {
+//                                        //System.out.println(i + ". Obrazok ma dobru GPS, k bodu " + (j - 1) + "!!!");
+//                                         multimediaFiles.get(i).setTrackPointIndex(j);
+//                                         isFiles[j] = true;
+//                                    Date prevTrackPointDate1 = track.get(j - 1).getTime();
+//                                    prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 2);
+//                                    Date nextTrackPointDate1 = track.get(j).getTime();
+//                                    nextTrackPointDate1.setSeconds(track.get(j).getTime().getSeconds() - 2);
+//                                    
+//                                         
+//                                         break;
+//                                    //}
+//                                }
+//                            } else { 
                                 
                                 // nechat toto tu prosim // || (fileDate.equals(prevTrackPointDate)) || (fileDate.equals(nextTrackPointDate))
                                 if ((fileDate.after(prevTrackPointDate) && fileDate.before(nextTrackPointDate))) {
@@ -261,7 +259,7 @@ public class TLVLoader {
                                     //isFiles[track.size() - 1] = true;
                                     //break;
                                 }
-                            }
+                            //}
                                 Date prevTrackPointDate1 = track.get(j - 1).getTime();
                                 prevTrackPointDate1.setSeconds(track.get(j - 1).getTime().getSeconds() + 1);
                                 Date nextTrackPointDate1 = track.get(j).getTime();

@@ -183,6 +183,11 @@ public class SubmitTrack extends HttpServlet {
             generator.generateTrackPDFA4(2, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
             
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
+            
+            if(loader.getTrackPoints().get(0).getInternetElevation() == 0 && loader.getTrackPoints().get(loader.getTrackPoints().size() - 1).getInternetElevation() == 0){
+                session.setAttribute("Limit", "True");
+            }
+            
         } catch (Exception ex) {
             System.out.println("Error: Unable to create .tlv file!");
             FileLogger.getInstance().createNewLog("ERROR: Unable to create user's " + request.getSession().getAttribute("username") + " track " + trackName + " in STEP 3 !!!");
