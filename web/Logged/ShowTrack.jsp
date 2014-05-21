@@ -385,13 +385,13 @@
                      }
 
                      options = {
-                         chartArea:{left:45,top:35, height: "70%", width:"100%"},
+                         chartArea:{left:48,top:35, height: "70%", width:"100%"},
                          hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
                          vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
                          legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
                          colors: ['blue'],
                          vAxes:[                                                                             /// odtialto
-                                {titleTextStyle: {color: '#FF0000'}}, // Left axis
+                                {titleTextStyle: {color: '#FF0000'},  format:'# m'}, // Left axis
                                 {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
                          ],series:[
                                 {targetAxisIndex:0},
@@ -415,14 +415,14 @@
                 }
                 
                 options = {
-                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    chartArea:{left:48, top:35, height: "70%", width:"90%"},
                     hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
                     vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
                     legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
                     colors: ['green','red'],
                     vAxes:[                                                                             /// odtialto
-                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
-                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                            {titleTextStyle: {color: '#FF0000'},  format:'# m'}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}, format:'# km/h'} // Right axis
                     ],series:[
                             {targetAxisIndex:0},
                             {targetAxisIndex:1}
@@ -449,14 +449,14 @@
                  }
                 
                  options = {
-                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    chartArea:{left:48, top:35, height: "70%", width:"90%"},
                     hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
                     vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
                     legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
                     colors: ['green','blue','red'],
                     vAxes:[                                                                             /// odtialto
-                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
-                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                            {titleTextStyle: {color: '#FF0000'},  format:'# m'}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}, format:'# km/h'} // Right axis
                     ],series:[
                             {targetAxisIndex:0},
                             {targetAxisIndex:0},
@@ -482,14 +482,14 @@
                 }
                 
                 options = {
-                    chartArea:{left:45, top:35, height: "70%", width:"93%"},
+                    chartArea:{left:48, top:35, height: "70%", width:"90%"},
                     hAxis:  { gridlines: {count: 0}, textPosition: 'none' , title: '',  titleTextStyle: {color: '#666'}},
                     vAxis: { gridlines: {count: 8}, textStyle: {fontSize: "12", bold: true}},
                     legend: {position: "top", alignment: "center", textStyle: {bold: true, fontSize: "12"}},
                     colors: ['blue','red'],
                     vAxes:[                                                                             /// odtialto
-                            {titleTextStyle: {color: '#FF0000'}}, // Left axis
-                            {title: '', titleTextStyle: {color: '#FF0000'}} // Right axis
+                            {titleTextStyle: {color: '#FF0000'},  format:'# m'}, // Left axis
+                            {title: '', titleTextStyle: {color: '#FF0000'}, format:'# km/h'} // Right axis
                     ],series:[
                             {targetAxisIndex:0},
                             {targetAxisIndex:1}
