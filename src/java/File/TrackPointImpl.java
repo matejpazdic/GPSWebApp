@@ -7,7 +7,9 @@ package File;
 import java.util.Date;
 
 /**
- * Pomocná trieda určená na reprezentáciu GPS záznamu tzv. trackpointu
+ * Trieda TrackPointImpl je určená na reprezentáciu tracťového 
+ * bodu a jeho detailov. Je využítá pri vytváraní zoznamu 
+ * traťových bodov trasy.
  * @author Matej Pazdič
  */
 public class TrackPointImpl {
@@ -16,16 +18,17 @@ public class TrackPointImpl {
     private int deviceElevation;
     private int internetElevation;
     private Date time;
+    private String speed;
     
     /**
-     * Základný konštruktor triedy TrackPointImpl
+     * Základný konštruktor triedy TrackPointImpl.
      */
     public TrackPointImpl(){
         
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      */
@@ -35,7 +38,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -47,7 +50,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -61,7 +64,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -75,7 +78,7 @@ public class TrackPointImpl {
     }
     
     /**
-     * Preťažený konštruktor triedy TrackPointImpl
+     * Preťažený konštruktor triedy TrackPointImpl.
      * @param latitude - Zemepisná šírka
      * @param longitude - Zemepisná dĺžka
      * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
@@ -88,6 +91,25 @@ public class TrackPointImpl {
         this.deviceElevation = deviceElevation;
         this.internetElevation = internetElevation;
         this.time = time;
+    }
+    
+    /**
+     * Preťažený konštruktor triedy TrackPointImpl.
+     * @param latitude - Zemepisná šírka
+     * @param longitude - Zemepisná dĺžka
+     * @param deviceElevation - Nadmorská výška získaná z GPS zariadenia
+     * @param internetElevation - Nadmorská výška získaná z mapového servera
+     * @param time - Dátum a čas vytvorenia daného trackpointu
+     * @param speed - Hodnota priemernej rýchlosti v danom bode
+     * 
+     */
+    public TrackPointImpl(double latitude, double longitude, int deviceElevation, int internetElevation, Date time, String speed){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.deviceElevation = deviceElevation;
+        this.internetElevation = internetElevation;
+        this.time = time;
+        this.speed = speed;
     }
 
     /**
@@ -158,6 +180,20 @@ public class TrackPointImpl {
      */
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    /**
+     * @return Vracia primernú rýchlosť zaznamenanú v danom bode
+     */
+    public String getSpeed() {
+        return speed;
+    }
+
+    /**
+     * @param speed - Priemrná rýchlosť v danom bode
+     */
+    public void setSpeed(String speed) {
+        this.speed = speed;
     }
     
 }

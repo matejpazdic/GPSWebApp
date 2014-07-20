@@ -4,6 +4,7 @@
  */
 package Database;
 
+import Logger.FileLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author matej_000
+ * Trieda DBLoginCreator slúži na vytváranie nových záznamov o používateľoch.
+ * @author Matej Pazdič
  */
 public class DBLoginCreator {
     
@@ -23,6 +24,10 @@ public class DBLoginCreator {
     private Statement statement = null;
     private ResultSet resultSet = null;
 
+    /**
+     * Konštruktor triedy DBLoginCreator.
+     * @throws Exception
+     */
     public DBLoginCreator() throws Exception {
         try {
 
@@ -37,6 +42,7 @@ public class DBLoginCreator {
 //        System.out.println("ID: " + number);
 //      }
         } catch (Exception e) {
+            FileLogger.getInstance().createNewLog("ERROR: Cannot connect to Database in DBLoginCreator!!!");
             throw e;
         }
 //    finally {
@@ -45,26 +51,53 @@ public class DBLoginCreator {
 
     }
     
-    public void createNewLogin(String email, String password){
+    /**
+     * Metóda createNewLogin slúži na vytvorenie nového používateľa v databáze používateľov.
+     * @param email - požívateľský email
+     * @param password - heslo používateľa
+     * @param userToken - jedinečný používateľský token, ktorý je vytváraný pomocu triedy EmailSender v balíku Security
+     */
+    public void createNewLogin(String email, String password, String userToken){
         try {
             statement =  connect.createStatement();
             //statement.executeQuery();
-            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_PASS) VALUES ('"+ email +"' ,'" + password + "')");
+            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_PASS, USER_TOKEN) VALUES ('"+ email +"' ,'" + password + "' ,'" + userToken + "')");
+            
+            FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
+            
             close();
         } catch (SQLException ex) {
             System.out.println("Nezapisal som do DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: User " + email + " was NOT successfuly created!");
             close();
         }
     }
     
-    public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password){
+    /**
+     * Metóda createNewLogin slúži na vytvorenie nového používateľa v databáze používateľov.
+     * @param email - Používateľský email
+     * @param firstName - Krstné meno používateľa
+     * @param lastName - Priezvisko používateľa
+     * @param age - Vek používateľa
+     * @param activity - Oblúbená aktivita používateľa
+     * @param password - Heslo používateľa
+     * @param userToken - jedinečný používateľský token, ktorý je vytváraný pomocu triedy EmailSender v balíku Security
+     */
+    public void createNewLogin(String email, String firstName, String lastName, String age, String activity, String password, String userToken){
         try {
+            if(age.isEmpty()){
+                age = "-1";
+            }
             statement =  connect.createStatement();
             //statement.executeQuery();
-            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "')");
+            statement.executeUpdate("INSERT INTO USERS (USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME , USER_AGE, USER_ACTIVITY, USER_PASS, USER_TOKEN) VALUES ('"+ email +"' ,'" + firstName + "' ,'"+ lastName +"' ," + age + " ,'"+ activity +"' ,'" + password + "' ,'" + userToken + "')");
+            
+            FileLogger.getInstance().createNewLog("User " + email + " was successfuly created!");
+            
             close();
         } catch (SQLException ex) {
             System.out.println("Nezapisal som do DB!!!");
+            FileLogger.getInstance().createNewLog("ERROR: User " + email + " was NOT successfuly created!");
             close();
         }
     }

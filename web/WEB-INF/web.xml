@@ -1,12 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
-        <servlet-name>Upload</servlet-name>
-        <servlet-class>File.Upload</servlet-class>
+        <servlet-name>UploadMultimedia</servlet-name>
+        <servlet-class>File.UploadMultimedia</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadTrackFileOnly</servlet-name>
+        <servlet-class>File.UploadTrackFileOnly</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveTrackInfo</servlet-name>
+        <servlet-class>File.SaveTrackInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmitTrack</servlet-name>
+        <servlet-class>File.SubmitTrack</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WriteNewTrack</servlet-name>
+        <servlet-class>File.WriteNewTrack</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveDrawTrackInfo</servlet-name>
+        <servlet-class>File.SaveDrawTrackInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmitDrawTrack</servlet-name>
+        <servlet-class>File.SubmitDrawTrack</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Find</servlet-name>
+        <servlet-class>Find.Find</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ClearFileLog</servlet-name>
+        <servlet-class>Logger.ClearFileLog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecoverYourPassword</servlet-name>
+        <servlet-class>Security.RecoverYourPassword</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Upload</servlet-name>
-        <url-pattern>/Logged/Upload</url-pattern>
+        <servlet-name>UploadMultimedia</servlet-name>
+        <url-pattern>/Logged/UploadMultimedia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadTrackFileOnly</servlet-name>
+        <url-pattern>/Logged/UploadTrackFileOnly</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveTrackInfo</servlet-name>
+        <url-pattern>/Logged/SaveTrackInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitTrack</servlet-name>
+        <url-pattern>/Logged/SubmitTrack</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WriteNewTrack</servlet-name>
+        <url-pattern>/Logged/WriteNewTrack</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveDrawTrackInfo</servlet-name>
+        <url-pattern>/Logged/SaveDrawTrackInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitDrawTrack</servlet-name>
+        <url-pattern>/Logged/SubmitDrawTrack</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Find</servlet-name>
+        <url-pattern>/Logged/Find</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClearFileLog</servlet-name>
+        <url-pattern>/Logged/ClearFileLog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecoverYourPassword</servlet-name>
+        <url-pattern>/RecoverYourPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

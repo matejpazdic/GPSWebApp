@@ -1,8 +1,25 @@
+<%@page import="Database.DBLoginFinder"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="Database.DBTrackFinder"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Database.DBFinder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+//    session.removeAttribute("trackFilename");
+//    session.removeAttribute("trackName");
+//    session.removeAttribute("trackDescr");
+//    session.removeAttribute("trackActivity");
+//    session.removeAttribute("access");
+//    session.removeAttribute("trackNameExist");
+//    session.removeAttribute("isMultimedia");
+//    session.removeAttribute("userEmail");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="Windows-1250">
+        <meta charset="UTF-8">
         <title>Home page</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
@@ -11,16 +28,19 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <!--<link href="HTMLStyle/theme.bootstrap.css" rel="stylesheet">-->
+
         <link href="HTMLStyle/HomePageStyle/css/bootstrap.min.css" rel="stylesheet">
-        <link href="HTMLStyle/HomePageStyle/css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/jquery.min.js"></script>
         <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="HTMLStyle/HomePageStyle/js/scripts.js"></script>
+
+      
     </head>
 
     <body>
-        <div class="container">
+        
+         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <nav class="navbar navbar-default" role="navigation">
@@ -37,48 +57,40 @@
                                     <a href="ShowTracks.jsp">My Tracks</a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload track<strong class="caret"></strong></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create track<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="UploadFile.html">Upload track only</a>
-                                        </li>
-                                        <li>
-                                            <a href="UploadFile.html">Upload track with multimedia files</a>
+                                            <a href="UploadTrack1.jsp">Upload track</a>
                                         </li>
 
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#">Write new track</a>
-                                        </li>
-                                        <li class="divider">
-                                        </li>
-                                        <li>
-                                            <a href="MapPage.jsp">Experimental button</a>
-                                        </li>
+                                            <a href="WriteTrack1.jsp">Write new track</a>
+                                        </li>                                      
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="navbar-form navbar-left" role="search">
+                            <form action="FindResults.jsp" method="POST" class="navbar-form navbar-left" role="search" accept-charset="Windows-1250">
                                 <div class="form-group">
-                                    <input type="text" class="form-control home-search">
+                                    <input type="text" class="form-control home-search" name="finderText">
                                 </div> <button type="submit" class="btn btn-default">Find</button>
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="About.jsp">About</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  Account<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">View account</a>
+                                            <a href="ShowUserInfo.jsp">View account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Edit account</a>
+                                            <a href="EditAccount.jsp">Edit account</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete account</a>
+                                            <a href="DeleteUser.jsp">Delete account</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -91,7 +103,7 @@
                         </div>
 
                     </nav>
-                    <div class="carousel slide" id="carousel-646485">
+                    <div class="carousel slide" id="carousel-646485" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li class="active" data-slide-to="0" data-target="#carousel-646485">
                             </li>
@@ -142,6 +154,9 @@
                                 <a href="#panel-234896" data-toggle="tab">Overview</a>
                             </li>
                             <li>
+                                <a href="#panel-42569" data-toggle="tab">All added tracks</a>
+                            </li>
+                            <li>
                                 <a href="#panel-42556" data-toggle="tab">Services for our users</a>
                             </li>
                         </ul>
@@ -164,7 +179,7 @@
 								Upload track from your new trip or travel. You can add a lot multimedia file formats.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="UploadFile.html">Add new track</a> 
+								<a class="btn btn-primary" href="UploadTrack1.jsp">Upload new track</a> 
 							</p>
 						</div>
 					</div>
@@ -180,7 +195,7 @@
 								Draw track of your unrecorded trip on our map and at next you can also add multimedia files.
 							</p>
 							<p>
-								<a class="btn btn-primary" href="#">Write your track</a> 
+								<a class="btn btn-primary" href="WriteTrack1.jsp">Write new track</a> 
 							</p>
 						</div>
 					</div>
@@ -193,7 +208,7 @@
 								<i class="fa fa-list"></i>  Explore your tracks...
 							</h3>
 							<p>
-								Explore our previously added trips and venues with relevant multimedia files.
+								Explore your previously added trips and venues with relevant multimedia files.
 							</p>
 							<p>
 								<a class="btn btn-primary" href="ShowTracks.jsp">Explore your tracks</a>
@@ -204,6 +219,48 @@
 			</div>
 
                             </div>
+                            <div class="tab-pane" id="panel-42569">
+
+                                <h1>
+				All added tracks...
+                                </h1>
+                                
+                                <br>
+                                <%
+                                    DBFinder finder = new DBFinder();
+                                    ArrayList<Integer> results = finder.findNewNTracks(50);
+
+                                    DBTrackFinder trackFinder = new DBTrackFinder();
+                                    DBLoginFinder loginFinder = new DBLoginFinder();
+
+                                    if (results.size() == 0) {
+                                            out.print("<div class=\"alert alert-danger\">Sorry, system does not contains any tracks at this time...</div>");
+                                        } else {
+                                            out.println("<table id=\"myTable\" class= \"table \"><thead><tr><th>#</th><th>Uploaded</th><th>Track owner</th><th>Track name</th><th>Track access</th><th></th></tr></thead><tbody>");
+
+                                            for (int i = 0; i < results.size(); i++) {
+
+                                                String track = trackFinder.getTrackFileName(results.get(i));
+                                                String trackFile = trackFinder.getTrackFilePath(results.get(i));
+                                                String userName = loginFinder.getUserEmail(trackFinder.getTrackUserID(results.get(i)));
+                                                String trackAccess = trackFinder.getAccess(results.get(i));
+
+                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                Date modifiedDate = df.parse(trackFinder.getChangeDate(results.get(i)).substring(0, 19));
+                                                modifiedDate.toGMTString();
+
+                                                //String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(uploadedDate);
+                                                out.println("<tr><td style=\"word-wrap: break-word;padding-top:12px;padding-bottom:12px;\">" + (i + 1) + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + modifiedDate + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + userName + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + track + "</td><td style=\"word-wrap: break-word;padding-top:12px;\">" + trackAccess + "</td>"); 
+                                                if(trackAccess.equalsIgnoreCase("Public") || userName.equalsIgnoreCase(session.getAttribute("username").toString())){
+                                                    out.print("<td class=\"text-center\"><a href=ShowTrack.jsp?trkID=" + results.get(i) +  " class=\"btn btn-success btn-sm \">Show</a>");
+                                                }
+                                                out.print("<td class=\"text-center\"></td></tr>");
+
+                                            }
+                                            out.println("</tbody></table>");
+                                        }
+                                %>
+                            </div>    
                             <div class="tab-pane" id="panel-42556">
 
                                 <h1>
@@ -215,16 +272,36 @@
                                 
                                 <ul>
                                     <li>
-                                        more then 10Gb space for user files
+                                        up to 10Gb space for user files
                                     </li>
                                     <li>
-                                        adding tracks from GPS device
+                                        adding tracklog from GPS device
                                     </li>
                                     <li>
-                                        adding a lot formats multimedia files
+                                        adding pictures (.jpeg, .jpg)
                                     </li>
                                     <li>
-                                        drawing tracks on high quality map
+                                        adding multiple video formats
+                                        <ul>
+                                            <li>
+                                            .mov
+                                            </li>
+                                            <li>
+                                            .3gp / .3gpp
+                                            </li>
+                                            <li>
+                                            .mp4
+                                            </li>
+                                            <li>
+                                            .avi
+                                            </li>
+                                            <li>
+                                            .mpg
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        drawing tracks on high quality map (Google Maps)
                                     </li>
                                     <li>
                                         drawing advanced altitude graph
@@ -250,11 +327,12 @@
                     </div>
 
                     <p>
-                        This website is developing as a practical part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support and a special thank you we would like to dedicate doc. Zdenek Havlice. We salute you...<small>   -->> No makame dalej tak trimce palce... Ani Poruban nas nezastavi. Btw nasa posila: <a href="http://www.saris.sk">www.saris.sk</a></small>
+                        This website is developed as a practical Part of <strong>Ľubomír Petrus</strong> and <strong>Matej Pazdič</strong> thesis. Take note of the copyrights owns <em> Petrus </em> , <em> Pazdič </em> and at last but not least<em> Technical University of Košice, Faculty of Electrical Engineering and Informatics.</em> Thanks our close people for support.<b> Optimalized for <a href="http://chrome.google.com">Google Chrome</a> and <a href="http://www.opera.com">Opera</a> with <a href="http://get.adobe.com/flashplayer/">Adobe Flash plugin</a></b>
                     </p>
                 </div>
             </div>
         </div>
+        
     </body>
 </html>
 
