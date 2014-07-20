@@ -12,6 +12,7 @@ import File.Video.YouTubeAgent;
 import Logger.FileLogger;
 import PDF.PDFTrackGenerator;
 import Parser.TLVLoader;
+import Parser.Utilities.MultimediaSearcher;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,9 +30,10 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tomcat.jni.OS;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.util.FileUtils;
 
 /**
  * Trieda SubmitTrack je Servlet, ktorý vykonáva 
@@ -99,10 +101,10 @@ public class SubmitTrack extends HttpServlet {
             String filename = trackName + ".gpx";
             if (system.startsWith("Windows")) {
                 
-                //pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                //oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
-                oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                pathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                oldPathToFile = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                //oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                 
                 pathToMultimediaFiles = pathToFile + "\\" + "Multimedia" + "\\";
                 
@@ -182,6 +184,26 @@ public class SubmitTrack extends HttpServlet {
             PDFTrackGenerator generator = new PDFTrackGenerator(loader, pathToFile, trackName);
             generator.generateTrackPDFA4(2, null, 640, 640, 1, parser.getStartAndEndDate().get(0).toString(), parser.getStartAndEndDate().get(1).toString(), trackActivity, session.getAttribute("username").toString());
             
+            //ZACIATOK Vymazanie videi z disku
+            String str1 = "**" + System.getProperty("file.separator") + "*.avi";
+            String str2 = "**" + System.getProperty("file.separator") + "*.mov";
+            String str3 = "**" + System.getProperty("file.separator") + "*.mp4";
+            String str4 = "**" + System.getProperty("file.separator") + "*.3gp";
+            DirectoryScanner scanner = new DirectoryScanner();
+            scanner.setFollowSymlinks(false);
+            scanner.setIncludes(new String[]{str1, str2, str3, str4});
+            File f = new File(pathToMultimediaFiles);
+            scanner.setBasedir(f);
+            scanner.setCaseSensitive(false);
+            scanner.scan();
+            String[] tempFiles = scanner.getIncludedFiles();
+            System.out.println("SKUSKA: " + scanner.getBasedir() + " >>> " + tempFiles.length);
+            for (int i = 0; i < tempFiles.length; i++) {
+                System.out.println("SKUSKA: " + pathToMultimediaFiles + tempFiles[i]);
+                    FileUtils.delete(new File(pathToMultimediaFiles + tempFiles[i]));
+                    FileLogger.getInstance().createNewLog("Successfuly deleted local video file " + tempFiles[i] + " which was uploaded!!!");
+            }
+            //KONIEC Vymazanie videi z disku
             FileLogger.getInstance().createNewLog("For user " + session.getAttribute("username") + "was successfuly created new track in STEP 3 for track " + trackName + " .");
             
             if(loader.getTrackPoints().get(0).getInternetElevation() == 0 && loader.getTrackPoints().get(loader.getTrackPoints().size() - 1).getInternetElevation() == 0){

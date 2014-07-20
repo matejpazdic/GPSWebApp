@@ -28,7 +28,7 @@
     String file = trackFinder.getTrackFileName(trkID);
     
     if (system.startsWith("Windows")) {
-        path = path.replaceAll("/", "\\\\"); // vymazat pri pouziti na serveri LINUX!!!
+        path = path.replaceAll("/", "\\\\"); 
     }
     loader.readTLVFile(path, file);
 %>
@@ -1390,7 +1390,7 @@
                                                         DBLoginFinder loginFinder = new DBLoginFinder();
                                                         String user = loginFinder.getUserEmail(userID);
                                                         if(system.startsWith("Windows")){
-                                                            url = "http://localhost:8080/GPSWebApp/Logged/uploaded_from_server/" + user + "/" + file + "/" + file;
+                                                            url = "http://localhost:8084/GPSWebApp/Logged/uploaded_from_server/" + user + "/" + file + "/" + file;
                                                         }else{
                                                             url = "http://gps.kpi.fei.tuke.sk/Logged/uploaded_from_server/" + user + "/" + file + "/" + file;
                                                         }
