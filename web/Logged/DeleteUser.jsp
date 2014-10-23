@@ -74,10 +74,8 @@
                     boolean isErased = loginEraser.eraseUser(userID);
                     String rootPath = null;
                     if(isErased){
-                        if (system.startsWith("Windows XP")) {
-                            rootPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + user + "\\";
-                        } else if(system.startsWith("Windows")){
-                            rootPath = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + user + "\\";
+                         if(system.startsWith("Windows")){
+                            rootPath = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + user + "\\";
                         }else{
                             rootPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + user + "/";
                         }

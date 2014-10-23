@@ -36,11 +36,9 @@ public class FileLogger {
      * Konštrukttor triedy FileLogger.
      */
     protected FileLogger(){
-        if(system.startsWith("Windows XP")){
-            path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\";
-        }else if(system.startsWith("Windows")){
-            path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\";
-        }
+        
+            path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\";
+        
         logFile = new File(path, fileName);
     }
     

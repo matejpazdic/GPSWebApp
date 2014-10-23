@@ -30,11 +30,9 @@
     String trackFile = trackName + ".gpx";
     String path = null;
     String multimediaPath = null;
-    if(system.startsWith("Windows XP")){
-        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-        multimediaPath = path + "\\Multimedia\\";
-    } else if(system.startsWith("Windows")){
-        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
+    
+    if(system.startsWith("Windows")){
+        path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
         multimediaPath = path + "\\Multimedia\\";
     } else{
         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";

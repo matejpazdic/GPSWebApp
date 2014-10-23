@@ -34,14 +34,11 @@
     String path = null;
     String multimediaPath = null;
     String pathToTemp = null;
-    if(system.startsWith("Windows XP")){
-        path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
+    
+    if(system.startsWith("Windows")){
+        path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
         multimediaPath = path + "\\Multimedia\\";
-        pathToTemp = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp\\" + "Temp.txt";
-    } else if(system.startsWith("Windows")){
-        path = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
-        multimediaPath = path + "\\Multimedia\\";
-        pathToTemp = "D:\\GitHub\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp\\" + "Temp.txt";
+        pathToTemp = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp\\" + "Temp.txt";
     } else{
         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";
         multimediaPath = path + "/Multimedia/";
