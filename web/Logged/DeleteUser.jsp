@@ -4,6 +4,8 @@
     Author     : matej_000
 --%>
 
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.FileReader"%>
 <%@page import="Logger.FileLogger"%>
 <%@page import="Database.DBLoginEraser"%>
 <%@page import="Database.DBTrackEraser"%>
@@ -75,7 +77,13 @@
                     String rootPath = null;
                     if(isErased){
                          if(system.startsWith("Windows")){
-                            rootPath = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + user + "\\";
+                             
+                            FileReader namereader = new FileReader("C:\\path.pth");
+                            BufferedReader in = new BufferedReader(namereader);
+                    
+                            String pathToUpl = in.readLine();
+                             
+                            rootPath = pathToUpl + user + "\\";
                         }else{
                             rootPath = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + user + "/";
                         }

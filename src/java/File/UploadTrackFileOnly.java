@@ -6,7 +6,9 @@ package File;
  */
 
 import Logger.FileLogger;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -69,7 +71,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     
                     session.setAttribute("trackNameExist", "False");
                     if (system.startsWith("Windows")) {
-                        String tempPath = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        
+                    FileReader namereader = new FileReader("C:\\path.pth");
+                    BufferedReader in = new BufferedReader(namereader);
+                    
+                    String pathToUpl = in.readLine();
+                    
+                        String tempPath = pathToUpl + session.getAttribute("username") + "\\Temp" + "\\";
                         //String tempPath = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                         File tempFile = new File(tempPath);
                         if (tempFile.exists()) {
@@ -96,7 +104,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.removeAttribute("trackFilename");
                     
                     if(system.startsWith("Windows")){
-                        pathToFile = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
+                        
+                    FileReader namereader = new FileReader("C:\\path.pth");
+                    BufferedReader in = new BufferedReader(namereader);
+                    
+                    String pathToUpl = in.readLine();
+                        
+                        pathToFile = pathToUpl + session.getAttribute("username") + "\\Temp" + "\\";
                         //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\Temp" + "\\";
                     }else{
                         pathToFile = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/Temp" + "/";

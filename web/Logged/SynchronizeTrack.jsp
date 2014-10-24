@@ -4,6 +4,8 @@
     Author     : Lubinko
 --%>
 
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.FileReader"%>
 <%@page import="org.apache.tools.ant.util.FileUtils"%>
 <%@page import="Logger.FileLogger"%>
 <%@page import="Parser.Utilities.MultimediaSearcher"%>
@@ -32,7 +34,13 @@
     String multimediaPath = null;
     
     if(system.startsWith("Windows")){
-        path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") +"\\" + "Temp" + "\\";
+        
+        FileReader namereader = new FileReader("C:\\path.pth");
+        BufferedReader in = new BufferedReader(namereader);
+                    
+        String pathToUpl = in.readLine();
+        
+        path = pathToUpl + session.getAttribute("username") +"\\" + "Temp" + "\\";
         multimediaPath = path + "\\Multimedia\\";
     } else{
         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/";

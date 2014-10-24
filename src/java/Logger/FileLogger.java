@@ -29,15 +29,38 @@ public class FileLogger {
     private static FileLogger logger = null;
     private String system = System.getProperty("os.name");
     private final String fileName = "GPSWebAppLog.log";
-    private String path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/";
-    private File logFile;
+    private String path;
+    private final File logFile;
     
     /**
      * Konštrukttor triedy FileLogger.
      */
     protected FileLogger(){
         
-            path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\";
+        
+        if(system.startsWith("Windows")){
+                        
+            FileReader namereader = null;
+            try {
+                namereader = new FileReader("C:\\path.pth");
+                BufferedReader in = new BufferedReader(namereader);
+                String pathToUpl = in.readLine();
+                path = pathToUpl;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    namereader.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileLogger.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }else{
+            path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/";
+        }
         
         logFile = new File(path, fileName);
     }

@@ -11,8 +11,10 @@ import Database.DBTrackCreator;
 import Logger.FileLogger;
 import Parser.GPXParser;
 import Parser.Utilities.MultimediaSearcher;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,8 +87,14 @@ public class SaveTrackInfo extends HttpServlet {
 
 
                 if (system.startsWith("Windows")) {
-                   String oldPathToFile = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                   pathToFile = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    
+                   FileReader namereader = new FileReader("C:\\path.pth");
+                   BufferedReader in = new BufferedReader(namereader);
+                    
+                   String pathToUpl = in.readLine();
+                   
+                   String oldPathToFile = pathToUpl + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                   pathToFile = pathToUpl + session.getAttribute("username") + "\\" + trackName + "\\";
                     
                     //String oldPathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
                     //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";

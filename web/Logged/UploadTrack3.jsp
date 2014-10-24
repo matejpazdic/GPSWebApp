@@ -1,3 +1,5 @@
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.FileReader"%>
 <%@page import="Logger.FileLogger"%>
 <%@page import="org.apache.commons.io.FileUtils"%>
 <%@page import="java.io.File"%>
@@ -12,7 +14,13 @@
         String pathToMultimedia = null;
 
         if (os.startsWith("Windows")) {
-            pathToMultimedia = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\Multimedia\\";
+            
+        FileReader namereader = new FileReader("C:\\path.pth");
+        BufferedReader in = new BufferedReader(namereader);
+                    
+        String pathToUpl = in.readLine();
+            
+            pathToMultimedia = pathToUpl + session.getAttribute("username") + "\\" + "Temp" + "\\Multimedia\\";
         } else {
             pathToMultimedia = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/Multimedia/";
         }

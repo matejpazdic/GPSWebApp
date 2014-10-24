@@ -9,7 +9,9 @@ import Parser.GPXParser;
 import Database.DBLoginFinder;
 import Database.DBTrackCreator;
 import Logger.FileLogger;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -85,8 +87,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 session.setAttribute("access", access);
 
                 if (system.startsWith("Windows")) {
-                    pathToFile = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";
-                    newPathToFile = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + trackName + "\\";
+                    
+                    FileReader namereader = new FileReader("C:\\path.pth");
+                    BufferedReader in = new BufferedReader(namereader);
+                    
+                    String pathToUpl = in.readLine();
+                    
+                    pathToFile = pathToUpl + session.getAttribute("username") + "\\" + "Temp" + "\\";
+                    newPathToFile = pathToUpl + session.getAttribute("username") + "\\" + trackName + "\\";
                     String pathToMultimedia = pathToFile + "Multimedia\\";
 
                     //pathToFile = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\";

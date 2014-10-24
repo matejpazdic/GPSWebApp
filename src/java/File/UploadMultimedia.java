@@ -9,7 +9,9 @@ package File;
 
 import File.Image.ImageResizer;
 import Logger.FileLogger;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.List;
@@ -72,7 +74,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                     session.setAttribute("isMultimedia", "True");
                     String trackName =  session.getAttribute("trackName").toString();
                     if(system.startsWith("Windows")){
-                        path = "C:\\GIT\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
+                        
+                    FileReader namereader = new FileReader("C:\\path.pth");
+                    BufferedReader in = new BufferedReader(namereader);
+                    
+                    String pathToUpl = in.readLine();
+                    
+                        path = pathToUpl + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
                         //path = "E:\\SCHOOL\\TUKE\\DIPLOMOVKA\\PRAKTICKA CAST\\GITHUB\\GPSWebApp\\web\\Logged\\uploaded_from_server\\" + session.getAttribute("username") + "\\" + "Temp" + "\\" + "Multimedia" + "\\";
                     }else{
                         path = "/usr/local/tomcat/webapps/ROOT/Logged/uploaded_from_server/" + session.getAttribute("username") + "/" + "Temp" + "/" + "Multimedia" + "/";
